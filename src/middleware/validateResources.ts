@@ -5,13 +5,7 @@ export const validate =
     (schema: z.AnyZodObject | z.ZodOptional<z.AnyZodObject>) =>
         async (req: Request, res: Response, next: NextFunction) => {
             try {
-                schema.parseAsync(req.body).then( (resp) =>
-                    {console.log("parse successfull");}
-                ).catch(
-                    (err) => {
-                        console.log("===================================");
-                    }
-                );
+                await schema.parseAsync(req.body);
                 next();
             } catch (error: any) {
                 let err = error;
@@ -20,7 +14,7 @@ export const validate =
                 }
                 return res.status(409).json({
                     status: 'failed',
-                    error: err,
+                    error: err[0],
                 });
             }
         };
