@@ -190,23 +190,27 @@
         ]
       },
       "ProjectReturn": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/ProjectCreate"
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
           },
-          {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "number"
-              }
-            },
-            "example": {
-              "id": 1,
-              "name": "Frogify",
-              "description": "Project about musical frogs"
-            }
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "type": "number"
           }
+        },
+        "example": {
+          "name": "Frogify",
+          "description": "Project about musical frogs",
+          "id": 1
+        },
+        "required": [
+          "name",
+          "description",
+          "id"
         ]
       }
     }

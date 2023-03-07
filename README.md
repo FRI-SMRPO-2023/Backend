@@ -6,5 +6,9 @@
    - If you only want need database, run `docker compose up db`.
 3. Install node packages via `npm ci`
 4. Sync prisma schema with the database: `npx prisma db push`
-5. Generate prisma client: `npx prisma generate`.
-6. Run the server with `npm run dev`.
+5. Add mock records to the database `npx prisma db seed`
+6. Generate prisma client: `npx prisma generate`.
+7. Run the server with `npm run dev`.
+
+### DOCS
+API documentation is available on `localhost:8000/docs`

@@ -1,9 +1,5 @@
 import { z } from 'zod';
 
-interface ProjectBase {
-    name: string;
-    description: string;
-}
 const HasId = z.object({
     id: z.number(),
 })
@@ -27,16 +23,22 @@ const HasId = z.object({
  *          - name
  *          - description
  *      ProjectReturn:
- *          allOf:
- *              - $ref: '#/components/schemas/ProjectCreate'
- *              - type: object
- *                properties:
- *                    id:
- *                      type: number
- *                example:
- *                  id: 1
- *                  name: Frogify
- *                  description: Project about musical frogs
+ *        type: object
+ *        properties:
+ *          name:
+ *            type: string
+ *          description:
+ *            type: string
+ *          id:
+ *            type: number
+ *        example:
+ *          name: Frogify
+ *          description: Project about musical frogs
+ *          id: 1
+ *        required:
+ *          - name
+ *          - description
+ *          - id
  *          
  */
 export const ProjectSchema = z.object({
@@ -51,8 +53,6 @@ export const ProjectSchema = z.object({
 });
 
 const ProjectWithId = ProjectSchema.merge(HasId);
-
-
 export const PartialProjectSchema = ProjectSchema.partial();
 
 export type CreateProjectDTO = z.infer<typeof ProjectSchema>

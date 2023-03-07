@@ -1,5 +1,5 @@
-import { db } from "../src/utils/db.server";
-import {CreateProjectDTO} from "../src/schemas/project.schema"
+import prisma from "../libs/prisma";
+import {CreateProjectDTO} from "../src/schemas/project.schema";
 
 type User = {
     name: string;
@@ -36,7 +36,7 @@ async function seed() {
     // seed users
     await Promise.all(
         getUsers().map((user) => {
-            return db.user.create({
+            return prisma.user.create({
                 data: {
                     name: user.name,
                     isAdmin: user.isAdmin
@@ -47,7 +47,7 @@ async function seed() {
     // seed projects
     await Promise.all(
         getProjects().map((project) => {
-            return db.project.create({
+            return prisma.project.create({
                 data: {
                     name: project.name,
                     description: project.description,
@@ -59,11 +59,11 @@ async function seed() {
 
 seed()
     .then(async () => {
-        await db.$disconnect()
+        await prisma.$disconnect()
     })
     .catch(async (e) => {
         console.error(e)
-        await db.$disconnect()
+        await prisma.$disconnect()
         process.exit(1)
     })
 

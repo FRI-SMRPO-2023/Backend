@@ -1,18 +1,18 @@
-import { db } from "../utils/db.server";
+import prisma from "../../libs/prisma"
 import type { Project, CreateProjectDTO, UpdateProjectDTO} from "../schemas/project.schema"
 
 const getAllProjects = async (): Promise<Project[]> => {
-    return db.project.findMany({
+    return prisma.project.findMany({
         select: {
             id: true,
             name: true,
             description: true,
         }
-    })
+    });
 };
 
 const getProjectById = async (id: number): Promise<Project | null> => {
-    return db.project.findFirst({
+    return prisma.project.findUniqueOrThrow({
         where: {
             id
         },
@@ -20,7 +20,7 @@ const getProjectById = async (id: number): Promise<Project | null> => {
 };
 
 const createProject = async (project: CreateProjectDTO): Promise<Project> => {
-    let created_proj = db.project.create({
+    let created_proj = prisma.project.create({
         data: {
             name: project.name,
             description: project.description,
@@ -30,7 +30,7 @@ const createProject = async (project: CreateProjectDTO): Promise<Project> => {
 };
 
 const deleteProject = async (id: number): Promise<Project> => {
-    let res = db.project.delete({
+    let res = prisma.project.delete({
         where: {
             id: id
         }
@@ -39,7 +39,7 @@ const deleteProject = async (id: number): Promise<Project> => {
 };
 
 const updateProject = async (id: number, projectPartia: UpdateProjectDTO): Promise<Project> => {
-    let res = db.project.update({
+    let res = prisma.project.update({
         where: {
             id
         },
