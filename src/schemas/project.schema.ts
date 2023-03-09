@@ -55,12 +55,12 @@ export const ProjectSchema = z.object({
     })
 });
 
+const ProjectWithId = ProjectSchema.merge(HasId);
+
 // used for patch updates, when not every field is required
 export const PartialProjectSchema = ProjectSchema.partial();
 
 // type exports for typescript functions
 export type CreateProjectDTO = z.infer<typeof ProjectSchema>
 export type UpdateProjectDTO = z.infer<typeof PartialProjectSchema>;
-
-const ProjectWithId = ProjectSchema.merge(HasId);
 export type Project = z.infer<typeof ProjectWithId>;
