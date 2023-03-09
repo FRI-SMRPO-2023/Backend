@@ -4,7 +4,9 @@ import cors from "cors";
 
 import { userRouter } from "./routes/user.router";
 import projectRouter from "./routes/project.router";
+import usersOnProjectsRouter from "./routes/userOnProject.router";
 import swaggerDocs from "./utils/swagger";
+
 
 dotenv.config();
 
@@ -23,6 +25,7 @@ app.use(express.json());
 //add routers
 app.use("/api/users", userRouter);
 app.use("/api/projects", projectRouter);
+app.use("/api/", usersOnProjectsRouter);
 
 
 /**

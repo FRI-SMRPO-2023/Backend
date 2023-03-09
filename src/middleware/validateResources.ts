@@ -1,6 +1,21 @@
 import { Request, Response, NextFunction } from "express";
 import { z } from "zod";
 
+export const validateIdParam =  (idName: string) => 
+    async (req: Request, res: Response, next: NextFunction) => {
+        if (isNaN(Number(req.params[idName]))) {
+            res.status(400).json({ 
+                status: "failed",
+                error: {
+                    message: `${idName} must be an integer`
+                } 
+            });
+        } else {
+            next();
+        }
+    }
+
+
 export const validate =
     (schema: z.AnyZodObject | z.ZodOptional<z.AnyZodObject>) =>
         async (req: Request, res: Response, next: NextFunction) => {
@@ -18,5 +33,3 @@ export const validate =
                 });
             }
         };
-
-export default validate;

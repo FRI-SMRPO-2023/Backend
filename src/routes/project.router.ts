@@ -1,6 +1,6 @@
 import express from "express";
 import ProjectController from "../controller/project.controller";
-import {validateProject, validateUpdateProject} from "../services/validator.service";
+import {validateProject, validateUpdateProject, validateId} from "../services/validator.service";
 
 
 const projectRouter = express.Router();
@@ -106,7 +106,7 @@ projectRouter.route("/")
  *          description: Project with specified id does not exist
  *     
  */
-projectRouter.route("/:id")
+projectRouter.route("/:id").all(validateId)
         .get(ProjectController.findbyId)
         .delete(ProjectController.deletebyId)
         .patch(validateUpdateProject, ProjectController.updatebyId)
