@@ -1,8 +1,10 @@
 import prisma from "../libs/prisma";
+import bcrypt from "bcrypt";
 import {CreateProjectDTO} from "../src/schemas/project.schema";
 
 type User = {
     name: string;
+    password: string,
     isAdmin: boolean
 }
 type Project = {
@@ -14,10 +16,12 @@ function getUsers(): Array<User> {
     return [
         {
             name: "admin",
+            password: "qwer",
             isAdmin: true,
         },
         {
             name: "developer",
+            password: "kudos",
             isAdmin: false
         }
     ]
@@ -36,9 +40,12 @@ async function seed() {
     // seed users
     await Promise.all(
         getUsers().map((user) => {
+            // TODO use dotenv for number of salt rounds
+            const hashed_pass = bcrypt.hashSync(user.password, 10);
             return prisma.user.create({
                 data: {
                     name: user.name,
+                    password: hashed_pass,
                     isAdmin: user.isAdmin
                 }
             })
