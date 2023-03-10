@@ -40,8 +40,8 @@ async function seed() {
     // seed users
     await Promise.all(
         getUsers().map((user) => {
-            // TODO use dotenv for number of salt rounds
-            const hashed_pass = bcrypt.hashSync(user.password, 10);
+            const saltRounds: number = Number(process.env.SALT_ROUNDS) ?? 10;
+            const hashed_pass = bcrypt.hashSync(user.password, saltRounds);
             return prisma.user.create({
                 data: {
                     name: user.name,
