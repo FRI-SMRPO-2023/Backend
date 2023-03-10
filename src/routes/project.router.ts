@@ -1,6 +1,6 @@
 import express from "express";
 import ProjectController from "../controller/project.controller";
-import {validateProject, validateUpdateProject, validateId} from "../services/validator.service";
+import {validateProjectCreate, validateProjectUpdate, validateId} from "../services/validator.service";
 
 
 const projectRouter = express.Router();
@@ -50,7 +50,7 @@ const projectRouter = express.Router();
  */
 projectRouter.route("/")
         .get(ProjectController.getAll)
-        .post(validateProject, ProjectController.create);
+        .post(validateProjectCreate, ProjectController.create);
 
 
 /**
@@ -109,6 +109,6 @@ projectRouter.route("/")
 projectRouter.route("/:id").all(validateId)
         .get(ProjectController.findbyId)
         .delete(ProjectController.deletebyId)
-        .patch(validateUpdateProject, ProjectController.updatebyId)
+        .patch(validateProjectUpdate, ProjectController.updatebyId)
 
 export default projectRouter;

@@ -38,14 +38,14 @@ const deleteProject = async (id: number): Promise<ProjectWithId> => {
     return res;
 };
 
-const updateProject = async (id: number, projectPartia: ProjectUpdate): Promise<ProjectWithId> => {
+const updateProject = async (id: number, projectUpdate: ProjectUpdate): Promise<ProjectWithId> => {
     let res = prisma.project.update({
         where: {
             id
         },
         data: {
-            name: projectPartia.name,
-            description: projectPartia.description
+            name: projectUpdate.name,
+            description: projectUpdate.description
         },
     });
     return res;

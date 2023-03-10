@@ -1,12 +1,20 @@
 import {validate, validateIdParam} from "../middleware/validateResources";
 import {ProjectCreateSchema, ProjectUpdateSchema} from "../schemas/project.schema"
+import { UserCreateSchema, UserUpdateSchema } from "../schemas/users.schema";
 import { UsersOnProjectsSchema } from "../schemas/usersOnProjects.schema";
 
-export const validateProject = validate(ProjectCreateSchema);
-export const validateUpdateProject = validate(ProjectUpdateSchema);
+//Project validation
+export const validateProjectCreate = validate(ProjectCreateSchema);
+export const validateProjectUpdate = validate(ProjectUpdateSchema);
+
+//User validation
+export const validateUserCreate = validate(UserCreateSchema);
+export const validateUserUpdate = validate(UserUpdateSchema);
+
+//UsersOnProjects validation - pivot table of User and Project
 export const validateUsersOnProjects = validate(UsersOnProjectsSchema);
 
-//validate if the ids are actually valid numbers
+//validate if the ids are actually valid numbers, not just strings
 export const validateId = validateIdParam("id");
 export const validateProjectId = validateIdParam("projectId");
 export const validateUserId = validateIdParam("userId");
