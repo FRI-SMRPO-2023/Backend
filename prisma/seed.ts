@@ -1,6 +1,6 @@
 import prisma from "../libs/prisma";
+import { Story } from "@prisma/client";
 import bcrypt from "bcrypt";
-import {ProjectCreate} from "../src/schemas/project.schema";
 
 type User = {
     name: string;
@@ -36,6 +36,35 @@ function getProjects(): Array<Project> {
     ]
 }
 
+function getStories(): Array<Story> {
+    return [
+        {   
+            id: 1,
+            projectId: 1,
+            name: "test1",
+            description: "mockup project used for development",
+            priority: "MustHave",
+            businessValue: "Low"
+        },
+        {   
+            id:2,
+            projectId: 1,
+            name: "test2",
+            description: "mockup project used for development",
+            priority: "CouldHave",
+            businessValue: "Medium"
+        },
+        {   
+            id: 3,
+            projectId: 1,
+            name: "test3",
+            description: "mockup project used for development",
+            priority: "ShouldHave",
+            businessValue: "High"
+        }
+    ]
+}
+
 async function seed() {
     // seed users
     await Promise.all(
@@ -58,6 +87,20 @@ async function seed() {
                 data: {
                     name: project.name,
                     description: project.description,
+                }
+            })
+        })
+    )
+
+    await Promise.all(
+        getStories().map((story) => {
+            return prisma.story.create({
+                data: {
+                    projectId: story.projectId,
+                    name: story.name,
+                    description: story.description,
+                    priority: story.priority,
+                    businessValue: story.businessValue,
                 }
             })
         })
