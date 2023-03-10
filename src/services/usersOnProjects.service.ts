@@ -16,6 +16,8 @@ const removeUserFromProject = async (groupMembership: UsersOnProjects) => {
     })
 }
 
+// TODO: Update user role in project
+
 const getUserRoleInProject = async (userId: number, projectId: number): Promise<UsersOnProjects|null> => {
     return prisma.usersOnProjects.findFirst({
             where: {
