@@ -3,7 +3,7 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { Request, Response, NextFunction } from "express";
 import { RequestHandler } from "express";
 import ProjectService from "../services/project.service"
-import { prisma_error_handler } from "../utils/error_handling";
+import { general_error_handler } from "../utils/error_handling";
 
 
 const getAll: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
@@ -11,11 +11,7 @@ const getAll: RequestHandler = async (req: Request, res: Response, next: NextFun
         const projects = await ProjectService.getAllProjects();
         res.status(200).json(projects);
     } catch (err) {
-        if (err instanceof PrismaClientKnownRequestError) {
-            await prisma_error_handler(err, res, next);
-        } else {
-            next(err)
-        }
+        general_error_handler(err, res, next);
     }
 };
 
@@ -26,11 +22,7 @@ const findbyId: RequestHandler = async (req, res, next) => {
         console.log(user);
         res.status(200).json(user);
     } catch (err) {
-        if (err instanceof PrismaClientKnownRequestError) {
-            await prisma_error_handler(err, res, next);
-        } else {
-            next(err)
-        }
+        general_error_handler(err, res, next);
     }
 };
 
@@ -39,11 +31,7 @@ const create: RequestHandler = async (req, res, next) => {
         const project = await ProjectService.createProject(req.body);
         res.status(201).json(project);
     } catch (err) {
-        if (err instanceof PrismaClientKnownRequestError) {
-            await prisma_error_handler(err, res, next);
-        } else {
-            next(err)
-        }
+        general_error_handler(err, res, next);
     }
 };
 
@@ -54,11 +42,7 @@ const deletebyId: RequestHandler = async (req, res, next) => {
         const project = await ProjectService.deleteProject(id);
         res.status(204).json(project);
     } catch (err) {
-        if (err instanceof PrismaClientKnownRequestError) {
-            await prisma_error_handler(err, res, next);
-        } else {
-            next(err);
-        }
+        general_error_handler(err, res, next);
     }
 };
 
@@ -68,11 +52,7 @@ const updatebyId: RequestHandler = async (req, res, next) => {
         let updated = await ProjectService.updateProject(id, req.body);
         res.status(200).json(updated);
     } catch (err) {
-        if (err instanceof PrismaClientKnownRequestError) {
-            await prisma_error_handler(err, res, next);
-        } else {
-            next(err)
-        }
+        general_error_handler(err, res, next);
     }
 }
 

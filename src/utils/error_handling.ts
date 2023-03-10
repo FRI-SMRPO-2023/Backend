@@ -1,6 +1,14 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import {Response, NextFunction} from "express";
 
+export const general_error_handler = (err: any, res: Response, next: NextFunction) => {
+    if (err instanceof PrismaClientKnownRequestError) {
+        prisma_error_handler(err, res, next);
+    } else {
+        next(err);
+    }
+}
+
 export const prisma_error_handler = async (err: PrismaClientKnownRequestError, res: Response, next: NextFunction) => {
     if (err.code === "P2002") {
         res.status(409).json({
