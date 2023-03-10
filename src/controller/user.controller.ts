@@ -46,6 +46,7 @@ const deleteSingle: RequestHandler = async (req, res, next) => {
     try {
         const id = parseInt(req.params.id);
         await UserService.deleteUser(id);
+        res.sendStatus(204);
     } catch (err) {
         general_error_handler(err, res, next);
     }

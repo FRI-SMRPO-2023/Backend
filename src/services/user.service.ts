@@ -47,6 +47,11 @@ const updateUser = async (userId: number, user: UserUpdate): Promise<UserWithId>
             name: user.name,
             password: hashedPass,
             isAdmin: user.isAdmin,
+        },
+        select: {
+            id: true,
+            name: true,
+            isAdmin: true,
         }
     })
 }
