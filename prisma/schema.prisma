@@ -23,6 +23,7 @@ model Project {
   name        String            @unique
   description String
   users       UsersOnProjects[]
+  stories     Story[]
 }
 
 // used as a many to many relationship table
@@ -39,4 +40,27 @@ model UsersOnProjects {
 enum RoleInProject {
   Leader
   Developer
+}
+
+model Story {
+  id            Int           @id @default(autoincrement())
+  project       Project       @relation(fields: [projectId], references: [id])
+  projectId     Int
+  name          String
+  description   String
+  priority      StoryPriority
+  businessValue BusinessValue
+}
+
+enum StoryPriority {
+  MustHave
+  CouldHave
+  ShouldHave
+  WontHaveThisTime
+}
+
+enum BusinessValue {
+  Low
+  Medium
+  High
 }
