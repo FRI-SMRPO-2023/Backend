@@ -1,7 +1,7 @@
 import prisma from "../../libs/prisma"
-import type { Project, CreateProjectDTO, UpdateProjectDTO} from "../schemas/project.schema"
+import type { ProjectWithId, ProjectCreate, ProjectUpdate} from "../schemas/project.schema"
 
-const getAllProjects = async (): Promise<Project[]> => {
+const getAllProjects = async (): Promise<ProjectWithId[]> => {
     return prisma.project.findMany({
         select: {
             id: true,
@@ -11,7 +11,7 @@ const getAllProjects = async (): Promise<Project[]> => {
     });
 };
 
-const getProjectById = async (id: number): Promise<Project | null> => {
+const getProjectById = async (id: number): Promise<ProjectWithId | null> => {
     return prisma.project.findUniqueOrThrow({
         where: {
             id
@@ -19,7 +19,7 @@ const getProjectById = async (id: number): Promise<Project | null> => {
     });
 };
 
-const createProject = async (project: CreateProjectDTO): Promise<Project> => {
+const createProject = async (project: ProjectCreate): Promise<ProjectWithId> => {
     let created_proj = prisma.project.create({
         data: {
             name: project.name,
@@ -29,7 +29,7 @@ const createProject = async (project: CreateProjectDTO): Promise<Project> => {
     return created_proj;
 };
 
-const deleteProject = async (id: number): Promise<Project> => {
+const deleteProject = async (id: number): Promise<ProjectWithId> => {
     let res = prisma.project.delete({
         where: {
             id: id
@@ -38,7 +38,7 @@ const deleteProject = async (id: number): Promise<Project> => {
     return res;
 };
 
-const updateProject = async (id: number, projectPartia: UpdateProjectDTO): Promise<Project> => {
+const updateProject = async (id: number, projectPartia: ProjectUpdate): Promise<ProjectWithId> => {
     let res = prisma.project.update({
         where: {
             id

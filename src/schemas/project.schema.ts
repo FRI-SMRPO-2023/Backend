@@ -44,7 +44,7 @@ const HasId = z.object({
 
 // exports for zod validations
 //used for post creation
-export const ProjectSchema = z.object({
+export const ProjectCreateSchema = z.object({
     name: z.string({
         required_error: "Project name is required",
     })
@@ -55,12 +55,12 @@ export const ProjectSchema = z.object({
     })
 });
 
-const ProjectWithId = ProjectSchema.merge(HasId);
+const ProjectWithId = ProjectCreateSchema.merge(HasId);
 
 // used for patch updates, when not every field is required
-export const PartialProjectSchema = ProjectSchema.partial();
+export const ProjectUpdateSchema = ProjectCreateSchema.partial();
 
 // type exports for typescript functions
-export type CreateProjectDTO = z.infer<typeof ProjectSchema>
-export type UpdateProjectDTO = z.infer<typeof PartialProjectSchema>;
-export type Project = z.infer<typeof ProjectWithId>;
+export type ProjectCreate = z.infer<typeof ProjectCreateSchema>
+export type ProjectUpdate = z.infer<typeof ProjectUpdateSchema>;
+export type ProjectWithId = z.infer<typeof ProjectWithId>;

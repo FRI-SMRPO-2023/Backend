@@ -1,6 +1,6 @@
 import prisma from "../libs/prisma";
 import bcrypt from "bcrypt";
-import {CreateProjectDTO} from "../src/schemas/project.schema";
+import {ProjectCreate} from "../src/schemas/project.schema";
 
 type User = {
     name: string;
