@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "vitest",
-    "dev": "nodemon src/index.ts"
+    "dev": "nodemon src/index.ts",
+    "dbreset": "ts-node prisma/delete_whole_db.ts"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
