@@ -68,7 +68,7 @@ export const UserBaseSchema = z.object({
         required_error: "Name field is required and it must be at least 3 characters long"
     }).min(3),
     email: z.string({
-
+        required_error: "Email field is required and it must be a proper email address"
     }).email(),
     isAdmin: z.boolean({
         required_error: "isAdmin field is required"

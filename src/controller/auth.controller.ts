@@ -4,14 +4,14 @@ import { general_error_handler } from "../utils/error_handling";
 
 const login: RequestHandler = async (req, res, next) => {
     try {
-        const username = req.body.username;
+        const email = req.body.email;
         const password = req.body.password;
-        const user = await UserService.checkUsernamePassword(username, password);
+        const user = await UserService.checkEmailPassword(email, password);
         if (!user) {
             res.status(200).json({
                 status: "failed",
                 error: {
-                    "message": "Incorrect username or password",
+                    "message": "Incorrect email or password",
                 }
             })
         } else {

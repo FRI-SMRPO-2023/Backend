@@ -14,7 +14,7 @@ const getAllUsers = async (): Promise<UserWithId[]> => {
     });
 }
 
-const checkUsernamePassword = async (email: string, password: string): Promise<UserWithId | null> => {
+const checkEmailPassword = async (email: string, password: string): Promise<UserWithId | null> => {
     const user = await prisma.user.findUnique({
         where: {
             email: email,
@@ -27,8 +27,12 @@ const checkUsernamePassword = async (email: string, password: string): Promise<U
             password: true,
         }
     });
+    console.log(user);
     if (!user) { return user; }
+    console.log("pass not null");
     const passed = await bcrypt.compare(password, user.password);
+    console.log("pased bcrypt")
+    console.log(passed);
     if (passed) {
         const returned: UserWithId = {
             id: user.id,
@@ -125,7 +129,7 @@ const UserService = {
     createUser,
     updateUser,
     deleteUser,
-    checkUsernamePassword,
+    checkEmailPassword,
     changePassword
 };
 
