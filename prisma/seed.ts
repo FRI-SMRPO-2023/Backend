@@ -8,7 +8,7 @@ function getUsers(): Array<UserCreate> {
     return [
         {
             name: "admin",
-            password: "12345679012",
+            password: "123456789012",
             email: "admin@prisma.com",
             isAdmin: true,
         },

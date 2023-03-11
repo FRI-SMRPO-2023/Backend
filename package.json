@@ -6,7 +6,7 @@
   "scripts": {
     "test": "vitest",
     "dev": "nodemon src/index.ts",
-    "dbreset": "ts-node prisma/delete_whole_db.ts"
+    "dbreset": "ts-node prisma/delete_whole_db.ts && npx prisma db push && npx prisma db seed"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
