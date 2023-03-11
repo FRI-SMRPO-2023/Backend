@@ -41,7 +41,7 @@ const projectRouter = express.Router();
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/ProjectCreate'
+ *               $ref: '#/components/schemas/ProjectReturn'
  *       409:
  *         description: Project with specified name already exists.
  *       500:
@@ -65,7 +65,7 @@ projectRouter.route("/")
  *        type: integer
  *      responses:
  *          200:
- *              description: Update successfull
+ *              description: Update successful
  *              content:
  *                application/json:
  *                  schema:
@@ -83,7 +83,7 @@ projectRouter.route("/")
  *          type: integer
  *      responses:
  *          204:
- *              description: Delete successfull
+ *              description: Delete successful
  *          409:
  *              description: Project with specified id does not exist
  *                      

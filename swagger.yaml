@@ -40,7 +40,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProjectCreate'
+                $ref: '#/components/schemas/ProjectReturn'
         '409':
           description: Project with specified name already exists.
         '500':
@@ -56,7 +56,7 @@ paths:
           type: integer
       responses:
         '200':
-          description: Update successfull
+          description: Update successful
           content:
             application/json:
               schema:
@@ -74,7 +74,7 @@ paths:
             type: integer
       responses:
         '204':
-          description: Delete successfull
+          description: Delete successful
         '409':
           description: Project with specified id does not exist
     get:
@@ -95,6 +95,125 @@ paths:
                 $ref: '#/components/schemas/ProjectReturn'
         '409':
           description: Project with specified id does not exist
+  /api/users:
+    get:
+      summary: Get all users
+      tags:
+        - User
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserReturn'
+          description: Return all a list of all users
+    post:
+      summary: Create a new User
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+      responses:
+        '201':
+          description: >-
+            User created. Return the created User, but without password
+            (obviously).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserReturn'
+        '409':
+          description: User with specified email already exists.
+        '500':
+          description: Some server error
+  /api/users/{id}:
+    patch:
+      summary: Update any (or multiple) fields in the user with specified id
+      tags:
+        - User
+      parameters:
+        - in: path
+          name: id
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+      responses:
+        '200':
+          description: Update successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCreate'
+        '409':
+          description: >-
+            User with specified id does not exist or email already exists (when
+            updating mail)
+    delete:
+      summary: Delete user by id
+      tags:
+        - User
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Delete successful
+        '409':
+          description: User with specified id does not exist
+    get:
+      summary: Get user by id
+      tags:
+        - User
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Single object returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserReturn'
+        '409':
+          description: User with specified id does not exist
+  /api/users/{id}/password-change:
+    patch:
+      summary: Update any (or multiple) fields in the project
+      tags:
+        - User
+      parameters:
+        - in: path
+          name: id
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordChange'
+      responses:
+        '200':
+          description: Update successfull
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserReturn'
+        '409':
+          description: Invalid old password or new password not valid (too short)
   /healthcheck:
     get:
       tags:
@@ -135,6 +254,63 @@ components:
         - name
         - description
         - id
+    UserCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+        isAdmin:
+          type: boolean
+      example:
+        name: Slavko
+        password: badpassword123
+        email: bademail123@mail.com
+        isAdmin: false
+      required:
+        - name
+        - password
+        - email
+        - isAdmin
+    UserReturn:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        email:
+          type: string
+        isAdmin:
+          type: boolean
+      example:
+        id: 2
+        name: Slavko
+        email: bademail123@mail.com
+        isAdmin: false
+      required:
+        - id
+        - name
+        - email
+        - isAdmin
+    PasswordChange:
+      type: object
+      properties:
+        oldPassword:
+          type: string
+        newPassword:
+          type: string
+      example:
+        oldPassword: changemeplease
+        newPassword: butnotlikethis
+      required:
+        - oldPassword
+        - newPassword
 tags:
   - name: Project
     description: Project management api
+  - name: User
+    description: User management api

@@ -1,33 +1,27 @@
 import prisma from "../libs/prisma";
 import { Story } from "@prisma/client";
 import bcrypt from "bcrypt";
+import { UserCreate } from "../src/schemas/users.schema";
+import { ProjectCreate } from "../src/schemas/project.schema";
 
-type User = {
-    name: string;
-    password: string,
-    isAdmin: boolean
-}
-type Project = {
-    name: string;
-    description: string;
-}
-
-function getUsers(): Array<User> {
+function getUsers(): Array<UserCreate> {
     return [
         {
             name: "admin",
             password: "12345679012",
+            email: "admin@prisma.com",
             isAdmin: true,
         },
         {
             name: "developer",
             password: "password1234",
+            email: "developer@prisma.com",
             isAdmin: false
         }
     ]
 }
 
-function getProjects(): Array<Project> {
+function getProjects(): Array<ProjectCreate> {
     return [
         {
             name: "test1",
@@ -75,6 +69,7 @@ async function seed() {
                 data: {
                     name: user.name,
                     password: hashed_pass,
+                    email: user.email,
                     isAdmin: user.isAdmin
                 }
             })

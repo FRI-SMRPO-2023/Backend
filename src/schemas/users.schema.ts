@@ -1,10 +1,75 @@
 import { z } from "zod";
 
 
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *      UserCreate:
+ *        type: object
+ *        properties:
+ *          name:
+ *            type: string
+ *          password:
+ *            type: string
+ *          email:
+ *            type: string
+ *          isAdmin:
+ *            type: boolean
+ *        example:
+ *          name: Slavko
+ *          password: badpassword123
+ *          email: bademail123@mail.com
+ *          isAdmin: false
+ *        required:
+ *          - name
+ *          - password
+ *          - email
+ *          - isAdmin
+ *      UserReturn:
+ *        type: object
+ *        properties:
+ *          id:
+ *            type: number
+ *          name:
+ *            type: string
+ *          email:
+ *            type: string
+ *          isAdmin:
+ *            type: boolean
+ *        example:
+ *          id: 2
+ *          name: Slavko
+ *          email: bademail123@mail.com
+ *          isAdmin: false
+ *        required:
+ *          - id
+ *          - name
+ *          - email
+ *          - isAdmin 
+ *      PasswordChange:
+ *        type: object
+ *        properties:
+ *          oldPassword:
+ *            type: string
+ *          newPassword:
+ *            type: string
+ *        example:
+ *          oldPassword: "changemeplease"
+ *          newPassword: "butnotlikethis"
+ *        required:
+ *          - oldPassword
+ *          - newPassword  
+ */
+
+
 export const UserBaseSchema = z.object({
     name: z.string({
         required_error: "Name field is required and it must be at least 3 characters long"
     }).min(3),
+    email: z.string({
+
+    }).email(),
     isAdmin: z.boolean({
         required_error: "isAdmin field is required"
     }),
