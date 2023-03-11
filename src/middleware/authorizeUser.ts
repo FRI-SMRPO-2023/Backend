@@ -27,7 +27,7 @@ export const adminAuthorizer = async (req: Request, res: Response, next: NextFun
 
 export const adminOrCorrectUser = async (req: Request, res: Response, next: NextFunction) => {
     if ((req.session.user.isAdmin) || 
-        (req.session.user.id === parseInt(req.params.id, 10))) {
+        (req.session.user.id === parseInt(req.params.userId, 10))) {
         next();
     } else {
         res.sendStatus(403);
