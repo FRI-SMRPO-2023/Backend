@@ -41,7 +41,7 @@ const logout: RequestHandler = async (req, res, next) => {
         if (req.session) {
             req.session.destroy(() => {
             });
-            res.sendStatus(200).clearCookie("session", {path: "/"});
+            res.clearCookie("session", {path: "/"}).sendStatus(200);
         } else {
             res.sendStatus(401);
         }
