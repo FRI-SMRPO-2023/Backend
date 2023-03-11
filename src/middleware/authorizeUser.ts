@@ -23,6 +23,15 @@ export const adminAuthorizer = async (req: Request, res: Response, next: NextFun
     } catch (err) {
         general_error_handler(err, res, next);
     }
+}
 
+export const adminOrCorrectUser = async (req: Request, res: Response, next: NextFunction) => {
+    if ((req.session.user.isAdmin) || 
+        (req.session.user.id === parseInt(req.params.id, 10))) {
+        next();
+    } else {
+        res.sendStatus(403);
+    }
+    
 }
 

@@ -2,18 +2,17 @@ import prisma from "../../libs/prisma";
 import type { UserCreate, UserBase, UserWithId, UserUpdate } from "../schemas/users.schema";
 import bcrypt from "bcrypt";
 
-const getAllUsers = async(): Promise<UserWithId[]> => {
+const getAllUsers = async (): Promise<UserWithId[]> => {
     return prisma.user.findMany({
         select: {
-            id:true,
-            name:true,
-            isAdmin:true,
+            id: true,
+            name: true,
+            isAdmin: true,
         }
     });
 }
 
-
-const checkUsernamePassword = async(username: string, password: string): Promise<UserWithId | null> => {
+const checkUsernamePassword = async (username: string, password: string): Promise<UserWithId | null> => {
     const user = await prisma.user.findUnique({
         where: {
             name: username,
@@ -25,7 +24,7 @@ const checkUsernamePassword = async(username: string, password: string): Promise
             password: true,
         }
     });
-    if (!user) {return user;}
+    if (!user) { return user; }
     const passed = await bcrypt.compare(password, user.password);
     if (passed) {
         const returned: UserWithId = {
@@ -49,7 +48,6 @@ const getUserById = async (id: number): Promise<UserWithId | null> => {
     });
 }
 
-
 const createUser = async (user: UserCreate): Promise<UserWithId> => {
     const hashedPass = await bcrypt.hash(user.password, 10);
     return prisma.user.create({
@@ -67,7 +65,7 @@ const createUser = async (user: UserCreate): Promise<UserWithId> => {
 }
 
 const updateUser = async (userId: number, user: UserUpdate): Promise<UserWithId> => {
-    const hashedPass = user.password ? await bcrypt.hash(user.password, 10): undefined;
+    const hashedPass = user.password ? await bcrypt.hash(user.password, 10) : undefined;
     return prisma.user.update({
         where: {
             id: userId
@@ -85,13 +83,26 @@ const updateUser = async (userId: number, user: UserUpdate): Promise<UserWithId>
     })
 }
 
+const changePassword = async (userId: number, oldPassword: string, newPassword: string): Promise<UserWithId | null> => {
+    const user = await prisma.user.findUniqueOrThrow({
+        where: {
+            id: userId,
+        }
+    });
+    const pass = await bcrypt.compare(oldPassword, user.password);
+    if (pass) {
+        return updateUser(userId, {password: newPassword});
+    }
+    return null;
+
+}
+
 const deleteUser = async (userId: number): Promise<UserWithId> => {
     return prisma.user.delete({
         where: {
             id: userId
         }
     });
-
 }
 
 const UserService = {
@@ -100,7 +111,8 @@ const UserService = {
     createUser,
     updateUser,
     deleteUser,
-    checkUsernamePassword
+    checkUsernamePassword,
+    changePassword
 };
 
 export default UserService;

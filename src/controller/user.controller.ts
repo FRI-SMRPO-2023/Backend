@@ -40,6 +40,25 @@ const updateSingle: RequestHandler = async (req, res, next) => {
     }
 };
 
+const changePassword: RequestHandler = async (req, res, next) => {
+    try {
+        const userId = parseInt(req.params.id);
+        const updated = await UserService.changePassword(userId, req.body.oldPassword, req.body.newPassword);
+        if (updated) {
+            res.status(200).json(updated);
+        } else {
+            res.status(409).json({
+                status: "failed",
+                error: {
+                    message: "Invalid old password"
+                }
+            })
+        }
+    } catch (err) {
+        general_error_handler(err, res, next);
+    }
+}
+
 const deleteSingle: RequestHandler = async (req, res, next) => {
     try {
         const id = parseInt(req.params.id);
@@ -55,7 +74,8 @@ const UserController = {
     getSingle,
     create,
     updateSingle,
-    deleteSingle
+    deleteSingle,
+    changePassword,
 }
 
 export default UserController;

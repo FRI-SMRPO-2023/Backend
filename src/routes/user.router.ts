@@ -1,7 +1,7 @@
 import express from "express";
 import UserController from "../controller/user.controller";
-import { adminAuthorizer } from "../middleware/authorizeUser";
-import { validateId, validateUserCreate, validateUserUpdate } from "../services/validator.service"
+import { adminAuthorizer, adminOrCorrectUser } from "../middleware/authorizeUser";
+import { validateId, validateUserCreate, validateUserUpdate, validateUserPasswordChange } from "../services/validator.service"
 
 
 
@@ -15,5 +15,10 @@ userRouter.route("/:id").all(validateId)
     .get(UserController.getSingle)
     .patch(validateUserUpdate, UserController.updateSingle)
     .delete(adminAuthorizer, UserController.deleteSingle);
+
+userRouter.patch("/:id/password-change", validateId,
+                                        adminOrCorrectUser,
+                                        validateUserPasswordChange, 
+                                        UserController.changePassword);
 
 export default userRouter;
