@@ -1,26 +1,24 @@
 import express from "express";
 import UserController from "../controller/user.controller";
+import { adminAuthorizer, adminOrCorrectUser } from "../middleware/authorizeUser";
+import { validateUserId, validateUserCreate, validateUserUpdate, validateUserPasswordChange } from "../services/validator.service"
 
-import { validateId, validateUserCreate, validateUserUpdate } from "../services/validator.service"
 
 
-
-export const userRouter = express.Router();
-
-// userRouter.get("/", async (req: Request, res: Response) => {
-//     try {
-//         const users = await UserService.getAllUsers();
-//         return res.status(200).json(users);
-//     } catch (error: any) {
-//         return res.status(500).json({message: error.message});
-//     }
-// })
+const userRouter = express.Router();
 
 userRouter.route("/")
     .get(UserController.getAll)
-    .post(validateUserCreate ,UserController.create);
+    .post(adminAuthorizer, validateUserCreate, UserController.create);
 
-userRouter.route("/:id").all(validateId)
+userRouter.route("/:userId").all(validateUserId)
     .get(UserController.getSingle)
-    .patch(validateUserUpdate, UserController.updateSingle)
-    .delete(UserController.deleteSingle);
+    .patch(adminAuthorizer, validateUserUpdate, UserController.updateSingle)
+    .delete(adminAuthorizer, UserController.deleteSingle);
+
+userRouter.patch("/:userId/password-change", validateUserId,
+                                        adminOrCorrectUser,
+                                        validateUserPasswordChange, 
+                                        UserController.changePassword);
+
+export default userRouter;

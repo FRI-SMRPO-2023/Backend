@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export const UserBaseSchema = z.object({
     name: z.string({
-        required_error: "Name is required and it must be at least 3 characters long"
+        required_error: "Name field is required and it must be at least 3 characters long"
     }).min(3),
     isAdmin: z.boolean({
         required_error: "isAdmin field is required"
@@ -13,12 +13,21 @@ export const UserBaseSchema = z.object({
 export const UserCreateSchema = UserBaseSchema.merge(z.object({
     password: z.string({
         required_error: "Password is requried"
-    }).min(8)
+    }).min(12).max(128)
 }));
 
 export const UserWithIdSchema = UserBaseSchema.merge(z.object({
     id: z.number()
 }));
+
+export const UserPasswordChangeSchema = z.object({
+    oldPassword: z.string({
+        required_error: "oldPassword field is required"
+    }),
+    newPassword: z.string({
+        required_error: "newPassword field is required"
+    }).min(12).max(128)
+});
 
 export const UserUpdateSchema = UserCreateSchema.partial();
 
