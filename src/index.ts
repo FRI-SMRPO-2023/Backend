@@ -1,10 +1,23 @@
 import * as dotenv from "dotenv";
 import express from "express";
+import session from "express-session";
+import { UserWithId } from "./schemas/users.schema";
+declare module "express-session" {
+    interface Session {
+        user: UserWithId;
+        authenticated: boolean;
+        views: number;
+    }
+}
+
+const store = new session.MemoryStore();
 import cors from "cors";
 
-import { userRouter } from "./routes/user.router";
+import userRouter from "./routes/user.router";
 import projectRouter from "./routes/project.router";
 import usersOnProjectsRouter from "./routes/userOnProject.router";
+import authRouter from "./routes/auth.router";
+import { authorizer, adminAuthorizer } from "./middleware/authorizeUser";
 import swaggerDocs from "./utils/swagger";
 
 
@@ -15,17 +28,36 @@ if (!process.env.PORT) {
     process.exit(1);
 }
 
+
 const PORT: number = parseInt(process.env.PORT as string, 10);
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(session({
+    secret: "change this to use ENV variable",
+    resave: false,
+    saveUninitialized: false,
+    store: store,
+    cookie: {
+        sameSite: "strict",
+    },
+    proxy: true,
+    name: "session"
+}))
+
+//authentication routes
+app.use("/api/auth", authRouter);
+
+//use authorization middleware after authentication api
+app.use(authorizer);
 
 //add routers
 app.use("/api/users", userRouter);
 app.use("/api/projects", projectRouter);
 app.use("/api/", usersOnProjectsRouter);
+
 
 
 /**

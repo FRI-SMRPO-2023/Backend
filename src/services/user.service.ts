@@ -12,6 +12,35 @@ const getAllUsers = async(): Promise<UserWithId[]> => {
     });
 }
 
+
+const checkUsernamePassword = async(username: string, password: string): Promise<UserWithId | null> => {
+    const user = await prisma.user.findUnique({
+        where: {
+            name: username,
+        },
+        select: {
+            id: true,
+            name: true,
+            isAdmin: true,
+            password: true,
+        }
+    });
+    if (!user) {return user;}
+    const passed = await bcrypt.compare(password, user.password);
+    if (passed) {
+        const returned: UserWithId = {
+            id: user.id,
+            name: user.name,
+            isAdmin: user.isAdmin
+        }
+        return returned;
+    } else {
+        return null;
+    }
+
+
+}
+
 const getUserById = async (id: number): Promise<UserWithId | null> => {
     return prisma.user.findUniqueOrThrow({
         where: {
@@ -70,7 +99,8 @@ const UserService = {
     getUserById,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    checkUsernamePassword
 };
 
 export default UserService;

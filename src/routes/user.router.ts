@@ -5,7 +5,7 @@ import { validateId, validateUserCreate, validateUserUpdate } from "../services/
 
 
 
-export const userRouter = express.Router();
+const userRouter = express.Router();
 
 // userRouter.get("/", async (req: Request, res: Response) => {
 //     try {
@@ -24,3 +24,5 @@ userRouter.route("/:id").all(validateId)
     .get(UserController.getSingle)
     .patch(validateUserUpdate, UserController.updateSingle)
     .delete(UserController.deleteSingle);
+
+export default userRouter;
