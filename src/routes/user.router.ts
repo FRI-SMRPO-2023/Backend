@@ -13,7 +13,7 @@ userRouter.route("/")
 
 userRouter.route("/:userId").all(validateUserId)
     .get(UserController.getSingle)
-    .patch(validateUserUpdate, UserController.updateSingle)
+    .patch(adminAuthorizer, validateUserUpdate, UserController.updateSingle)
     .delete(adminAuthorizer, UserController.deleteSingle);
 
 userRouter.patch("/:userId/password-change", validateUserId,

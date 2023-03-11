@@ -47,6 +47,9 @@ app.use(session({
     name: "session"
 }))
 
+//docs
+swaggerDocs(app);
+
 //authentication routes
 app.use("/api/auth", authRouter);
 
@@ -77,7 +80,6 @@ app.get("/healthcheck", async (req: express.Request, res: express.Response) => {
 
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
-    swaggerDocs(app);
 });
 
 // log unhandled rejections
