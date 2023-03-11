@@ -13,7 +13,7 @@ export const UserBaseSchema = z.object({
 export const UserCreateSchema = UserBaseSchema.merge(z.object({
     password: z.string({
         required_error: "Password is requried"
-    }).min(8)
+    }).min(12).max(128)
 }));
 
 export const UserWithIdSchema = UserBaseSchema.merge(z.object({
