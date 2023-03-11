@@ -16,12 +16,12 @@ function getUsers(): Array<User> {
     return [
         {
             name: "admin",
-            password: "qwer",
+            password: "12345678",
             isAdmin: true,
         },
         {
             name: "developer",
-            password: "kudos",
+            password: "password",
             isAdmin: false
         }
     ]
