@@ -47,6 +47,19 @@ import { z } from "zod";
  *          - name
  *          - email
  *          - isAdmin 
+ *      UserLogin:
+ *        type: object
+ *        properties:
+ *          email:
+ *            type: string
+ *          password:
+ *            type: string
+ *        example:
+ *          email: bademail123@mail.com
+ *          password: correctpassword
+ *        required:
+ *          - email
+ *          - password
  *      PasswordChange:
  *        type: object
  *        properties:
@@ -75,11 +88,14 @@ export const UserBaseSchema = z.object({
     }),
 });
 
+
 export const UserCreateSchema = UserBaseSchema.merge(z.object({
     password: z.string({
         required_error: "Password is requried"
     }).min(12).max(128)
 }));
+
+export const UserLoginSchema = UserCreateSchema.omit({isAdmin: true, name: true});
 
 export const UserWithIdSchema = UserBaseSchema.merge(z.object({
     id: z.number()
@@ -101,6 +117,7 @@ export type UserBase = z.infer<typeof UserBaseSchema>;
 export type UserWithId = z.infer<typeof UserWithIdSchema>;
 export type UserCreate = z.infer<typeof UserCreateSchema>;
 export type UserUpdate = z.infer<typeof UserUpdateSchema>;
+export type UserLogin = z.infer<typeof UserLoginSchema>;
 
 
 
