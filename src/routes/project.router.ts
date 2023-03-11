@@ -62,7 +62,9 @@ projectRouter.route("/")
  *      parameters:
  *      - in: path
  *        name: id
- *        type: integer
+ *        schema:
+ *          type: integer
+ *        required: true
  *      responses:
  *          200:
  *              description: Update successful
@@ -81,6 +83,7 @@ projectRouter.route("/")
  *        name: id
  *        schema:
  *          type: integer
+ *        required: true
  *      responses:
  *          204:
  *              description: Delete successful
@@ -95,6 +98,7 @@ projectRouter.route("/")
  *      name: id
  *      schema:
  *        type: integer
+ *      required: true
  *    responses:
  *      200:
  *         description: Single object returned successfully

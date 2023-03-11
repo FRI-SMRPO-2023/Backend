@@ -61,7 +61,9 @@ userRouter.route("/")
  *      parameters:
  *      - in: path
  *        name: id
- *        type: integer
+ *        schema:
+ *          type: integer
+ *        required: true
  *      requestBody:
  *        required: true
  *        content:
@@ -86,6 +88,7 @@ userRouter.route("/")
  *        name: id
  *        schema:
  *          type: integer
+ *        required: true
  *      responses:
  *          204:
  *              description: Delete successful
@@ -100,6 +103,7 @@ userRouter.route("/")
  *      name: id
  *      schema:
  *        type: integer
+ *      required: true
  *    responses:
  *      200:
  *         description: Single object returned successfully
@@ -126,7 +130,9 @@ userRouter.route("/:userId").all(validateUserId)
  *      parameters:
  *      - in: path
  *        name: id
- *        type: integer
+ *        schema:
+ *          type: integer
+ *        required: true
  *      requestBody:
  *        required: true
  *        content:

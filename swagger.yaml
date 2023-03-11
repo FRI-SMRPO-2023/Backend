@@ -53,7 +53,9 @@ paths:
       parameters:
         - in: path
           name: id
-          type: integer
+          schema:
+            type: integer
+          required: true
       responses:
         '200':
           description: Update successful
@@ -72,6 +74,7 @@ paths:
           name: id
           schema:
             type: integer
+          required: true
       responses:
         '204':
           description: Delete successful
@@ -86,6 +89,7 @@ paths:
           name: id
           schema:
             type: integer
+          required: true
       responses:
         '200':
           description: Single object returned successfully
@@ -140,7 +144,9 @@ paths:
       parameters:
         - in: path
           name: id
-          type: integer
+          schema:
+            type: integer
+          required: true
       requestBody:
         required: true
         content:
@@ -167,6 +173,7 @@ paths:
           name: id
           schema:
             type: integer
+          required: true
       responses:
         '204':
           description: Delete successful
@@ -181,6 +188,7 @@ paths:
           name: id
           schema:
             type: integer
+          required: true
       responses:
         '200':
           description: Single object returned successfully
@@ -198,7 +206,9 @@ paths:
       parameters:
         - in: path
           name: id
-          type: integer
+          schema:
+            type: integer
+          required: true
       requestBody:
         required: true
         content:

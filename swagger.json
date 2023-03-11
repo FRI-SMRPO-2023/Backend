@@ -81,7 +81,10 @@
           {
             "in": "path",
             "name": "id",
-            "type": "integer"
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -111,7 +114,8 @@
             "name": "id",
             "schema": {
               "type": "integer"
-            }
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -134,7 +138,8 @@
             "name": "id",
             "schema": {
               "type": "integer"
-            }
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -221,7 +226,10 @@
           {
             "in": "path",
             "name": "id",
-            "type": "integer"
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
           }
         ],
         "requestBody": {
@@ -261,7 +269,8 @@
             "name": "id",
             "schema": {
               "type": "integer"
-            }
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -284,7 +293,8 @@
             "name": "id",
             "schema": {
               "type": "integer"
-            }
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -314,7 +324,10 @@
           {
             "in": "path",
             "name": "id",
-            "type": "integer"
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
           }
         ],
         "requestBody": {
