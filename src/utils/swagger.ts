@@ -13,7 +13,7 @@ const options = {
             title: "KANBAN FAKE api",
             version: "0.1.0",
             description:
-                "This is a simple CRUD API application made with Express and documented with Swagger",
+                "This is a simple application made with Express and documented with Swagger",
             contact: {
                 name: "Mark Zakelj",
             },
