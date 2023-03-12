@@ -1,13 +1,12 @@
-
-
 import { z } from "zod"
+import { RoleInProject } from "@prisma/client";
 
-export const convertEnum = (prisma_enum: Object): z.ZodEnum<[string, ...string[]]> => {
-    let arr = [];
+export const convertEnum = (prisma_enum: Object): z.ZodEnum<[RoleInProject, ...RoleInProject[]]> => {
+    let arr: RoleInProject[] = [];
     for (const role in prisma_enum) {
-        arr.push(role);
+        arr.push(role as RoleInProject);
     }
-    const variants: [string, ...string[]] = [
+    const variants: [RoleInProject, ...RoleInProject[]] = [
         arr[0],
         ...arr.slice(1)
     ];

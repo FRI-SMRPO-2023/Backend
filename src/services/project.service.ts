@@ -1,5 +1,7 @@
-import prisma from "../../libs/prisma"
-import type { ProjectWithId, ProjectCreate, ProjectUpdate} from "../schemas/project.schema"
+import prisma from "../../libs/prisma";
+import { Prisma } from "@prisma/client";
+import type { ProjectWithId, ProjectCreate, ProjectUpdate } from "../schemas/project.schema";
+import { RoleInProject } from "@prisma/client";
 
 const getAllProjects = async (): Promise<ProjectWithId[]> => {
     return prisma.project.findMany({
@@ -20,10 +22,17 @@ const getProjectById = async (id: number): Promise<ProjectWithId | null> => {
 };
 
 const createProject = async (project: ProjectCreate): Promise<ProjectWithId> => {
+    let arr: Prisma.UsersOnProjectsCreateWithoutProjectInput[]  = [];
+    project.users.forEach(element => {
+        arr.push({userRole: element.role, user: {connect: {id: 1}}})
+    });
     let created_proj = prisma.project.create({
         data: {
             name: project.name,
             description: project.description,
+            users: {
+                create: arr
+            }
         }
     });
     return created_proj;
