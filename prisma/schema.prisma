@@ -39,7 +39,9 @@ model UsersOnProjects {
 }
 
 enum RoleInProject {
-  Leader
+  ProductOwner
+  ProjectManager
+  ScrumMaster
   Developer
 }
 

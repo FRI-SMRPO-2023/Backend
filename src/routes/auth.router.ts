@@ -1,5 +1,6 @@
 import AuthController from "../controller/auth.controller";
 import express from "express";
+import { validateUserLogin } from "../services/validator.service";
 
 
 const authRouter = express.Router();
@@ -31,7 +32,7 @@ const authRouter = express.Router();
  *         description: Some server error
  *              
  */
-authRouter.post("/login", AuthController.login);
+authRouter.post("/login", validateUserLogin, AuthController.login);
 
 /**
  * @openapi
