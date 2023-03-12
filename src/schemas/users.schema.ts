@@ -77,7 +77,13 @@ import { z } from "zod";
 
 
 export const UserBaseSchema = z.object({
+    username: z.string({
+        required_error: "Name field is required and it must be at least 3 characters long"
+    }).min(3),
     name: z.string({
+        required_error: "Name field is required and it must be at least 3 characters long"
+    }).min(3),
+    lastName: z.string({
         required_error: "Name field is required and it must be at least 3 characters long"
     }).min(3),
     email: z.string({
@@ -95,7 +101,7 @@ export const UserCreateSchema = UserBaseSchema.merge(z.object({
     }).min(12).max(128)
 }));
 
-export const UserLoginSchema = UserCreateSchema.omit({isAdmin: true, name: true});
+export const UserLoginSchema = UserCreateSchema.pick({email: true, password: true});
 
 export const UserWithIdSchema = UserBaseSchema.merge(z.object({
     id: z.number()

@@ -6,14 +6,18 @@ import { ProjectCreate } from "../src/schemas/project.schema";
 
 function getUsers(): Array<UserCreate> {
     return [
-        {
-            name: "admin",
+        {   
+            username: "admin",
+            name: "Stanko",
+            lastName: "Premrl",
             password: "123456789012",
             email: "admin@prisma.com",
             isAdmin: true,
         },
-        {
-            name: "developer",
+        {   
+            username: "developer",
+            name: "Slavko",
+            lastName: "Podmrl",
             password: "password1234",
             email: "developer@prisma.com",
             isAdmin: false
@@ -76,7 +80,9 @@ async function seed() {
         const hashed_pass = bcrypt.hashSync(user.password, saltRounds);
         await prisma.user.create({
             data: {
+                username: user.username,
                 name: user.name,
+                lastName: user.lastName,
                 password: hashed_pass,
                 email: user.email,
                 isAdmin: user.isAdmin

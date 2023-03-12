@@ -7,7 +7,9 @@ const getAllUsers = async (): Promise<UserWithId[]> => {
     return prisma.user.findMany({
         select: {
             id: true,
+            username: true,
             name: true,
+            lastName: true,
             email: true,
             isAdmin: true,
         }
@@ -21,7 +23,9 @@ const checkEmailPassword = async (email: string, password: string): Promise<User
         },
         select: {
             id: true,
+            username: true,
             name: true,
+            lastName: true,
             email: true,
             isAdmin: true,
             password: true,
@@ -36,7 +40,9 @@ const checkEmailPassword = async (email: string, password: string): Promise<User
     if (passed) {
         const returned: UserWithId = {
             id: user.id,
+            username: user.username,
             name: user.name,
+            lastName: user.lastName,
             email: user.email,
             isAdmin: user.isAdmin
         }
@@ -55,7 +61,9 @@ const getUserById = async (id: number): Promise<UserWithId | null> => {
         },
         select: {
             id: true,
+            username: true,
             name: true,
+            lastName: true,
             email: true,
             isAdmin: true
         }
@@ -66,14 +74,18 @@ const createUser = async (user: UserCreate): Promise<UserWithId> => {
     const hashedPass = await bcrypt.hash(user.password, 10);
     return prisma.user.create({
         data: {
+            username: user.username,
             name: user.name,
+            lastName: user.lastName,
             password: hashedPass,
             email: user.email,
             isAdmin: user.isAdmin,
         },
         select: {
             id: true,
+            username: true,
             name: true,
+            lastName: true,
             email: true,
             isAdmin: true,
         }
@@ -87,14 +99,18 @@ const updateUser = async (userId: number, user: UserUpdate): Promise<UserWithId>
             id: userId
         },
         data: {
+            username: user.username,
             name: user.name,
+            lastName: user.lastName,
             email: user.email,
             password: hashedPass,
             isAdmin: user.isAdmin,
         },
         select: {
+            username: true,
             id: true,
             name: true,
+            lastName: true,
             email: true,
             isAdmin: true,
         }
