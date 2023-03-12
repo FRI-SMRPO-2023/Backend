@@ -18,9 +18,10 @@ const usersOnProjectsRouter = express.Router();
  *     tags: [UsersOnProjects]
  *     parameters:
  *     - in: path
- *       name: projectId
+ *       name: id
  *       schema:
  *         type: integer
+ *       required: true
  *     responses:
  *       200:
  *         content:
@@ -40,6 +41,7 @@ const usersOnProjectsRouter = express.Router();
  *       name: id
  *       schema:
  *         type: integer
+ *       required: true
  *     responses:
  *       200:
  *         content:
@@ -65,10 +67,12 @@ usersOnProjectsRouter.get("/users/:userId/projects", validateUserId, UsersOnProj
  *       name: projectId
  *       schema:
  *         type: integer
+ *       required: true
  *     - in: path
  *       name: userId
  *       schema:
  *         type: integer
+ *       required: true
  *     responses:
  *       204:    
  *         description: User successfully removed       

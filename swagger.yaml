@@ -273,9 +273,10 @@ paths:
         - UsersOnProjects
       parameters:
         - in: path
-          name: projectId
+          name: id
           schema:
             type: integer
+          required: true
       responses:
         '200':
           content:
@@ -295,6 +296,7 @@ paths:
           name: id
           schema:
             type: integer
+          required: true
       responses:
         '200':
           content:
@@ -314,10 +316,12 @@ paths:
           name: projectId
           schema:
             type: integer
+          required: true
         - in: path
           name: userId
           schema:
             type: integer
+          required: true
       responses:
         '204':
           description: User successfully removed
