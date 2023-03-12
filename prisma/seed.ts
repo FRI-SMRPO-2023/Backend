@@ -26,13 +26,23 @@ function getProjects(): Array<ProjectCreate> {
         {
             name: "test1",
             description: "mockup project used for development",
+            users: [
+                {
+                    id: 1,
+                    role: "ProductOwner"
+                },
+                {
+                    id: 2,
+                    role: "Developer"
+                }
+            ]
         }
     ]
 }
 
 function getStories(): Array<Story> {
     return [
-        {   
+        {
             id: 1,
             projectId: 1,
             name: "test1",
@@ -40,15 +50,15 @@ function getStories(): Array<Story> {
             priority: "MustHave",
             businessValue: "Low"
         },
-        {   
-            id:2,
+        {
+            id: 2,
             projectId: 1,
             name: "test2",
             description: "mockup project used for development",
             priority: "CouldHave",
             businessValue: "Medium"
         },
-        {   
+        {
             id: 3,
             projectId: 1,
             name: "test3",
@@ -82,6 +92,11 @@ async function seed() {
                 data: {
                     name: project.name,
                     description: project.description,
+                    users: {
+                        create: [
+                            { userRole: "ProjectManager", user: { connect: { id: 1 } } }
+                        ]
+                    }
                 }
             })
         })

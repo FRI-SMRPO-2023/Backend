@@ -62,7 +62,7 @@ export const ProjectCreateSchema = ProjectBaseSchema.merge(z.object({
         id: z.number(),
         role: convertEnum(RoleInProject)
     }).array().nonempty()
-}));
+})).required();
 
 const ProjectWithId = ProjectBaseSchema.merge(HasId);
 
