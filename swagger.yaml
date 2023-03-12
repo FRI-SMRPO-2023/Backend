@@ -283,12 +283,27 @@ components:
           type: string
         description:
           type: string
+        users:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              role:
+                $ref: '#/components/schemas/RoleInProject'
       example:
         name: Frogify
         description: Project about musical frogs
+        users:
+          - id: 1
+            role: Developer
+          - id: 2
+            role: ScrumMaster
       required:
         - name
         - description
+        - users
     ProjectReturn:
       type: object
       properties:
@@ -374,6 +389,13 @@ components:
       required:
         - oldPassword
         - newPassword
+    RoleInProject:
+      type: string
+      enum:
+        - Developer
+        - ProjectManager
+        - ProductOwner
+        - ScrumMaster
 tags:
   - name: Auth
     description: Authentication api
