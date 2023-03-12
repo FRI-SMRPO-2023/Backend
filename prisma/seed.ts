@@ -94,7 +94,7 @@ async function seed() {
                     description: project.description,
                     users: {
                         create: [
-                            { userRole: "ProjectManager", user: { connect: { id: 1 } } }
+                            { role: "ProjectManager", user: { connect: { id: 1 } } }
                         ]
                     }
                 }

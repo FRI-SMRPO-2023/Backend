@@ -14,11 +14,20 @@ import { convertEnum } from '../utils/enum_conversion';
  *          - ProjectManager
  *          - ProductOwner
  *          - ScrumMaster
+ *      UserOnProject:
+ *        type: object
+ *        properties:
+ *          userId:
+ *            type: number
+ *          projectId:
+ *            type: number
+ *          role:
+ *            $ref: '#/components/schemas/UserLogin'
  */
 
 // for body validation in post request
 export const UsersOnProjectsSchema = z.object({
     userId: z.number(),
     projectId: z.number(),
-    userRole: convertEnum(RoleInProject)
+    role: convertEnum(RoleInProject)
 });
