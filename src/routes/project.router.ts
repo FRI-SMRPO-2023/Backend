@@ -48,6 +48,7 @@ const projectRouter = express.Router();
  *         description: Some server error
  *              
  */
+
 projectRouter.route("/")
         .get(ProjectController.getAll)
         .post(validateProjectCreate, ProjectController.create);

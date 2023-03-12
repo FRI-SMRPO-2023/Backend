@@ -57,7 +57,7 @@ authRouter.post("/logout", AuthController.logout);
  *     responses:
  *       200:
  *         description: User is authenticated. Return OK
- *       409:
+ *       401:
  *         description: User not logged in. Return Unauthorized            
  */
 authRouter.get("/is-authenticated", AuthController.isLoggedIn);

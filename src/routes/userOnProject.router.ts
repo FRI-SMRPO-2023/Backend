@@ -6,13 +6,102 @@ import { validateProjectId, validateUserId, validateUsersOnProjects } from "../s
 
 const usersOnProjectsRouter = express.Router();
 
-//get
+/**
+ * @openapi
+ * tags:
+ *   name: UsersOnProjects
+ *   description: Adding users to projects and getting projects of users and users of projects
+ *  
+ * /api/projects/{id}/users:
+ *   get:
+ *     summary: Get all users of project with id
+ *     tags: [UsersOnProjects]
+ *     parameters:
+ *     - in: path
+ *       name: projectId
+ *       schema:
+ *         type: integer
+ *     responses:
+ *       200:
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: array
+ *                items:
+ *                  $ref: '#/components/schemas/UserOnProject'
+ *               
+ *         description: Return all a list of all users on a project
+ * /api/users/{id}/project:
+ *   get:
+ *     summary: Get all projects of user with id
+ *     tags: [UsersOnProjects]
+ *     parameters:
+ *     - in: path
+ *       name: id
+ *       schema:
+ *         type: integer
+ *     responses:
+ *       200:
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: array
+ *                items:
+ *                  $ref: '#/components/schemas/UserOnProject'
+ *               
+ *         description: Return all a list of all projects of a user            
+ */
+//get 
 usersOnProjectsRouter.get("/projects/:projectId/users", validateProjectId, UsersOnProjectsController.getUsersOfProject);
 usersOnProjectsRouter.get("/users/:userId/projects", validateUserId, UsersOnProjectsController.getProjectsOfUser);
-
+/**
+ * @openapi  
+ * /api/projects/{projectId}/users{userId}:
+ *   delete:
+ *     summary: Remove user from a project
+ *     tags: [UsersOnProjects]
+ *     parameters:
+ *     - in: path
+ *       name: projectId
+ *       schema:
+ *         type: integer
+ *     - in: path
+ *       name: userId
+ *       schema:
+ *         type: integer
+ *     responses:
+ *       204:    
+ *         description: User successfully removed       
+ */
 //delete
 usersOnProjectsRouter.delete("/projects/:projectId/users/:userId", validateProjectId, validateUserId, UsersOnProjectsController.removeUserFromProject);
 usersOnProjectsRouter.delete("/users/:userId/projects/:projectId", validateProjectId, validateUserId, UsersOnProjectsController.removeUserFromProject);
+
+/**
+ * @openapi
+ * /api/project-roles:
+ *   post:
+ *     summary: Add user to a project with specified project role
+ *     tags: [UsersOnProjects]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UserOnProject'
+ *     responses:
+ *       201:
+ *         description: User added to the project. Return the UserOnProject resource.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UserOnProject'
+ *       409:
+ *         description: User with specified id already part of the project
+ *       500:
+ *         description: Some server error
+ *              
+ */
 
 //create
 usersOnProjectsRouter.post("/project-roles", validateUsersOnProjects, UsersOnProjectsController.addUserToProject);

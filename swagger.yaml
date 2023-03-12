@@ -50,7 +50,7 @@ paths:
       responses:
         '200':
           description: User is authenticated. Return OK
-        '409':
+        '401':
           description: User not logged in. Return Unauthorized
   /api/projects:
     get:
@@ -266,6 +266,83 @@ paths:
                 $ref: '#/components/schemas/UserReturn'
         '409':
           description: Invalid old password or new password not valid (too short)
+  /api/projects/{id}/users:
+    get:
+      summary: Get all users of project with id
+      tags:
+        - UsersOnProjects
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserOnProject'
+          description: Return all a list of all users on a project
+  /api/users/{id}/project:
+    get:
+      summary: Get all projects of user with id
+      tags:
+        - UsersOnProjects
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserOnProject'
+          description: Return all a list of all projects of a user
+  /api/projects/{projectId}/users{userId}:
+    delete:
+      summary: Remove user from a project
+      tags:
+        - UsersOnProjects
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+        - in: path
+          name: userId
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: User successfully removed
+  /api/project-roles:
+    post:
+      summary: Add user to a project with specified project role
+      tags:
+        - UsersOnProjects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserOnProject'
+      responses:
+        '201':
+          description: User added to the project. Return the UserOnProject resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserOnProject'
+        '409':
+          description: User with specified id already part of the project
+        '500':
+          description: Some server error
   /healthcheck:
     get:
       tags:
@@ -396,6 +473,19 @@ components:
         - ProjectManager
         - ProductOwner
         - ScrumMaster
+    UserOnProject:
+      type: object
+      properties:
+        userId:
+          type: number
+        projectId:
+          type: number
+        role:
+          $ref: '#/components/schemas/RoleInProject'
+      example:
+        userId: 1
+        projectId: 2
+        role: ScrumMaster
 tags:
   - name: Auth
     description: Authentication api
@@ -403,3 +493,7 @@ tags:
     description: Project management api
   - name: User
     description: User management api
+  - name: UsersOnProjects
+    description: >-
+      Adding users to projects and getting projects of users and users of
+      projects

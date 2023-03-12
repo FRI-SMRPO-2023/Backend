@@ -22,7 +22,11 @@ import { convertEnum } from '../utils/enum_conversion';
  *          projectId:
  *            type: number
  *          role:
- *            $ref: '#/components/schemas/UserLogin'
+ *            $ref: '#/components/schemas/RoleInProject'
+ *        example:
+ *          userId: 1
+ *          projectId: 2
+ *          role: "ScrumMaster"
  */
 
 // for body validation in post request
