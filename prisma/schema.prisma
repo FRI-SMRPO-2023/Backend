@@ -33,7 +33,7 @@ model UsersOnProjects {
   userId    Int
   project   Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId Int
-  role  RoleInProject
+  role      RoleInProject
 
   @@id([userId, projectId])
 }

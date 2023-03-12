@@ -1,5 +1,5 @@
 import prisma from "../libs/prisma";
-import { Story } from "@prisma/client";
+import { BusinessValue, Story } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { UserCreate } from "../src/schemas/users.schema";
 import { ProjectCreate } from "../src/schemas/project.schema";
@@ -71,50 +71,46 @@ function getStories(): Array<Story> {
 
 async function seed() {
     // seed users
-    await Promise.all(
-        getUsers().map((user) => {
-            const saltRounds: number = Number(process.env.SALT_ROUNDS) ?? 10;
-            const hashed_pass = bcrypt.hashSync(user.password, saltRounds);
-            return prisma.user.create({
-                data: {
-                    name: user.name,
-                    password: hashed_pass,
-                    email: user.email,
-                    isAdmin: user.isAdmin
-                }
-            })
+    for (let user of getUsers()) {
+        const saltRounds: number = Number(process.env.SALT_ROUNDS) ?? 10;
+        const hashed_pass = bcrypt.hashSync(user.password, saltRounds);
+        await prisma.user.create({
+            data: {
+                name: user.name,
+                password: hashed_pass,
+                email: user.email,
+                isAdmin: user.isAdmin
+            }
         })
-    );
+    }
     // seed projects
-    await Promise.all(
-        getProjects().map((project) => {
-            return prisma.project.create({
-                data: {
-                    name: project.name,
-                    description: project.description,
-                    users: {
-                        create: [
-                            { role: "ProjectManager", user: { connect: { id: 1 } } }
-                        ]
-                    }
+    for (let project of getProjects()) {
+        await prisma.project.create({
+            data: {
+                name: project.name,
+                description: project.description,
+                users: {
+                    create: [
+                        { role: "ProjectManager", user: { connect: { id: 1 } } },
+                        { role: "Developer", user: { connect: { id: 2 } } }
+                    ]
                 }
-            })
+            }
         })
-    )
+    }
 
-    await Promise.all(
-        getStories().map((story) => {
-            return prisma.story.create({
-                data: {
-                    projectId: story.projectId,
-                    name: story.name,
-                    description: story.description,
-                    priority: story.priority,
-                    businessValue: story.businessValue,
-                }
-            })
+    for (let story of getStories()) {
+        await prisma.story.create({
+            data: {
+                projectId: story.projectId,
+                name: story.name,
+                description: story.description,
+                priority: story.priority,
+                businessValue: story.businessValue
+            }
         })
-    )
+    }
+
 }
 
 seed()
@@ -126,38 +122,3 @@ seed()
         await prisma.$disconnect()
         process.exit(1)
     })
-
-
-// async function main() {
-//     const admin = await prisma.user.upsert({
-//         where: { name: "admin" },
-//         update: {},
-//         create: {
-//             name: "admin",
-//             isAdmin: true,
-//         }
-//     });
-//     const developer = await prisma.user.upsert({
-//         where: { name: "developer" },
-//         update: {},
-//         create: {
-//             name: "developer",
-//             isAdmin: false,
-//         }
-//     });
-//     console.log(admin, developer);
-// }
-
-
-
-// main()
-//     .then(async () => {
-//         await prisma.$disconnect()
-
-//     })
-//     .catch(async (e) => {
-//         console.error(e)
-//         await prisma.$disconnect()
-//         process.exit(1)
-
-//     })
