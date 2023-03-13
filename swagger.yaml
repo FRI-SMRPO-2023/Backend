@@ -405,7 +405,11 @@ components:
     UserCreate:
       type: object
       properties:
+        username:
+          type: string
         name:
+          type: string
+        lastName:
           type: string
         password:
           type: string
@@ -414,12 +418,16 @@ components:
         isAdmin:
           type: boolean
       example:
+        username: admin
         name: Slavko
+        lastName: Premrl
         password: badpassword123
         email: bademail123@mail.com
         isAdmin: false
       required:
+        - username
         - name
+        - lastName
         - password
         - email
         - isAdmin
@@ -428,7 +436,11 @@ components:
       properties:
         id:
           type: number
+        username:
+          type: string
         name:
+          type: string
+        lastName:
           type: string
         email:
           type: string
@@ -436,12 +448,16 @@ components:
           type: boolean
       example:
         id: 2
+        username: admin
         name: Slavko
+        lastName: Premrl
         email: bademail123@mail.com
         isAdmin: false
       required:
         - id
+        - username
         - name
+        - lastName
         - email
         - isAdmin
     UserLogin:
