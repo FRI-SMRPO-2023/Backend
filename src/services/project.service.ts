@@ -24,7 +24,7 @@ const getProjectById = async (id: number): Promise<ProjectWithId | null> => {
 const createProject = async (project: ProjectCreate): Promise<ProjectWithId> => {
     let arr: Prisma.UsersOnProjectsCreateWithoutProjectInput[]  = [];
     project.users.forEach(element => {
-        arr.push({role: element.role, user: {connect: {id: 1}}})
+        arr.push({role: element.role, user: {connect: {id: element.id}}})
     });
     let created_proj = prisma.project.create({
         data: {
