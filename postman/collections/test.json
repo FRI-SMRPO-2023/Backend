@@ -1,0 +1,778 @@
+{
+	"info": {
+		"_postman_id": "6e445839-e2b0-4cb4-88c4-13bcfc5cabaf",
+		"name": "test",
+		"description": "This is a simple application made with Express and documented with Swagger\n\nContact Support:\n Name: Mark Zakelj",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "23986486-6e445839-e2b0-4cb4-88c4-13bcfc5cabaf"
+	},
+	"item": [
+		{
+			"name": "Logins check",
+			"item": [
+				{
+					"name": "b login with missing body field (mail)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "899fe995-cd1c-4f26-9287-aa1ba7cb3d07",
+								"exec": [
+									"pm.test(\"Status code is 409\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});",
+									"",
+									"pm.test(\"The response has all properties\", () => {",
+									"    //parse the response JSON and test three properties",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.status).to.eql('failed');",
+									"    pm.expect(responseJson.error.path).to.eql('email');",
+									"    pm.expect(responseJson.error.message).to.be.a('string');",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "39647d4e-1cc9-4be3-a6f4-5ab8ee731a6a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "b login with missing body field (password)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c1a93e75-2c4a-49cc-b4cf-5168ab6eb454",
+								"exec": [
+									"pm.test(\"Status code is 409\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});",
+									"",
+									"pm.test(\"The response has all properties\", () => {",
+									"    //parse the response JSON and test three properties",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.status).to.eql('failed');",
+									"    pm.expect(responseJson.error.path).to.eql('password');",
+									"    pm.expect(responseJson.error.message).to.be.a('string');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "e54d1021-774b-4ddc-b73a-81fa938af535",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"adminer@prisma.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "b login with wrong email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "66bd3725-ecd3-450d-b154-44850a783400",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"The response has all properties\", () => {",
+									"    //parse the response JSON and test three properties",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.status).to.eql('failed');",
+									"    pm.expect(responseJson.error.message).to.be.a('string');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "25910b1f-6baf-4b85-b718-b873efb239cc",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"adminer@prisma.com\",\n    \"password\": \"123456789012\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "b login with wrong password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6f106518-53ad-4d14-b70b-d931118f1033",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"The response has all properties\", () => {",
+									"    //parse the response JSON and test three properties",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.status).to.eql('failed');",
+									"    pm.expect(responseJson.error.message).to.be.a('string');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "0e69759e-9b03-4c16-9c4b-8ab1ae07a610",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@prisma.com\",\n    \"password\": \"asdfqwerzxcv\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login with correct credentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "38b6e376-7acc-463d-a26d-282ecf75f274",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"The response has all properties\", () => {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.id).to.eql(1);",
+									"    pm.expect(responseJson.name).to.eql('admin');",
+									"    pm.expect(responseJson.email).to.eql('admin@prisma.com');",
+									"    pm.expect(responseJson.isAdmin).to.eql(true);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "c0f6b6ad-795b-421c-a0f3-c96f867c153b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@prisma.com\",\n    \"password\": \"123456789012\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "00e49e11-de97-460d-bbe1-a446a53a6b16"
+		},
+		{
+			"name": "status and logout",
+			"item": [
+				{
+					"name": "Logout user from the system, delete the httpOnly cookie in browser Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b5b40930-6296-4d24-80b7-b1036f77a8c3",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "4c5d4747-13a5-48e3-a925-71ad955654e8",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/logout",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check if the current user is authenticated (has a valid cookie)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ee3d8040-eb18-423c-96ec-196250f9db45",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "82969c47-846e-4945-9956-a5e67b77c41f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/is-authenticated",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"is-authenticated"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login with correct credentials Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "38b6e376-7acc-463d-a26d-282ecf75f274",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"The response has all properties\", () => {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.id).to.eql(1);",
+									"    pm.expect(responseJson.name).to.eql('admin');",
+									"    pm.expect(responseJson.email).to.eql('admin@prisma.com');",
+									"    pm.expect(responseJson.isAdmin).to.eql(true);",
+									"});",
+									"",
+									"pm.test(\"Set-Cookie is present\", function () {",
+									"    pm.response.to.have.header(\"Set-Cookie\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "b7c3034d-a0e0-4710-8672-187d7e8531d1",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@prisma.com\",\n    \"password\": \"123456789012\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check if the current user is authenticated (has a valid cookie) Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ee3d8040-eb18-423c-96ec-196250f9db45",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "dc7eab70-3c8f-4a75-b6d9-7ed675fa81f5",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/is-authenticated",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"is-authenticated"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "77fe69b6-0d64-454f-8b2f-4f8b710dba2b"
+		},
+		{
+			"name": "adding and deleting user",
+			"item": [
+				{
+					"name": "Get all users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8b6808cb-529c-402a-85e5-d142923d68c7",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Number of users is 2\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.length).to.eql(2);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "f80b750b-b8da-4500-89e6-2c9627e40bd7",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "686b5ab4-3391-42a5-9010-89b42d400c46",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "b4313d6d-fa70-4c25-b0da-892b345eebac",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Slavko\",\n  \"password\": \"badpassword123\",\n  \"email\": \"bademail123@mail.com\",\n  \"isAdmin\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "try create same user again",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "90c4504c-df40-48d6-8a39-8fdf5265fce0",
+								"exec": [
+									"pm.test(\"Status code is 409\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});",
+									"",
+									"pm.test(\"The response has all properties\", () => {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.status).to.eql('failed');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "33336d4e-3518-4408-a0c6-23fd6bf546a6",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Slavko\",\n  \"password\": \"badpassword123\",\n  \"email\": \"bademail123@mail.com\",\n  \"isAdmin\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8b6808cb-529c-402a-85e5-d142923d68c7",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Number of users is 3\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.length).to.eql(3);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "447b66e8-0b08-4e25-9d7a-c05415923249",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d3b911a3-1de0-41b5-ae01-027f313531b2",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "4fe20add-9c3b-4372-b75a-2f0d7e7ffe08",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/users/3",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users Copy 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8b6808cb-529c-402a-85e5-d142923d68c7",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Number of users is 2\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.length).to.eql(2);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "9ea51fa3-fae0-4131-b612-0aedbe7aceb4",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "649666a0-a6ae-4f08-bfd7-d9d269b38f51"
+		},
+		{
+			"name": "update user and change password",
+			"item": [
+				{
+					"name": "New Request",
+					"id": "e90c46e8-fb01-423a-8922-a8d0dcecb461",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			],
+			"id": "92da8f04-1f1a-41cc-917c-54b8b51d6b1b"
+		}
+	],
+	"variable": [
+		{
+			"id": "e5d86f55-0829-45e2-9fb6-e6501d06f39a",
+			"key": "baseUrl",
+			"value": "http://localhost:8000",
+			"type": "string"
+		}
+	]
+}

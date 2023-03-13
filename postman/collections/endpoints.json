@@ -1,0 +1,2028 @@
+{
+	"info": {
+		"_postman_id": "1e495a4e-0983-4973-a7b2-5f5c536ef80d",
+		"name": "endpoints",
+		"description": "This is a simple application made with Express and documented with Swagger\n\nContact Support:\n Name: Mark Zakelj",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "23986486-1e495a4e-0983-4973-a7b2-5f5c536ef80d"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "auth",
+					"item": [
+						{
+							"name": "Login a user into the system, create a httpOnly cookie in browser",
+							"id": "225e9f7e-7744-4661-a103-ed3d2a27efbb",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"bademail123@mail.com\",\n  \"password\": \"correctpassword\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/auth/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": [
+								{
+									"id": "3b22d205-539a-45a7-ae65-ae3238c5b102",
+									"name": "Login successfull. Return the User OR password is wrong and error message is returned",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/auth/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": \"<number>\",\n  \"name\": \"<string>\",\n  \"email\": \"<string>\",\n  \"isAdmin\": \"<boolean>\"\n}"
+								},
+								{
+									"id": "45eb3ed9-4dbc-49c3-b334-fab2e60f4bc6",
+									"name": "Some server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/auth/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"login"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Logout user from the system, delete the httpOnly cookie in browser",
+							"id": "4abebe7d-0fa4-44fa-a7fa-ed0c2464e92f",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/auth/logout",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": [
+								{
+									"id": "2d0b1b9a-2b9a-4e8d-9438-d4e705775c45",
+									"name": "Logout successfull. Return OK. If user not logged in, also return this code, as the final state in the backend is the same.",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/auth/logout",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"logout"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"id": "1ab55af3-fe18-4e06-9ed9-f015b1635e9a",
+									"name": "Some server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/auth/logout",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"logout"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Check if the current user is authenticated (has a valid cookie)",
+							"id": "6f174bcc-bc7b-4ac7-a428-24206300b83a",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/auth/is-authenticated",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"is-authenticated"
+									]
+								}
+							},
+							"response": [
+								{
+									"id": "06a22578-c533-4d70-bacd-799b2d562fd3",
+									"name": "User is authenticated. Return OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/auth/is-authenticated",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"is-authenticated"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"id": "ab21e39b-5eb6-4ec6-8e73-1f05390d033e",
+									"name": "User not logged in. Return Unauthorized",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/auth/is-authenticated",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"is-authenticated"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					],
+					"id": "90f63bde-b447-4596-9816-6f32f7432e01"
+				},
+				{
+					"name": "projects",
+					"item": [
+						{
+							"name": "{id}",
+							"item": [
+								{
+									"name": "Update any (or multiple) fields in the project",
+									"id": "7daf11fd-fb73-4ab5-a3a3-6031c1763c8d",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/projects/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"projects",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "44657923",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"id": "af6a8fc7-cc47-40b7-9791-dd4a0b55829a",
+											"name": "Update successful",
+											"originalRequest": {
+												"method": "PATCH",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/projects/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"projects",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "44657923",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"id\": \"<number>\"\n}"
+										},
+										{
+											"id": "9f73e4e8-da8b-43d6-8e02-854b72c82b11",
+											"name": "Project with specified id does not exist",
+											"originalRequest": {
+												"method": "PATCH",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/projects/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"projects",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "44657923",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "Conflict",
+											"code": 409,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "Delete project by id",
+									"id": "ad3ea73c-1f7f-4393-b691-03d647cd0a12",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/projects/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"projects",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "44657923",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"id": "c02282bf-c0fa-4656-8d70-20e5dbc19f87",
+											"name": "Delete successful",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/projects/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"projects",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "44657923",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "No Content",
+											"code": 204,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"id": "b00772eb-bf45-420a-b339-a63ff04d7721",
+											"name": "Project with specified id does not exist",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/projects/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"projects",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "44657923",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "Conflict",
+											"code": 409,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "Get project by id",
+									"id": "3cc1ac69-a5ac-46a9-97a5-5cbc5b2a7158",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/projects/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"projects",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "44657923",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"id": "38f60fb3-e5b3-4819-a4c1-bcab27ccf75a",
+											"name": "Single object returned successfully",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/projects/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"projects",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "44657923",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"id\": \"<number>\"\n}"
+										},
+										{
+											"id": "ddd992ca-7063-4016-8a58-0d20c60ae6a9",
+											"name": "Project with specified id does not exist",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/projects/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"projects",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "44657923",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "Conflict",
+											"code": 409,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "Get all users of project with id",
+									"id": "3c655d75-0456-478d-b394-e65e837369c5",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/projects/:id/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"projects",
+												":id",
+												"users"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "44657923",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"id": "c77f2e15-8f65-4023-a235-98f7e0ed0889",
+											"name": "Return all a list of all users on a project",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/projects/:id/users",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"projects",
+														":id",
+														"users"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "44657923",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "[\n  {\n    \"userId\": \"<number>\",\n    \"projectId\": \"<number>\",\n    \"role\": \"<string>\"\n  },\n  {\n    \"userId\": \"<number>\",\n    \"projectId\": \"<number>\",\n    \"role\": \"<string>\"\n  }\n]"
+										}
+									]
+								}
+							],
+							"id": "f445a1e3-bbee-4240-9314-cdda470a065b"
+						},
+						{
+							"name": "Get all projects",
+							"id": "78ddde76-e51b-4c3b-9558-0efb0ca5f6eb",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/projects",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"projects"
+									]
+								}
+							},
+							"response": [
+								{
+									"id": "86c15404-6caf-49c7-aeb5-9024ddd595fd",
+									"name": "Return all a list of all projects",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/projects",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"projects"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"id\": \"<number>\"\n  },\n  {\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"id\": \"<number>\"\n  }\n]"
+								}
+							]
+						},
+						{
+							"name": "Create a new Project",
+							"id": "5032a43e-bd52-491d-886d-c552885e8866",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Frogify\",\n  \"description\": \"Project about musical frogs\",\n  \"users\": [\n    {\n      \"id\": 1,\n      \"role\": \"Developer\"\n    },\n    {\n      \"id\": 2,\n      \"role\": \"ScrumMaster\"\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/projects",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"projects"
+									]
+								}
+							},
+							"response": [
+								{
+									"id": "79140213-7887-4f56-bc0c-bc38ddabccbf",
+									"name": "The created Project.",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"users\": [\n    {\n      \"id\": \"<number>\",\n      \"role\": \"<string>\"\n    },\n    {\n      \"id\": \"<number>\",\n      \"role\": \"<string>\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/projects",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"projects"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"id\": \"<number>\"\n}"
+								},
+								{
+									"id": "fe9af92b-9f80-4a8c-8f58-e29541c6749a",
+									"name": "Project with specified name already exists.",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"users\": [\n    {\n      \"id\": \"<number>\",\n      \"role\": \"<string>\"\n    },\n    {\n      \"id\": \"<number>\",\n      \"role\": \"<string>\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/projects",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"projects"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"id": "14c4ef0e-28ed-41f1-90dc-94485a33d78c",
+									"name": "Some server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"users\": [\n    {\n      \"id\": \"<number>\",\n      \"role\": \"<string>\"\n    },\n    {\n      \"id\": \"<number>\",\n      \"role\": \"<string>\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/projects",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"projects"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Remove user from a project",
+							"id": "55a8112c-30a6-40d9-a6e2-073818814ffe",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/projects/:projectId/users{{userId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"projects",
+										":projectId",
+										"users{{userId}}"
+									],
+									"variable": [
+										{
+											"key": "projectId",
+											"value": "44657923",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"id": "f773a735-7fdf-4bc3-8fec-62a6eed03bbc",
+									"name": "User successfully removed",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/projects/:projectId/users{{userId}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"projects",
+												":projectId",
+												"users{{userId}}"
+											],
+											"variable": [
+												{
+													"key": "projectId",
+													"value": "44657923",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					],
+					"id": "e78cf9ca-4505-4197-80b4-34f07b59e838"
+				},
+				{
+					"name": "users",
+					"item": [
+						{
+							"name": "{id}",
+							"item": [
+								{
+									"name": "Update any (or multiple) fields in the user with specified id",
+									"id": "aabd8446-f161-4049-8719-fe73591d8be6",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"Slavko\",\n  \"password\": \"badpassword123\",\n  \"email\": \"bademail123@mail.com\",\n  \"isAdmin\": false\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/users/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "44657923",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"id": "42dd7182-c0e6-4200-be85-b53c400bcbfb",
+											"name": "Update successful",
+											"originalRequest": {
+												"method": "PATCH",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"name\": \"<string>\",\n  \"password\": \"<string>\",\n  \"email\": \"<string>\",\n  \"isAdmin\": \"<boolean>\"\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/users/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"users",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "44657923",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"name\": \"<string>\",\n  \"password\": \"<string>\",\n  \"email\": \"<string>\",\n  \"isAdmin\": \"<boolean>\"\n}"
+										},
+										{
+											"id": "f3948d0a-5790-43dc-88fd-af6f97821085",
+											"name": "User with specified id does not exist or email already exists (when updating mail)",
+											"originalRequest": {
+												"method": "PATCH",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"name\": \"<string>\",\n  \"password\": \"<string>\",\n  \"email\": \"<string>\",\n  \"isAdmin\": \"<boolean>\"\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/users/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"users",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "44657923",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "Conflict",
+											"code": 409,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "Delete user by id",
+									"id": "1364f946-c9bc-4263-bdb6-710118782ec2",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/users/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "44657923",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"id": "ed1c0ff1-2bf6-4597-bb25-a20ce0336b7d",
+											"name": "Delete successful",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/users/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"users",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "44657923",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "No Content",
+											"code": 204,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"id": "c655b127-b8df-487a-8a2a-74da609f7ad9",
+											"name": "User with specified id does not exist",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/users/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"users",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "44657923",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "Conflict",
+											"code": 409,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "Get user by id",
+									"id": "51fc7f39-d76d-4ab4-9fb6-f42382c041cf",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/users/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "44657923",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"id": "6e6df653-4e38-47bf-878e-5cbeb6f8bbe3",
+											"name": "Single object returned successfully",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/users/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"users",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "44657923",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"id\": \"<number>\",\n  \"name\": \"<string>\",\n  \"email\": \"<string>\",\n  \"isAdmin\": \"<boolean>\"\n}"
+										},
+										{
+											"id": "925ab57e-2a85-4f32-9518-d4a10b988872",
+											"name": "User with specified id does not exist",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/users/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"users",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "44657923",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "Conflict",
+											"code": 409,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "Update any (or multiple) fields in the project",
+									"id": "e47eb836-05cb-474c-a5e9-f7673a8ba569",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"oldPassword\": \"changemeplease\",\n  \"newPassword\": \"butnotlikethis\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/users/:id/password-change",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"users",
+												":id",
+												"password-change"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "44657923",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"id": "5f6cb93e-8de6-426c-88d0-db86d49134eb",
+											"name": "Update successfull",
+											"originalRequest": {
+												"method": "PATCH",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"oldPassword\": \"<string>\",\n  \"newPassword\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/users/:id/password-change",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"users",
+														":id",
+														"password-change"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "44657923",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"id\": \"<number>\",\n  \"name\": \"<string>\",\n  \"email\": \"<string>\",\n  \"isAdmin\": \"<boolean>\"\n}"
+										},
+										{
+											"id": "487db7c5-6f34-4798-a3c0-1735baf63cc5",
+											"name": "Invalid old password or new password not valid (too short)",
+											"originalRequest": {
+												"method": "PATCH",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"oldPassword\": \"<string>\",\n  \"newPassword\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/users/:id/password-change",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"users",
+														":id",
+														"password-change"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "44657923",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "Conflict",
+											"code": 409,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "Get all projects of user with id",
+									"id": "8b41e47d-2ee1-4127-b6b8-1087ac17564c",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/users/:id/project",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"users",
+												":id",
+												"project"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "44657923",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"id": "7944bba7-febd-4b57-b3ef-398ba3755b34",
+											"name": "Return all a list of all projects of a user",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/users/:id/project",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"users",
+														":id",
+														"project"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "44657923",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "[\n  {\n    \"userId\": \"<number>\",\n    \"projectId\": \"<number>\",\n    \"role\": \"<string>\"\n  },\n  {\n    \"userId\": \"<number>\",\n    \"projectId\": \"<number>\",\n    \"role\": \"<string>\"\n  }\n]"
+										}
+									]
+								}
+							],
+							"id": "c70837d7-4ac7-4353-9dd2-2da71d9f5240"
+						},
+						{
+							"name": "Get all users",
+							"id": "0d9a64ef-2b59-4a97-8f41-c7a84216d4f8",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": [
+								{
+									"id": "b550b470-453a-4a71-b2f8-831fb066f0b8",
+									"name": "Return all a list of all users",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"users"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"id\": \"<number>\",\n    \"name\": \"<string>\",\n    \"email\": \"<string>\",\n    \"isAdmin\": \"<boolean>\"\n  },\n  {\n    \"id\": \"<number>\",\n    \"name\": \"<string>\",\n    \"email\": \"<string>\",\n    \"isAdmin\": \"<boolean>\"\n  }\n]"
+								}
+							]
+						},
+						{
+							"name": "Create a new User",
+							"id": "210b8803-9409-4383-8399-3a82c68b68d9",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Slavko\",\n  \"password\": \"badpassword123\",\n  \"email\": \"bademail123@mail.com\",\n  \"isAdmin\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": [
+								{
+									"id": "21789529-af30-4127-8e22-3d4d5eb73c63",
+									"name": "User created. Return the created User, but without password (obviously).",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"<string>\",\n  \"password\": \"<string>\",\n  \"email\": \"<string>\",\n  \"isAdmin\": \"<boolean>\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"users"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": \"<number>\",\n  \"name\": \"<string>\",\n  \"email\": \"<string>\",\n  \"isAdmin\": \"<boolean>\"\n}"
+								},
+								{
+									"id": "13febce9-adb3-44ea-b0c5-91dcca545e34",
+									"name": "User with specified email already exists.",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"<string>\",\n  \"password\": \"<string>\",\n  \"email\": \"<string>\",\n  \"isAdmin\": \"<boolean>\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"users"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"id": "ef42e186-2f25-443e-adc6-61eb422a614e",
+									"name": "Some server error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"<string>\",\n  \"password\": \"<string>\",\n  \"email\": \"<string>\",\n  \"isAdmin\": \"<boolean>\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"users"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					],
+					"id": "2b3d043f-5a56-4f83-a437-7df2197a7761"
+				},
+				{
+					"name": "Add user to a project with specified project role",
+					"id": "1a2b34ac-5138-4113-939d-f178ceb0be49",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": 1,\n  \"projectId\": 2,\n  \"role\": \"ScrumMaster\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/project-roles",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"project-roles"
+							]
+						}
+					},
+					"response": [
+						{
+							"id": "db713c6a-404a-45c8-9f4e-db004a6b74e1",
+							"name": "User added to the project. Return the UserOnProject resource.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"userId\": \"<number>\",\n  \"projectId\": \"<number>\",\n  \"role\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/project-roles",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"project-roles"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"userId\": \"<number>\",\n  \"projectId\": \"<number>\",\n  \"role\": \"<string>\"\n}"
+						},
+						{
+							"id": "86b9880a-9936-4e25-88b0-e6730be062fb",
+							"name": "User with specified id already part of the project",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"userId\": \"<number>\",\n  \"projectId\": \"<number>\",\n  \"role\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/project-roles",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"project-roles"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"id": "7f07e182-6c36-4f38-8794-2636f45c967f",
+							"name": "Some server error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"userId\": \"<number>\",\n  \"projectId\": \"<number>\",\n  \"role\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/project-roles",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"project-roles"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			],
+			"id": "8d8a0089-0ffb-45a8-b26a-aed535128e8b"
+		},
+		{
+			"name": "Respond if the app is running normally",
+			"id": "9cd02cf6-58a4-4a0b-80b3-ef1113f3934c",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/healthcheck",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"healthcheck"
+					]
+				},
+				"description": "Respond if the app is running normally"
+			},
+			"response": [
+				{
+					"id": "f8f46877-cf66-4337-bbda-d69e8cf92ae4",
+					"name": "Healthy",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/healthcheck",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"healthcheck"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"id": "af922de7-b9bc-49d3-8775-1ebb9078eab0",
+			"key": "baseUrl",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"id": "701325fa-cf5a-46c1-9b44-26f701d172fc",
+			"key": "userId",
+			"value": "44657923",
+			"type": "any",
+			"description": {
+				"content": "(Required) ",
+				"type": "text/plain"
+			}
+		}
+	]
+}

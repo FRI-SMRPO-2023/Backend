@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int               @id @default(autoincrement())
+  username String
+  name     String
+  lastName String
+  password String
+  email    String            @unique
+  isAdmin  Boolean           @default(false)
+  projects UsersOnProjects[]
+}
+
+model Project {
+  id          Int               @id @default(autoincrement())
+  name        String            @unique
+  description String
+  users       UsersOnProjects[]
+  stories     Story[]
+}
+
+// used as a many to many relationship table
+model UsersOnProjects {
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  project   Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId Int
+  role      RoleInProject
+
+  @@id([userId, projectId])
+}
+
+enum RoleInProject {
+  ProductOwner
+  ProjectManager
+  ScrumMaster
+  Developer
+}
+
+model Story {
+  id            Int           @id @default(autoincrement())
+  project       Project       @relation(fields: [projectId], references: [id])
+  projectId     Int
+  name          String
+  description   String
+  priority      StoryPriority
+  businessValue BusinessValue
+}
+
+enum StoryPriority {
+  MustHave
+  CouldHave
+  ShouldHave
+  WontHaveThisTime
+}
+
+enum BusinessValue {
+  Low
+  Medium
+  High
+}
