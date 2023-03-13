@@ -8,7 +8,11 @@ import { z } from "zod";
  *      UserCreate:
  *        type: object
  *        properties:
+ *          username:
+ *            type: string
  *          name:
+ *            type: string
+ *          lastName:
  *            type: string
  *          password:
  *            type: string
@@ -17,12 +21,16 @@ import { z } from "zod";
  *          isAdmin:
  *            type: boolean
  *        example:
+ *          username: 'admin'
  *          name: Slavko
+ *          lastName: 'Premrl'
  *          password: badpassword123
  *          email: bademail123@mail.com
  *          isAdmin: false
  *        required:
+ *          - username
  *          - name
+ *          - lastName
  *          - password
  *          - email
  *          - isAdmin
@@ -31,7 +39,11 @@ import { z } from "zod";
  *        properties:
  *          id:
  *            type: number
+ *          username:
+ *            type: string
  *          name:
+ *            type: string
+ *          lastName:
  *            type: string
  *          email:
  *            type: string
@@ -39,12 +51,16 @@ import { z } from "zod";
  *            type: boolean
  *        example:
  *          id: 2
+ *          username: 'admin'
  *          name: Slavko
+ *          lastName: 'Premrl'
  *          email: bademail123@mail.com
  *          isAdmin: false
  *        required:
  *          - id
+ *          - username
  *          - name
+ *          - lastName
  *          - email
  *          - isAdmin 
  *      UserLogin:
