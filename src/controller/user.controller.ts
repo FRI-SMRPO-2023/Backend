@@ -25,8 +25,10 @@ const create: RequestHandler = async (req, res, next) => {
     try {
         const user = await UserService.createUser(req.body);
         res.status(201).json(user);
-    } catch (err) {
-        general_error_handler(err, res, next);
+    } catch (err: any) {
+        console.log(err.meta.target[0])
+        const message: string = `User with this ${err.meta.target[0]} already exists`;
+        general_error_handler(err, res, next, message);
     }
 }
 
