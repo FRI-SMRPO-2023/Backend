@@ -27,7 +27,7 @@ const login: RequestHandler = async (req, res, next) => {
 const isLoggedIn: RequestHandler = async (req, res, next) => {
     try {
         if (req.session.authenticated) {
-            res.sendStatus(200);
+            res.status(200).json(req.session.user);
         } else {
             res.sendStatus(401);
         }

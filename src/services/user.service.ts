@@ -33,10 +33,8 @@ const checkEmailPassword = async (email: string, password: string): Promise<User
     });
     console.log(user);
     if (!user) { return user; }
-    console.log("pass not null");
     const passed = await bcrypt.compare(password, user.password);
-    console.log("pased bcrypt")
-    console.log(passed);
+    console.log("user logged in: ", passed);
     if (passed) {
         const returned: UserWithId = {
             id: user.id,

@@ -56,7 +56,11 @@ authRouter.post("/logout", AuthController.logout);
  *     tags: [Auth]
  *     responses:
  *       200:
- *         description: User is authenticated. Return OK
+ *         description: User is authenticated. Return OK and a user object
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UserReturn'
  *       401:
  *         description: User not logged in. Return Unauthorized            
  */
