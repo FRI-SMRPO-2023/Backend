@@ -28,6 +28,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserReturn'
+        '409':
+          description: Wrong email or password. Return Error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                example:
+                  status: failed
+                  error:
+                    message: Incorrect password or email
+                required:
+                  - status
+                  - error
         '500':
           description: Some server error
   /api/auth/logout:

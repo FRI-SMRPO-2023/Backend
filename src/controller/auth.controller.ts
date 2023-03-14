@@ -8,10 +8,10 @@ const login: RequestHandler = async (req, res, next) => {
         const password = req.body.password;
         const user = await UserService.checkEmailPassword(email, password);
         if (!user) {
-            res.status(200).json({
+            res.status(409).json({
                 status: "failed",
                 error: {
-                    "message": "Incorrect email or password",
+                    message: "Incorrect email or password",
                 }
             })
         } else {
