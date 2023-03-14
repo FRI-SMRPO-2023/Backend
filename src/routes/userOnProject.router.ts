@@ -51,8 +51,32 @@ const usersOnProjectsRouter = express.Router();
  *                type: array
  *                items:
  *                  $ref: '#/components/schemas/UserOnProject'
- *               
  *         description: Return all a list of all projects of a user            
+ * 
+ * /api/users/{userId}/project/{projectId}:
+ *   get:
+ *     summary: Get role for a single user in a single project
+ *     tags: [UsersOnProjects]
+ *     parameters:
+ *     - in: path
+ *       name: userId
+ *       schema:
+ *         type: integer
+ *       required: true
+ *     - in: path
+ *       name: projectId
+ *       schema:
+ *         type: integer
+ *       required: true 
+ *     responses:
+ *       200:
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: object
+ *                schema:
+ *                  $ref: '#/components/schemas/UserOnProject'
+ *         description: Return all a single UserOnProject resource          
  */
 //get 
 usersOnProjectsRouter.get("/projects/:projectId/users", validateProjectId, UsersOnProjectsController.getUsersOfProject);
