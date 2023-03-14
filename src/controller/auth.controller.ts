@@ -15,6 +15,7 @@ const login: RequestHandler = async (req, res, next) => {
                 }
             })
         } else {
+            await UserService.updateUser(user.id, {lastLogin: new Date()})
             req.session.user = user;
             req.session.authenticated = true;
             res.status(200).json(user);

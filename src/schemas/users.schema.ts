@@ -94,13 +94,13 @@ import { z } from "zod";
 
 export const UserBaseSchema = z.object({
     username: z.string({
-        required_error: "Name field is required and it must be at least 3 characters long"
-    }).min(3),
+        required_error: "'username' is required and it can't be empty"
+    }).min(1),
     name: z.string({
-        required_error: "Name field is required and it must be at least 3 characters long"
-    }).min(3),
+        required_error: "'name' is required and it can't be empty"
+    }).min(1),
     lastName: z.string({
-        required_error: "Name field is required and it must be at least 3 characters long"
+        required_error: "lastName is required and it can't be empty"
     }).min(3),
     email: z.string({
         required_error: "Email field is required and it must be a proper email address"
@@ -108,6 +108,7 @@ export const UserBaseSchema = z.object({
     isAdmin: z.boolean({
         required_error: "isAdmin field is required"
     }),
+    lastLogin: z.date().or(z.null()).optional()
 });
 
 

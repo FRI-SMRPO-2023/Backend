@@ -11,14 +11,15 @@ datasource db {
 }
 
 model User {
-  id       Int               @id @default(autoincrement())
-  username String
-  name     String
-  lastName String
-  password String
-  email    String            @unique
-  isAdmin  Boolean           @default(false)
-  projects UsersOnProjects[]
+  id        Int               @id @default(autoincrement())
+  username  String            @unique
+  name      String
+  lastName  String
+  password  String
+  email     String            @unique
+  isAdmin   Boolean           @default(false)
+  lastLogin DateTime?
+  projects  UsersOnProjects[]
 }
 
 model Project {

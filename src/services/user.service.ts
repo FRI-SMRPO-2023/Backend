@@ -12,6 +12,7 @@ const getAllUsers = async (): Promise<UserWithId[]> => {
             lastName: true,
             email: true,
             isAdmin: true,
+            lastLogin: true
         }
     });
 }
@@ -29,6 +30,7 @@ const checkEmailPassword = async (email: string, password: string): Promise<User
             email: true,
             isAdmin: true,
             password: true,
+            lastLogin: true
         }
     });
     console.log(user);
@@ -42,7 +44,8 @@ const checkEmailPassword = async (email: string, password: string): Promise<User
             name: user.name,
             lastName: user.lastName,
             email: user.email,
-            isAdmin: user.isAdmin
+            isAdmin: user.isAdmin,
+            lastLogin: user.lastLogin
         }
         return returned;
     } else {
@@ -63,7 +66,8 @@ const getUserById = async (id: number): Promise<UserWithId | null> => {
             name: true,
             lastName: true,
             email: true,
-            isAdmin: true
+            isAdmin: true,
+            lastLogin: true
         }
     });
 }
@@ -86,6 +90,7 @@ const createUser = async (user: UserCreate): Promise<UserWithId> => {
             lastName: true,
             email: true,
             isAdmin: true,
+            lastLogin: true
         }
     })
 }
@@ -103,6 +108,7 @@ const updateUser = async (userId: number, user: UserUpdate): Promise<UserWithId>
             email: user.email,
             password: hashedPass,
             isAdmin: user.isAdmin,
+            lastLogin: user.lastLogin
         },
         select: {
             username: true,
@@ -111,6 +117,7 @@ const updateUser = async (userId: number, user: UserUpdate): Promise<UserWithId>
             lastName: true,
             email: true,
             isAdmin: true,
+            lastLogin: true
         }
     })
 }
