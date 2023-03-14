@@ -1,6 +1,7 @@
 import express from "express";
 import UsersOnProjectsController  from "../controller/usersOnProject.controller";
 import { validateProjectId, validateUserId, validateUsersOnProjects } from "../services/validator.service";
+import { adminOrCorrectUser, adminAuthorizer } from "../middleware/authorizeUser";
 
 
 
@@ -56,6 +57,7 @@ const usersOnProjectsRouter = express.Router();
 //get 
 usersOnProjectsRouter.get("/projects/:projectId/users", validateProjectId, UsersOnProjectsController.getUsersOfProject);
 usersOnProjectsRouter.get("/users/:userId/projects", validateUserId, UsersOnProjectsController.getProjectsOfUser);
+usersOnProjectsRouter.get("/users/:userId/projects/:projectId", adminOrCorrectUser, validateUserId, validateProjectId, UsersOnProjectsController.getSingle)
 /**
  * @openapi  
  * /api/projects/{projectId}/users{userId}:
