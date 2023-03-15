@@ -53,7 +53,7 @@ const usersOnProjectsRouter = express.Router();
  *                  $ref: '#/components/schemas/UserOnProject'
  *         description: Return all a list of all projects of a user            
  * 
- * /api/users/{userId}/project/{projectId}:
+ * /api/users/{userId}/projects/{projectId}:
  *   get:
  *     summary: Get role for a single user in a single project
  *     tags: [UsersOnProjects]
