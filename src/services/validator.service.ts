@@ -2,6 +2,7 @@ import {validate, validateIdParam} from "../middleware/validateResources";
 import {ProjectCreateSchema, ProjectUpdateSchema} from "../schemas/project.schema"
 import { UserCreateSchema, UserUpdateSchema, UserPasswordChangeSchema, UserLoginSchema } from "../schemas/users.schema";
 import { UsersOnProjectsSchema } from "../schemas/usersOnProjects.schema";
+import {StoryCreateSchema, StoryUpdateSchema} from "../schemas/story.schema"
 
 //Project validation
 export const validateProjectCreate = validate(ProjectCreateSchema);
@@ -20,3 +21,7 @@ export const validateUsersOnProjects = validate(UsersOnProjectsSchema);
 export const validateId = validateIdParam("id");
 export const validateProjectId = validateIdParam("projectId");
 export const validateUserId = validateIdParam("userId");
+
+//Story validation
+export const validateStoryCreate = validate(StoryCreateSchema);
+export const validateStoryUpdate = validate(StoryUpdateSchema);

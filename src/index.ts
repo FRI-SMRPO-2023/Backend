@@ -15,6 +15,7 @@ import cors from "cors";
 
 import userRouter from "./routes/user.router";
 import projectRouter from "./routes/project.router";
+import storyRouter from "./routes/story.router";
 import usersOnProjectsRouter from "./routes/userOnProject.router";
 import authRouter from "./routes/auth.router";
 import { authorizer, adminAuthorizer } from "./middleware/authorizeUser";
@@ -64,6 +65,7 @@ app.use(authorizer);
 //add routers
 app.use("/api/users", userRouter);
 app.use("/api/projects", projectRouter);
+app.use("/api/stories", storyRouter);
 app.use("/api/", usersOnProjectsRouter);
 
 /**
