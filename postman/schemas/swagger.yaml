@@ -28,6 +28,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserReturn'
+        '409':
+          description: Wrong email or password. Return Error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                example:
+                  status: failed
+                  error:
+                    message: Incorrect password or email
+                required:
+                  - status
+                  - error
         '500':
           description: Some server error
   /api/auth/logout:
@@ -49,7 +70,11 @@ paths:
         - Auth
       responses:
         '200':
-          description: User is authenticated. Return OK
+          description: User is authenticated. Return OK and a user object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserReturn'
         '401':
           description: User not logged in. Return Unauthorized
   /api/projects:
@@ -306,6 +331,29 @@ paths:
                 items:
                   $ref: '#/components/schemas/UserOnProject'
           description: Return all a list of all projects of a user
+  /api/users/{userId}/projects/{projectId}:
+    get:
+      summary: Get role for a single user in a single project
+      tags:
+        - UsersOnProjects
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Return a single UserOnProject resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserOnProject'
   /api/projects/{projectId}/users{userId}:
     delete:
       summary: Remove user from a project
@@ -405,7 +453,11 @@ components:
     UserCreate:
       type: object
       properties:
+        username:
+          type: string
         name:
+          type: string
+        lastName:
           type: string
         password:
           type: string
@@ -414,12 +466,16 @@ components:
         isAdmin:
           type: boolean
       example:
+        username: admin
         name: Slavko
+        lastName: Premrl
         password: badpassword123
         email: bademail123@mail.com
         isAdmin: false
       required:
+        - username
         - name
+        - lastName
         - password
         - email
         - isAdmin
@@ -428,7 +484,11 @@ components:
       properties:
         id:
           type: number
+        username:
+          type: string
         name:
+          type: string
+        lastName:
           type: string
         email:
           type: string
@@ -436,12 +496,16 @@ components:
           type: boolean
       example:
         id: 2
+        username: admin
         name: Slavko
+        lastName: Premrl
         email: bademail123@mail.com
         isAdmin: false
       required:
         - id
+        - username
         - name
+        - lastName
         - email
         - isAdmin
     UserLogin:

@@ -650,22 +650,15 @@
 											}
 										],
 										"url": {
-											"raw": "{{baseUrl}}/api/projects/:id/users",
+											"raw": "{{baseUrl}}/api/projects/2/users",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"api",
 												"projects",
-												":id",
+												"2",
 												"users"
-											],
-											"variable": [
-												{
-													"key": "id",
-													"value": "44657923",
-													"description": "(Required) "
-												}
 											]
 										}
 									},
