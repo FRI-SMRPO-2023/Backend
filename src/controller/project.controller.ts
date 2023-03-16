@@ -19,7 +19,6 @@ const findbyId: RequestHandler = async (req, res, next) => {
     try {
         let id = parseInt(req.params.id);
         const user = await ProjectService.getProjectById(id);
-        console.log(user);
         res.status(200).json(user);
     } catch (err) {
         general_error_handler(err, res, next);

@@ -7,7 +7,6 @@ import { general_error_handler } from "../utils/error_handling";
 
 
 const getAll: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
-    console.log("params inside getAll controller", req.params);
     try {
         const projectId = parseInt(req.params.projectId)
         const stories = await StoryService.getAllStories(projectId);
@@ -21,7 +20,6 @@ const findbyId: RequestHandler = async (req, res, next) => {
     try {
         let id = parseInt(req.params.storyId);
         const story = await StoryService.getStoryById(id);
-        console.log(story);
         res.status(200).json(story);
     } catch (err) {
         general_error_handler(err, res, next);
