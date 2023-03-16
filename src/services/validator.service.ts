@@ -22,6 +22,7 @@ export const validateId = validateIdParam("id");
 export const validateProjectId = validateIdParam("projectId");
 export const validateUserId = validateIdParam("userId");
 export const validateStoryId = validateIdParam("storyId")
+export const validateTaskId = validateIdParam("taskId")
 
 //Story validation
 export const validateStoryCreate = validate(StoryCreateSchema);

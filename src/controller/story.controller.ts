@@ -18,7 +18,7 @@ const getAll: RequestHandler = async (req: Request, res: Response, next: NextFun
 
 const findbyId: RequestHandler = async (req, res, next) => {
     try {
-        let id = parseInt(req.params.storyId);
+        let id = parseInt(req.params.id);
         const story = await StoryService.getStoryById(id);
         res.status(200).json(story);
     } catch (err) {
@@ -38,7 +38,7 @@ const create: RequestHandler = async (req, res, next) => {
 
 const deletebyId: RequestHandler = async (req, res, next) => {
     try {
-        let id = parseInt(req.params.storyId);
+        let id = parseInt(req.params.id);
         const story = await StoryService.deleteStory(id);
         res.status(204).json(story);
     } catch (err) {
@@ -48,7 +48,7 @@ const deletebyId: RequestHandler = async (req, res, next) => {
 
 const updatebyId: RequestHandler = async (req, res, next) => {
     try {
-        let id = parseInt(req.params.storyId);
+        let id = parseInt(req.params.id);
         let updated = await StoryService.updateStory(id, req.body);
         res.status(200).json(updated);
     } catch (err) {

@@ -168,7 +168,7 @@ paths:
           description: Project with specified id does not exist
   /api/projects/{projectId}/stories:
     get:
-      summary: Get all stories of certain project
+      summary: Get all stories on certain project
       tags:
         - Story
       responses:
@@ -179,9 +179,9 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/StoryReturn'
-          description: Return all a list of all stories at specific project
+          description: Return a list of all stories in a project
     post:
-      summary: Create a new Story in a project
+      summary: Create a new story in a project
       tags:
         - Story
       requestBody:
@@ -192,26 +192,21 @@ paths:
               $ref: '#/components/schemas/StoryCreate'
       responses:
         '201':
-          description: The created Story.
+          description: The created story.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/StoryReturn'
         '409':
-          description: Story with specified name already exists.
+          description: Story with specified name in the project.
         '500':
           description: Some server error
-  /api/projects/{projectId}/stories/{storyId}:
+  /api/stories/{storyId}:
     patch:
       summary: Update any (or multiple) fields in the story
       tags:
         - Story
       parameters:
-        - in: path
-          name: projectId
-          schema:
-            type: integer
-          required: true
         - in: path
           name: storyId
           schema:
@@ -232,11 +227,6 @@ paths:
         - Story
       parameters:
         - in: path
-          name: projectId
-          schema:
-            type: integer
-          required: true
-        - in: path
           name: storyId
           schema:
             type: integer
@@ -251,11 +241,6 @@ paths:
       tags:
         - Story
       parameters:
-        - in: path
-          name: projectId
-          schema:
-            type: integer
-          required: true
         - in: path
           name: storyId
           schema:
@@ -559,8 +544,6 @@ components:
     StoryCreate:
       type: object
       properties:
-        projectId:
-          type: number
         name:
           type: string
         description:
@@ -570,11 +553,15 @@ components:
         businessValue:
           type: string
       example:
-        name: Frogify
+        name: FrogifyStory
         description: Story about musical frogs
+        priority: MustHave
+        businessValue: High
       required:
         - name
         - description
+        - priority
+        - businessValue
     StoryReturn:
       type: object
       properties:

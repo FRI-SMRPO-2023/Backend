@@ -66,7 +66,7 @@ app.use(authorizer);
 //add routers
 app.use("/api/users", userRouter);
 app.use("/api/projects", projectRouter);
-// app.use("/api/projects/:projectId/stories", validateProjectId, storyRouter);
+app.use("/api/stories", storyRouter);
 app.use("/api/", usersOnProjectsRouter);
 
 /**

@@ -7,7 +7,8 @@ import {validateProjectCreate,
         validateProjectId, 
         validateStoryCreate, 
         validateStoryId,
-        validateStoryUpdate} from "../services/validator.service";
+        validateStoryUpdate,
+        validateTaskId} from "../services/validator.service";
 
 
 const projectRouter = express.Router();
@@ -125,18 +126,64 @@ projectRouter.route("/:id").all(validateId)
 
 
 // stories
-// TODO implement this
+/**
+ * @openapi
+ * tags:
+ *   name: Story
+ *   description: Story management api
+ *  
+ * /api/projects/{projectId}/stories:
+ *   get:
+ *     summary: Get all stories on certain project
+ *     tags: [Story]
+ *     responses:
+ *       200:
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: array
+ *                items:
+ *                  $ref: '#/components/schemas/StoryReturn'
+ *               
+ *         description: Return a list of all stories in a project
+ *   post:
+ *     summary: Create a new story in a project
+ *     tags: [Story]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/StoryCreate'
+ *     responses:
+ *       201:
+ *         description: The created story.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/StoryReturn'
+ *       409:
+ *         description: Story with specified name in the project.
+ *       500:
+ *         description: Some server error
+ *              
+ */
 projectRouter.route("/:projectId/stories").all(validateProjectId)
         .get(StoryController.getAll)
         .post(validateStoryCreate, StoryController.create)
 
 
-// TODO - implement this and add storyId validator
-projectRouter.route("/:projectId/stories/:storyId").all(validateProjectId, validateStoryId)
-        .get(StoryController.findbyId)
-        .delete(StoryController.deletebyId)
-        .patch(validateStoryUpdate, StoryController.updatebyId)
 
+
+//tasks
+// projectRouter.route("/:projectId/stories/:storyId/tasks").all(validateProjectId, validateStoryId)
+//         .get()
+//         .post();
+
+// projectRouter.route("/:projectId/stories/:storyId/tasks/:taskId").all(validateProjectId, validateStoryId, validateTaskId)
+//         .get()
+//         .delete()
+//         .patch();
 
 
 export default projectRouter;
