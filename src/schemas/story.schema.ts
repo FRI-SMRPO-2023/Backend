@@ -11,8 +11,6 @@ import { BusinessValue } from '@prisma/client';
  *      StoryCreate:
  *        type: object
  *        properties:
- *          projectId:
- *            type: number
  *          name:
  *            type: string
  *          description:
@@ -22,11 +20,15 @@ import { BusinessValue } from '@prisma/client';
  *          businessValue:
  *            type: string
  *        example:
- *          name: Frogify
+ *          name: FrogifyStory
  *          description: Story about musical frogs
+ *          priority: MustHave
+ *          businessValue: High
  *        required:
  *          - name
  *          - description
+ *          - priority
+ *          - businessValue
  *      StoryReturn:
  *        type: object
  *        properties:
