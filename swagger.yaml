@@ -166,6 +166,110 @@ paths:
                 $ref: '#/components/schemas/ProjectReturn'
         '409':
           description: Project with specified id does not exist
+  /api/projects/{projectId}/stories:
+    get:
+      summary: Get all stories of certain project
+      tags:
+        - Story
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StoryReturn'
+          description: Return all a list of all stories at specific project
+    post:
+      summary: Create a new Story in a project
+      tags:
+        - Story
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StoryCreate'
+      responses:
+        '201':
+          description: The created Story.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StoryReturn'
+        '409':
+          description: Story with specified name already exists.
+        '500':
+          description: Some server error
+  /api/projects/{projectId}/stories/{storyId}:
+    patch:
+      summary: Update any (or multiple) fields in the story
+      tags:
+        - Story
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: storyId
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Update successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StoryReturn'
+        '409':
+          description: Story with specified id does not exist
+    delete:
+      summary: Delete story by id
+      tags:
+        - Story
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: storyId
+          schema:
+            type: integer
+          required: true
+      responses:
+        '204':
+          description: Delete successful
+        '409':
+          description: Story with specified id does not exist
+    get:
+      summary: Get story by id
+      tags:
+        - Story
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: storyId
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Single object returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StoryReturn'
+        '409':
+          description: Story with specified id does not exist
   /api/users:
     get:
       summary: Get all users
@@ -452,6 +556,53 @@ components:
         - name
         - description
         - id
+    StoryCreate:
+      type: object
+      properties:
+        projectId:
+          type: number
+        name:
+          type: string
+        description:
+          type: string
+        priority:
+          type: string
+        businessValue:
+          type: string
+      example:
+        name: Frogify
+        description: Story about musical frogs
+      required:
+        - name
+        - description
+    StoryReturn:
+      type: object
+      properties:
+        id:
+          type: number
+        projectId:
+          type: number
+        name:
+          type: string
+        description:
+          type: string
+        priority:
+          type: string
+        businessValue:
+          type: string
+      example:
+        id: 1
+        projectId: 1
+        name: Frogify
+        description: Story about musical frogs
+        priority: MustHave
+        businessValue: High
+      required:
+        - projectId
+        - name
+        - description
+        - priority
+        - businessValue
     UserCreate:
       type: object
       properties:
@@ -561,6 +712,8 @@ tags:
     description: Authentication api
   - name: Project
     description: Project management api
+  - name: Story
+    description: Story management api
   - name: User
     description: User management api
   - name: UsersOnProjects

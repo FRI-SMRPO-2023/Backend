@@ -7,8 +7,10 @@ import { general_error_handler } from "../utils/error_handling";
 
 
 const getAll: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
+    console.log("params inside getAll controller", req.params);
     try {
-        const stories = await StoryService.getAllStories();
+        const projectId = parseInt(req.params.projectId)
+        const stories = await StoryService.getAllStories(projectId);
         res.status(200).json(stories);
     } catch (err) {
         general_error_handler(err, res, next);
@@ -17,7 +19,7 @@ const getAll: RequestHandler = async (req: Request, res: Response, next: NextFun
 
 const findbyId: RequestHandler = async (req, res, next) => {
     try {
-        let id = parseInt(req.params.id);
+        let id = parseInt(req.params.storyId);
         const story = await StoryService.getStoryById(id);
         console.log(story);
         res.status(200).json(story);
@@ -32,13 +34,13 @@ const create: RequestHandler = async (req, res, next) => {
         const story = await StoryService.createStory(projectId, req.body);
         res.status(201).json(story);
     } catch (err) {
-        general_error_handler(err, res, next);
+        general_error_handler(err, res, next, "Story with this name already exists in this project");
     }
 };
 
 const deletebyId: RequestHandler = async (req, res, next) => {
     try {
-        let id = parseInt(req.params.id);
+        let id = parseInt(req.params.storyId);
         const story = await StoryService.deleteStory(id);
         res.status(204).json(story);
     } catch (err) {
@@ -48,7 +50,7 @@ const deletebyId: RequestHandler = async (req, res, next) => {
 
 const updatebyId: RequestHandler = async (req, res, next) => {
     try {
-        let id = parseInt(req.params.id);
+        let id = parseInt(req.params.storyId);
         let updated = await StoryService.updateStory(id, req.body);
         res.status(200).json(updated);
     } catch (err) {

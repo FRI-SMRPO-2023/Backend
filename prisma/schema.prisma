@@ -51,11 +51,13 @@ enum RoleInProject {
 model Story {
   id            Int           @id @default(autoincrement())
   project       Project       @relation(fields: [projectId], references: [id])
-  projectId     Int
+  projectId     Int           
   name          String
   description   String
   priority      StoryPriority
   businessValue BusinessValue
+  @@unique([projectId, name])
+  @@index([projectId])
 }
 
 enum StoryPriority {

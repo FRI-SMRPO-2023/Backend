@@ -61,6 +61,7 @@ const updateProject = async (id: number, projectUpdate: ProjectUpdate): Promise<
 }
 
 
+
 const ProjectService = {
     getAllProjects,
     getProjectById,

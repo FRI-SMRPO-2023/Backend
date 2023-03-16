@@ -21,6 +21,7 @@ export const validateUsersOnProjects = validate(UsersOnProjectsSchema);
 export const validateId = validateIdParam("id");
 export const validateProjectId = validateIdParam("projectId");
 export const validateUserId = validateIdParam("userId");
+export const validateStoryId = validateIdParam("storyId")
 
 //Story validation
 export const validateStoryCreate = validate(StoryCreateSchema);

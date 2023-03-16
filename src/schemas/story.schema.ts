@@ -65,7 +65,7 @@ const HasId = z.object({
 
 export const StoryBaseSchema = z.object({
     projectId: z.number({
-        invalid_type_error: "projectId must be an number",
+        invalid_type_error: "projectId must be a number",
         required_error: "projectId is required"
     }),
     name: z.string({
@@ -80,7 +80,7 @@ export const StoryBaseSchema = z.object({
     businessValue: bvalConvert(BusinessValue),
 });
 //used for story creation
-export const StoryCreateSchema = StoryBaseSchema;
+export const StoryCreateSchema = StoryBaseSchema.omit({projectId: true});
 
 const StoryWithId = StoryBaseSchema.merge(HasId);
 

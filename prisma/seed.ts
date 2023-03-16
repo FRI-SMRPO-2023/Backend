@@ -1,6 +1,7 @@
 import prisma from "../libs/prisma";
 import { BusinessValue, Story } from "@prisma/client";
 import bcrypt from "bcrypt";
+import ProjectService from "../src/services/project.service";
 import { UserCreate } from "../src/schemas/users.schema";
 import { ProjectCreate } from "../src/schemas/project.schema";
 
@@ -18,8 +19,16 @@ function getUsers(): Array<UserCreate> {
             username: "developer",
             name: "Slavko",
             lastName: "Podmrl",
-            password: "password1234",
+            password: "123456789012",
             email: "developer@prisma.com",
+            isAdmin: false
+        },
+        {   
+            username: "themaster",
+            name: "Sonja",
+            lastName: "Nadmrl",
+            password: "123456789012",
+            email: "developerka@prisma.com",
             isAdmin: false
         }
     ]
@@ -38,6 +47,20 @@ function getProjects(): Array<ProjectCreate> {
                 {
                     id: 2,
                     role: "Developer"
+                }
+            ]
+        },
+        {
+            name: "project2",
+            description: "Some descriptions",
+            users: [
+                {
+                    id: 1,
+                    role: "ProductOwner"
+                },
+                {
+                    id: 3,
+                    role: "ScrumMaster"
                 }
             ]
         }
@@ -64,9 +87,9 @@ function getStories(): Array<Story> {
         },
         {
             id: 3,
-            projectId: 1,
+            projectId: 2,
             name: "test3",
-            description: "mockup project used for development",
+            description: "In project 2",
             priority: "ShouldHave",
             businessValue: "High"
         }
@@ -91,18 +114,7 @@ async function seed() {
     }
     // seed projects
     for (let project of getProjects()) {
-        await prisma.project.create({
-            data: {
-                name: project.name,
-                description: project.description,
-                users: {
-                    create: [
-                        { role: "ProjectManager", user: { connect: { id: 1 } } },
-                        { role: "Developer", user: { connect: { id: 2 } } }
-                    ]
-                }
-            }
-        })
+        await ProjectService.createProject(project);
     }
 
     for (let story of getStories()) {

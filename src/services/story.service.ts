@@ -2,8 +2,11 @@ import prisma from "../../libs/prisma";
 import { Prisma } from "@prisma/client";
 import type { StoryWithId, StoryCreate, StoryUpdate } from "../schemas/story.schema";
 
-const getAllStories = async (): Promise<StoryWithId[]> => {
+const getAllStories = async (projectId: number): Promise<StoryWithId[]> => {
     return prisma.story.findMany({
+        where: {
+            projectId
+        },
         select: {
             id: true,
             projectId: true,

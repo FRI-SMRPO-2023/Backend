@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export const validateIdParam =  (idName: string) => 
     async (req: Request, res: Response, next: NextFunction) => {
-        //check if it is a number -> if not, return error
+        console.log("params inside validation", req.params)
         if (isNaN(Number(req.params[idName]))) {
             res.status(400).json({ 
                 status: "failed",
@@ -12,6 +12,7 @@ export const validateIdParam =  (idName: string) =>
                 } 
             });
         } else {
+            console.log("success inside id validation")
             next();
         }
     }

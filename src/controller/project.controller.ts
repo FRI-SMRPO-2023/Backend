@@ -56,6 +56,15 @@ const updatebyId: RequestHandler = async (req, res, next) => {
     }
 }
 
+// const getStoriesOfProject: RequestHandler = async (req, res, next) => {
+//     try {
+//         let projectId = parseInt(req.params.id);
+//         let stories = await ProjectService.getStories(projectId)
+//     } catch (err) {
+//         general_error_handler(err, res, next)
+//     }
+// }
+
 const ProjectController = {
     getAll,
     findbyId,

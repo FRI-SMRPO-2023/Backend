@@ -1,6 +1,13 @@
 import express from "express";
 import ProjectController from "../controller/project.controller";
-import {validateProjectCreate, validateProjectUpdate, validateId} from "../services/validator.service";
+import StoryController from "../controller/story.controller";
+import {validateProjectCreate, 
+        validateProjectUpdate, 
+        validateId, 
+        validateProjectId, 
+        validateStoryCreate, 
+        validateStoryId,
+        validateStoryUpdate} from "../services/validator.service";
 
 
 const projectRouter = express.Router();
@@ -115,5 +122,21 @@ projectRouter.route("/:id").all(validateId)
         .get(ProjectController.findbyId)
         .delete(ProjectController.deletebyId)
         .patch(validateProjectUpdate, ProjectController.updatebyId)
+
+
+// stories
+// TODO implement this
+projectRouter.route("/:projectId/stories").all(validateProjectId)
+        .get(StoryController.getAll)
+        .post(validateStoryCreate, StoryController.create)
+
+
+// TODO - implement this and add storyId validator
+projectRouter.route("/:projectId/stories/:storyId").all(validateProjectId, validateStoryId)
+        .get(StoryController.findbyId)
+        .delete(StoryController.deletebyId)
+        .patch(validateStoryUpdate, StoryController.updatebyId)
+
+
 
 export default projectRouter;

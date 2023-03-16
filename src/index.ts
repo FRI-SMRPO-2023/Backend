@@ -2,6 +2,7 @@ import * as dotenv from "dotenv";
 import express from "express";
 import session from "express-session";
 import { UserWithId } from "./schemas/users.schema";
+import { validateProjectId } from "./services/validator.service";
 declare module "express-session" {
   interface Session {
     user: UserWithId;
@@ -65,7 +66,7 @@ app.use(authorizer);
 //add routers
 app.use("/api/users", userRouter);
 app.use("/api/projects", projectRouter);
-app.use("/api/stories", storyRouter);
+// app.use("/api/projects/:projectId/stories", validateProjectId, storyRouter);
 app.use("/api/", usersOnProjectsRouter);
 
 /**
