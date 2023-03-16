@@ -20,6 +20,7 @@ model User {
   isAdmin   Boolean           @default(false)
   lastLogin DateTime?
   projects  UsersOnProjects[]
+  Task      Task[]
 }
 
 model Project {
@@ -56,6 +57,7 @@ model Story {
   description   String
   priority      StoryPriority
   businessValue BusinessValue
+  tasks         Task[]
 
   @@unique([projectId, name])
   @@index([projectId])
@@ -75,6 +77,20 @@ enum BusinessValue {
 }
 
 model Task {
-  id Int @id @default(autoincrement())
-  storyId Int
+  id             Int        @id @default(autoincrement())
+  story          Story      @relation(fields: [storyId], references: [id])
+  storyId        Int
+  description    String
+  timeEstimation String
+  asignee        User?      @relation(fields: [asigneeId], references: [id])
+  asigneeId      Int
+  status         TaskStatus
+  userId         Int
+}
+
+enum TaskStatus {
+  Unassigned
+  Assigned
+  Active
+  Completed
 }
