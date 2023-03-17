@@ -29,10 +29,31 @@ const getUserRoleInProject = async (userId: number, projectId: number): Promise<
 }
 
 
-const getAllProjectsOfUser = async (userId: number): Promise<UsersOnProjects[]> => {
+const getAllProjectsOfUser = async (userId: number, expandProject: boolean, expandUser: boolean) => {
     return prisma.usersOnProjects.findMany({
         where: {
             userId: userId
+        },
+        select: {
+            projectId: true,
+            userId: true,
+            role: true,
+            project: expandProject && {
+                select: {
+                    name: true,
+                    description: true
+                }
+            },
+            user: expandUser && {
+                select: {
+                    username: true,
+                    name: true,
+                    lastName: true,
+                    isAdmin: true,
+                    email: true,
+                    lastLogin: true
+                }
+            }
         }
     })
 }

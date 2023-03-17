@@ -3,6 +3,7 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { general_error_handler } from "../utils/error_handling";
 import UsersOnProjectsService from "../services/usersOnProjects.service";
 
+
 const addUserToProject = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const roleAdded = await UsersOnProjectsService.addUserToProject(req.body);
@@ -34,8 +35,10 @@ const getSingle: RequestHandler = async (req: Request, res: Response, next: Next
 
 const getProjectsOfUser: RequestHandler = async (req: Request, res: Response, next: NextFunction ) => {
     try {
-        let userId = parseInt(req.params.userId, 10);
-        const projectsOfUser = await UsersOnProjectsService.getAllProjectsOfUser(userId);
+        const userId = parseInt(req.params.userId, 10);
+        const expandProject = req.query.project === 'true';
+        const expandUser = req.query.user === 'true';
+        const projectsOfUser = await UsersOnProjectsService.getAllProjectsOfUser(userId, expandProject, expandUser);
         return res.status(200).json(projectsOfUser);
     } catch (err) {
         general_error_handler(err, res, next);

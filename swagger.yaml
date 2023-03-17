@@ -400,7 +400,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/UserOnProject'
           description: Return all a list of all users on a project
-  /api/users/{id}/project:
+  /api/users/{id}/projects:
     get:
       summary: Get all projects of user with id
       tags:
@@ -411,6 +411,16 @@ paths:
           schema:
             type: integer
           required: true
+        - in: query
+          name: project
+          schema:
+            type: boolean
+          description: Include the whole project object in return body, not just the id
+        - in: query
+          name: user
+          schema:
+            type: boolean
+          description: Include the whole user object in return body, not just the id
       responses:
         '200':
           content:

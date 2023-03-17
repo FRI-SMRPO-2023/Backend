@@ -33,5 +33,6 @@ import { convertEnum } from '../utils/enum_conversion';
 export const UsersOnProjectsSchema = z.object({
     userId: z.number(),
     projectId: z.number(),
-    role: convertEnum(RoleInProject)
+    role: convertEnum(RoleInProject),
+    
 });

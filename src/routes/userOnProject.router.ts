@@ -43,6 +43,16 @@ const usersOnProjectsRouter = express.Router();
  *       schema:
  *         type: integer
  *       required: true
+ *     - in: query
+ *       name: project
+ *       schema:
+ *         type: boolean
+ *       description: Include the whole project object in return body, not just the id
+ *     - in: query
+ *       name: user
+ *       schema:
+ *         type: boolean
+ *       description: Include the whole user object in return body, not just the id
  *     responses:
  *       200:
  *         content:
