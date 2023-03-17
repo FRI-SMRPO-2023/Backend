@@ -33,7 +33,7 @@ const usersOnProjectsRouter = express.Router();
  *                  $ref: '#/components/schemas/UserOnProject'
  *               
  *         description: Return all a list of all users on a project
- * /api/users/{id}/project:
+ * /api/users/{id}/projects:
  *   get:
  *     summary: Get all projects of user with id
  *     tags: [UsersOnProjects]
