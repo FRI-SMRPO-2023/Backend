@@ -1,6 +1,8 @@
 import express from "express";
 import StoryController from "../controller/story.controller";
-import {validateStoryCreate, validateStoryUpdate, validateId} from "../services/validator.service";
+import TaskController from "../controller/task.controller";
+import {validateStoryUpdate, validateId} from "../services/validator.service";
+import { validateTaskCreate } from "../services/validator.service";
 
 //EVERYTHING IS INSIDE project.router.ts, since it's a one-to-many relationship
 // and i encoutered some bugs, which didn't allow for separate story router 
@@ -69,5 +71,10 @@ storyRouter.route("/:id").all(validateId)
         .get(StoryController.findbyId)
         .delete(StoryController.deletebyId)
         .patch(validateStoryUpdate, StoryController.updatebyId)
+
+        
+storyRouter.route("/:storyId/tasks")
+        .get(TaskController.getAllFromStory)
+        .post(validateTaskCreate, TaskController.createNewTask);
 
 export default storyRouter;

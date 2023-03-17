@@ -3,6 +3,7 @@ import {ProjectCreateSchema, ProjectUpdateSchema} from "../schemas/project.schem
 import { UserCreateSchema, UserUpdateSchema, UserPasswordChangeSchema, UserLoginSchema } from "../schemas/users.schema";
 import { UsersOnProjectsSchema } from "../schemas/usersOnProjects.schema";
 import {StoryCreateSchema, StoryUpdateSchema} from "../schemas/story.schema"
+import {TaskCreateSchema, TaskUpdateSchema} from "../schemas/task.schema";
 
 //Project validation
 export const validateProjectCreate = validate(ProjectCreateSchema);
@@ -27,3 +28,7 @@ export const validateTaskId = validateIdParam("taskId")
 //Story validation
 export const validateStoryCreate = validate(StoryCreateSchema);
 export const validateStoryUpdate = validate(StoryUpdateSchema);
+
+//task validation
+export const validateTaskCreate = validate(TaskCreateSchema);
+export const validateTaskUpdate = validate(TaskUpdateSchema);

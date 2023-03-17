@@ -14,11 +14,13 @@ declare module "express-session" {
 const store = new session.MemoryStore();
 import cors from "cors";
 
+//Routers imports
 import userRouter from "./routes/user.router";
 import projectRouter from "./routes/project.router";
 import storyRouter from "./routes/story.router";
 import usersOnProjectsRouter from "./routes/userOnProject.router";
 import authRouter from "./routes/auth.router";
+import taskRouter from "./routes/task.router";
 import { authorizer, adminAuthorizer } from "./middleware/authorizeUser";
 import swaggerDocs from "./utils/swagger";
 
@@ -67,6 +69,7 @@ app.use(authorizer);
 app.use("/api/users", userRouter);
 app.use("/api/projects", projectRouter);
 app.use("/api/stories", storyRouter);
+app.use("/api/tasks", taskRouter);
 app.use("/api/", usersOnProjectsRouter);
 
 /**
