@@ -45,7 +45,7 @@ const taskRouter = express.Router();
  *    tags: [Story]
  *    parameters:
  *    - in: path
- *      name: storyId
+ *      name: taskId
  *      schema:
  *        type: integer
  *      required: true
@@ -55,10 +55,9 @@ const taskRouter = express.Router();
  *         content:
  *           application/json:
  *             schema:
- *                 $ref: '#/components/schemas/StoryReturn'
+ *                 $ref: '#/components/schemas/TaskReturn'
  *      409:
- *          description: Story with specified id does not exist
- *     
+ *          description: Task with specified id does not exist
  */
 taskRouter.route("/:id")
     .get(TaskController.getById)
