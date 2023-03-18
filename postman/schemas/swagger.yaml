@@ -728,7 +728,7 @@ components:
         - startDate
         - endDate
         - speed
-    TaskReturn:
+    SprintReturn:
       type: object
       properties:
         id:
@@ -739,29 +739,16 @@ components:
           type: string
         speed:
           type: number
-        description:
-          type: string
-        timeEstimation:
-          type: string
-        status:
-          $ref: '#/components/schemas/TaskStatus'
-        asigneeId:
-          type: number
       example:
         id: 1
         startDate: '2023-03-01'
         endDate: '2023-04-01'
         speed: 20
-        description: Create new database
-        timeEstimation: 10H
-        status: Assigned
-        asigneeId: 2
       required:
         - id
-        - description
-        - timeEstimation
-        - status
-        - asigneeId
+        - startDate
+        - endDate
+        - speed
     StoryCreate:
       type: object
       properties:
@@ -869,6 +856,31 @@ components:
         status: Assigned
         asigneeId: 2
       required:
+        - description
+        - timeEstimation
+        - status
+        - asigneeId
+    TaskReturn:
+      type: object
+      properties:
+        id:
+          type: number
+        description:
+          type: string
+        timeEstimation:
+          type: string
+        status:
+          $ref: '#/components/schemas/TaskStatus'
+        asigneeId:
+          type: number
+      example:
+        id: 1
+        description: Create new database
+        timeEstimation: 10H
+        status: Assigned
+        asigneeId: 2
+      required:
+        - id
         - description
         - timeEstimation
         - status

@@ -21,7 +21,7 @@ import {z} from "zod";
  *          - startDate
  *          - endDate
  *          - speed
- *      TaskReturn:
+ *      SprintReturn:
  *        type: object
  *        properties:
  *          id:
