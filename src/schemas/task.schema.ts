@@ -1,5 +1,65 @@
 import { z } from "zod"
 
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *      TaskCreate:
+ *        type: object
+ *        properties:
+ *          description:
+ *            type: string
+ *          timeEstimation:
+ *            type: string
+ *          status:
+ *            $ref: '#/components/schemas/TaskStatus'
+ *          asigneeId:
+ *            type: number
+ *        example:
+ *          description: Create new database
+ *          timeEstimation: 10H
+ *          status: Assigned
+ *          asigneeId: 2
+ *        required:
+ *          - description
+ *          - timeEstimation
+ *          - status
+ *          - asigneeId
+ *      TaskReturn:
+ *        type: object
+ *        properties:
+ *          id:
+ *            type: number
+ *          description:
+ *            type: string
+ *          timeEstimation:
+ *            type: string
+ *          status:
+ *            $ref: '#/components/schemas/TaskStatus'
+ *          asigneeId:
+ *            type: number
+ *        example:
+ *          id: 1
+ *          description: Create new database
+ *          timeEstimation: 10H
+ *          status: Assigned
+ *          asigneeId: 2
+ *        required:
+ *          - id
+ *          - description
+ *          - timeEstimation
+ *          - status
+ *          - asigneeId
+ *      TaskStatus:
+ *        type: string
+ *        enum:
+ *          - Unassigned
+ *          - Assigned
+ *          - Active
+ *          - Completed
+ *          
+ */
+
 
 const TaskBaseSchema = z.object({
     storyId: z.number(),
