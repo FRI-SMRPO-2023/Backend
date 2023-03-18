@@ -1,5 +1,5 @@
 import prisma from "../libs/prisma";
-import { BusinessValue, Story } from "@prisma/client";
+import { BusinessValue, Story, Sprint, Task } from "@prisma/client";
 import bcrypt from "bcrypt";
 import ProjectService from "../src/services/project.service";
 import { UserCreate } from "../src/schemas/users.schema";
@@ -7,7 +7,7 @@ import { ProjectCreate } from "../src/schemas/project.schema";
 
 function getUsers(): Array<UserCreate> {
     return [
-        {   
+        {
             username: "admin",
             name: "Stanko",
             lastName: "Premrl",
@@ -15,7 +15,7 @@ function getUsers(): Array<UserCreate> {
             email: "admin@prisma.com",
             isAdmin: true,
         },
-        {   
+        {
             username: "developer",
             name: "Slavko",
             lastName: "Podmrl",
@@ -23,7 +23,7 @@ function getUsers(): Array<UserCreate> {
             email: "developer@prisma.com",
             isAdmin: false
         },
-        {   
+        {
             username: "themaster",
             name: "Sonja",
             lastName: "Nadmrl",
@@ -47,6 +47,10 @@ function getProjects(): Array<ProjectCreate> {
                 {
                     id: 2,
                     role: "Developer"
+                },
+                {
+                    id: 3,
+                    role: "ScrumMaster"
                 }
             ]
         },
@@ -67,6 +71,23 @@ function getProjects(): Array<ProjectCreate> {
     ]
 }
 
+function getSprints(): Array<Sprint> {
+    return [
+        {
+            id: 1,
+            startDate: new Date(2023, 3, 1),
+            endDate: new Date(2023, 4, 1),
+            speed: 20,
+        },
+        {
+            id: 2,
+            startDate: new Date(2023, 2, 1),
+            endDate: new Date(2023, 2, 28),
+            speed: 20,
+        },
+    ]
+}
+
 function getStories(): Array<Story> {
     return [
         {
@@ -75,7 +96,10 @@ function getStories(): Array<Story> {
             name: "test1",
             description: "mockup project used for development",
             priority: "MustHave",
-            businessValue: "Low"
+            businessValue: "Low",
+            acceptanceCriteria: "create new mockup",
+            status: "SprintBacklog",
+            sprintId: 1
         },
         {
             id: 2,
@@ -83,7 +107,10 @@ function getStories(): Array<Story> {
             name: "test2",
             description: "mockup project used for development",
             priority: "CouldHave",
-            businessValue: "Medium"
+            businessValue: "Medium",
+            acceptanceCriteria: "create new mockup 2",
+            status: "SprintBacklog",
+            sprintId: 1
         },
         {
             id: 3,
@@ -91,7 +118,33 @@ function getStories(): Array<Story> {
             name: "test3",
             description: "In project 2",
             priority: "ShouldHave",
-            businessValue: "High"
+            businessValue: "High",
+            acceptanceCriteria: "create new mockup, add new users",
+            status: "ProductBacklog",
+            sprintId: null
+        }
+    ]
+}
+
+
+
+function getTasks(): Array<Task> {
+    return [
+        {
+            id: 1,
+            description: "fix the backend",
+            status: "Unassigned",
+            asigneeId: 2,
+            storyId: 1,
+            timeEstimation: "PT4H"
+        },
+        {
+            id: 2,
+            description: "fix the frontend",
+            status: "Unassigned",
+            asigneeId: 3,
+            storyId: 1,
+            timeEstimation: "PT5H"
         }
     ]
 }
@@ -117,14 +170,26 @@ async function seed() {
         await ProjectService.createProject(project);
     }
 
+    for (let sprint of getSprints()) {
+        await prisma.sprint.create({
+            data: {
+                ...sprint
+            }
+        })
+    }
+
     for (let story of getStories()) {
         await prisma.story.create({
             data: {
-                projectId: story.projectId,
-                name: story.name,
-                description: story.description,
-                priority: story.priority,
-                businessValue: story.businessValue
+                ...story
+            }
+        })
+    }
+
+    for (let task of getTasks()) {
+        await prisma.task.create({
+            data: {
+                ...task
             }
         })
     }

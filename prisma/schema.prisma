@@ -49,15 +49,20 @@ enum RoleInProject {
   Developer
 }
 
+// TODO in the future : maybe change status type to some enum??
 model Story {
-  id            Int           @id @default(autoincrement())
-  project       Project       @relation(fields: [projectId], references: [id])
-  projectId     Int
-  name          String
-  description   String
-  priority      StoryPriority
-  businessValue BusinessValue
-  tasks         Task[]
+  id                 Int           @id @default(autoincrement())
+  project            Project       @relation(fields: [projectId], references: [id])
+  projectId          Int
+  name               String
+  description        String
+  priority           StoryPriority
+  businessValue      BusinessValue
+  acceptanceCriteria String
+  status             String
+  sprint             Sprint?       @relation(fields: [sprintId], references: [id])
+  sprintId           Int?
+  tasks              Task[]
 
   @@unique([projectId, name])
   @@index([projectId])
@@ -92,4 +97,12 @@ enum TaskStatus {
   Assigned
   Active
   Completed
+}
+
+model Sprint {
+  id        Int      @id @default(autoincrement())
+  startDate DateTime
+  endDate   DateTime
+  speed     Int
+  stories   Story[]
 }

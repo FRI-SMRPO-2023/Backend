@@ -93,6 +93,9 @@ export const StoryBaseSchema = z.object({
     }),
     priority: priorityConvert(StoryPriority),
     businessValue: bvalConvert(BusinessValue),
+    acceptanceCriteria: z.string(),
+    status: z.string(),
+    sprintId: z.number().or(z.null())
 });
 //used for story creation
 export const StoryCreateSchema = StoryBaseSchema.omit({projectId: true});
