@@ -83,9 +83,7 @@ const usersOnProjectsRouter = express.Router();
  *         content:
  *           application/json:
  *             schema:
- *                type: object
- *                schema:
- *                  $ref: '#/components/schemas/UserOnProject'
+ *                $ref: '#/components/schemas/UserOnProject'
  *         description: Return all a single UserOnProject resource          
  */
 //get 

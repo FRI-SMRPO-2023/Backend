@@ -171,6 +171,12 @@ paths:
       summary: Get all stories on certain project
       tags:
         - Story
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       responses:
         '200':
           content:
@@ -184,6 +190,12 @@ paths:
       summary: Create a new story in a project
       tags:
         - Story
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       requestBody:
         required: true
         content:
@@ -451,9 +463,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                schema:
-                  $ref: '#/components/schemas/UserOnProject'
+                $ref: '#/components/schemas/UserOnProject'
           description: Return all a single UserOnProject resource
   /api/projects/{projectId}/users{userId}:
     delete:

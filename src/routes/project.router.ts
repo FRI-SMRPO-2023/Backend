@@ -136,6 +136,12 @@ projectRouter.route("/:id").all(validateId)
  *   get:
  *     summary: Get all stories on certain project
  *     tags: [Story]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
  *     responses:
  *       200:
  *         content:
@@ -149,6 +155,12 @@ projectRouter.route("/:id").all(validateId)
  *   post:
  *     summary: Create a new story in a project
  *     tags: [Story]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
  *     requestBody:
  *       required: true
  *       content:
@@ -171,19 +183,6 @@ projectRouter.route("/:id").all(validateId)
 projectRouter.route("/:projectId/stories").all(validateProjectId)
         .get(StoryController.getAll)
         .post(validateStoryCreate, StoryController.create)
-
-
-
-
-//tasks
-// projectRouter.route("/:projectId/stories/:storyId/tasks").all(validateProjectId, validateStoryId)
-//         .get()
-//         .post();
-
-// projectRouter.route("/:projectId/stories/:storyId/tasks/:taskId").all(validateProjectId, validateStoryId, validateTaskId)
-//         .get()
-//         .delete()
-//         .patch();
 
 
 export default projectRouter;
