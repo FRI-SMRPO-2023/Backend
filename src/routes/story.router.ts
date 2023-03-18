@@ -72,7 +72,62 @@ storyRouter.route("/:id").all(validateId)
         .delete(StoryController.deletebyId)
         .patch(validateStoryUpdate, StoryController.updatebyId)
 
-        
+
+/**
+ * @openapi
+ * tags:
+ *   name: Task
+ *   description: Task management api
+ *  
+ * /api/stories/{storyId}/tasks:
+ *   get:
+ *     summary: Get all tasks on certain story
+ *     tags: [Task]
+ *     parameters:
+ *       - in: path
+ *         name: storyId
+ *         schema:
+ *           type: integer
+ *         required: true
+ *     responses:
+ *       200:
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: array
+ *                items:
+ *                  $ref: '#/components/schemas/TaskReturn'
+ *               
+ *         description: Return a list of all stories in a project
+ *   post:
+ *     summary: Create a new Task in a Story
+ *     tags: [Task]
+ *     parameters:
+ *       - in: path
+ *         name: storyId
+ *         schema:
+ *           type: integer
+ *         required: true
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/TaskCreate'
+ *     responses:
+ *       201:
+ *         description: The created Task.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/TaskReturn'
+ *       409:
+ *         description: Task with specified name in the project already exists.
+ *       500:
+ *         description: Some server error
+ *              
+ */
+
 storyRouter.route("/:storyId/tasks")
         .get(TaskController.getAllFromStory)
         .post(validateTaskCreate, TaskController.createNewTask);

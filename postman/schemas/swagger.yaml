@@ -213,6 +213,55 @@ paths:
           description: Story with specified name in the project.
         '500':
           description: Some server error
+  /api/sprints:
+    get:
+      summary: Get all sprints
+      tags:
+        - Sprint
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SprintReturn'
+          description: Return a list of all sprints
+    post:
+      summary: Create a new Sprint
+      tags:
+        - Sprint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SprintCreate'
+      responses:
+        '201':
+          description: The created Sprint.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SprintReturn'
+        '409':
+          description: Project with specified name already exists.
+        '500':
+          description: Some server error
+  /api/sprints/current:
+    get:
+      summary: Get current sprint (based on current date)
+      tags:
+        - Sprint
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SprintReturn'
+          description: Return current sprint or return null if no such sprint exists
   /api/stories/{storyId}:
     patch:
       summary: Update any (or multiple) fields in the story
@@ -267,6 +316,107 @@ paths:
                 $ref: '#/components/schemas/StoryReturn'
         '409':
           description: Story with specified id does not exist
+  /api/stories/{storyId}/tasks:
+    get:
+      summary: Get all tasks on certain story
+      tags:
+        - Task
+      parameters:
+        - in: path
+          name: storyId
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskReturn'
+          description: Return a list of all stories in a project
+    post:
+      summary: Create a new Task in a Story
+      tags:
+        - Task
+      parameters:
+        - in: path
+          name: storyId
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskCreate'
+      responses:
+        '201':
+          description: The created Task.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskReturn'
+        '409':
+          description: Task with specified name in the project already exists.
+        '500':
+          description: Some server error
+  /api/tasks/{taskId}:
+    patch:
+      summary: Update any (or multiple) fields in the story
+      tags:
+        - Task
+      parameters:
+        - in: path
+          name: taskId
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Update successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskReturn'
+        '409':
+          description: Task with specified id does not exist
+    delete:
+      summary: Delete task by id
+      tags:
+        - Task
+      parameters:
+        - in: path
+          name: taskId
+          schema:
+            type: integer
+          required: true
+      responses:
+        '204':
+          description: Delete successful
+        '409':
+          description: Task with specified id does not exist
+    get:
+      summary: Get task by id
+      tags:
+        - Story
+      parameters:
+        - in: path
+          name: taskId
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Single object returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskReturn'
+        '409':
+          description: Task with specified id does not exist
   /api/users:
     get:
       summary: Get all users
@@ -561,6 +711,44 @@ components:
         - name
         - description
         - id
+    SprintCreate:
+      type: object
+      properties:
+        startDate:
+          type: string
+        endDate:
+          type: string
+        speed:
+          type: number
+      example:
+        startDate: '2023-03-01'
+        endDate: '2023-04-01'
+        speed: 20
+      required:
+        - startDate
+        - endDate
+        - speed
+    SprintReturn:
+      type: object
+      properties:
+        id:
+          type: number
+        startDate:
+          type: string
+        endDate:
+          type: string
+        speed:
+          type: number
+      example:
+        id: 1
+        startDate: '2023-03-01'
+        endDate: '2023-04-01'
+        speed: 20
+      required:
+        - id
+        - startDate
+        - endDate
+        - speed
     StoryCreate:
       type: object
       properties:
@@ -572,16 +760,30 @@ components:
           $ref: '#/components/schemas/StoryPriority'
         businessValue:
           $ref: '#/components/schemas/BusinessValue'
+        acceptanceCriteria:
+          type: string
+        status:
+          type: string
+        sprintId:
+          type:
+            - number
+            - 'null'
       example:
         name: FrogifyStory
         description: Story about musical frogs
         priority: MustHave
         businessValue: High
+        acceptanceCriteria: this must work, this must not be allowd
+        status: SprintBacklog
+        sprintId: 1
       required:
         - name
         - description
         - priority
         - businessValue
+        - acceptanceCriteria
+        - status
+        - sprintId
     StoryReturn:
       type: object
       properties:
@@ -597,6 +799,14 @@ components:
           $ref: '#/components/schemas/StoryPriority'
         businessValue:
           $ref: '#/components/schemas/BusinessValue'
+        acceptanceCriteria:
+          type: string
+        status:
+          type: string
+        sprintId:
+          type:
+            - number
+            - 'null'
       example:
         id: 1
         projectId: 1
@@ -604,12 +814,18 @@ components:
         description: Story about musical frogs
         priority: MustHave
         businessValue: High
+        acceptanceCriteria: this must work, this must not be allowd
+        status: SprintBacklog
+        sprintId: 1
       required:
         - projectId
         - name
         - description
         - priority
         - businessValue
+        - acceptanceCriteria
+        - status
+        - sprintId
     StoryPriority:
       type: string
       enum:
@@ -623,6 +839,59 @@ components:
         - Low
         - Medium
         - High
+    TaskCreate:
+      type: object
+      properties:
+        description:
+          type: string
+        timeEstimation:
+          type: string
+        status:
+          $ref: '#/components/schemas/TaskStatus'
+        asigneeId:
+          type: number
+      example:
+        description: Create new database
+        timeEstimation: 10H
+        status: Assigned
+        asigneeId: 2
+      required:
+        - description
+        - timeEstimation
+        - status
+        - asigneeId
+    TaskReturn:
+      type: object
+      properties:
+        id:
+          type: number
+        description:
+          type: string
+        timeEstimation:
+          type: string
+        status:
+          $ref: '#/components/schemas/TaskStatus'
+        asigneeId:
+          type: number
+      example:
+        id: 1
+        description: Create new database
+        timeEstimation: 10H
+        status: Assigned
+        asigneeId: 2
+      required:
+        - id
+        - description
+        - timeEstimation
+        - status
+        - asigneeId
+    TaskStatus:
+      type: string
+      enum:
+        - Unassigned
+        - Assigned
+        - Active
+        - Completed
     UserCreate:
       type: object
       properties:
@@ -734,6 +1003,10 @@ tags:
     description: Project management api
   - name: Story
     description: Story management api
+  - name: Sprint
+    description: Sprint management api
+  - name: Task
+    description: Task management api
   - name: User
     description: User management api
   - name: UsersOnProjects

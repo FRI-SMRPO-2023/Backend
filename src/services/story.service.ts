@@ -13,7 +13,10 @@ const getAllStories = async (projectId: number): Promise<StoryWithId[]> => {
             name: true,
             description: true,
             priority: true,
-            businessValue: true
+            businessValue: true,
+            status: true,
+            acceptanceCriteria: true,
+            sprintId: true,
         }
     });
 };
@@ -30,10 +33,7 @@ const createStory = async (projectId: number, story: StoryCreate): Promise<Story
     let created_story = prisma.story.create({
         data: {
             projectId: projectId,
-            name: story.name,
-            description: story.description,
-            priority: story.priority,
-            businessValue: story.businessValue
+            ...story
         }
     });
     return created_story;
@@ -54,10 +54,7 @@ const updateStory = async (id: number, storyUpdate: StoryUpdate): Promise<StoryW
             id
         },
         data: {
-            name: storyUpdate.name,
-            description: storyUpdate.description,
-            priority: storyUpdate.priority,
-            businessValue: storyUpdate.businessValue
+            ...storyUpdate
         },
     });
     return res;

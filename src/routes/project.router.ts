@@ -180,6 +180,7 @@ projectRouter.route("/:id").all(validateId)
  *         description: Some server error
  *              
  */
+
 projectRouter.route("/:projectId/stories").all(validateProjectId)
         .get(StoryController.getAll)
         .post(validateStoryCreate, StoryController.create)

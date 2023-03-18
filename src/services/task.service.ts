@@ -18,6 +18,14 @@ const getTasksOnStory = async (storyId: number): Promise<TaskReturn[]> => {
     })
 }
 
+const getSingle = async (taskId: number): Promise<TaskReturn> => {
+    return prisma.task.findUniqueOrThrow({
+        where: {
+            id: taskId
+        }
+    })
+}
+
 const updateTaskById = async (taskId: number, task: TaskUpdate): Promise<TaskReturn> => {
     return prisma.task.update({
         where: {
@@ -54,6 +62,7 @@ const deleteTask = async (taskId: number): Promise<TaskReturn> => {
 
 const TaskService = {
     getTasksOnStory,
+    getSingle,
     createTask,
     updateTaskById,
     deleteTask

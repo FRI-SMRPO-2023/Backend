@@ -13,6 +13,17 @@ const getAllFromStory: RequestHandler = async (req, res, next) => {
     }
 }
 
+const getById: RequestHandler = async (req, res, next) => {
+    try {
+        const taskId = parseInt(req.params.taskId);
+        const task = await TaskService.getSingle(taskId);
+        res.status(200).json(task);
+    } catch (err) {
+        general_error_handler(err, res, next);
+    }
+    
+}
+
 const createNewTask: RequestHandler = async (req, res, next) => {
     try {
         const storyId = parseInt(req.params.storyId);
@@ -45,6 +56,7 @@ const deleteTask: RequestHandler = async (req, res, next) => {
 
 const TaskController = {
     getAllFromStory,
+    getById,
     createNewTask,
     updateTask,
     deleteTask

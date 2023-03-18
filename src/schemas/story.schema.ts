@@ -19,16 +19,29 @@ import { BusinessValue } from '@prisma/client';
  *            $ref: '#/components/schemas/StoryPriority'
  *          businessValue:
  *            $ref: '#/components/schemas/BusinessValue'
+ *          acceptanceCriteria:
+ *              type: string
+ *          status:
+ *              type: string
+ *          sprintId:
+ *              type: [number, 'null']
+ * 
  *        example:
  *          name: FrogifyStory
  *          description: Story about musical frogs
  *          priority: MustHave
  *          businessValue: High
+ *          acceptanceCriteria: this must work, this must not be allowd
+ *          status: SprintBacklog
+ *          sprintId: 1
  *        required:
  *          - name
  *          - description
  *          - priority
  *          - businessValue
+ *          - acceptanceCriteria
+ *          - status
+ *          - sprintId
  *      StoryReturn:
  *        type: object
  *        properties:
@@ -44,6 +57,12 @@ import { BusinessValue } from '@prisma/client';
  *            $ref: '#/components/schemas/StoryPriority'
  *          businessValue:
  *            $ref: '#/components/schemas/BusinessValue'
+ *          acceptanceCriteria:
+ *              type: string
+ *          status:
+ *              type: string
+ *          sprintId:
+ *              type: [number, 'null']
  *        example:
  *          id: 1
  *          projectId: 1
@@ -51,12 +70,18 @@ import { BusinessValue } from '@prisma/client';
  *          description: Story about musical frogs
  *          priority: MustHave
  *          businessValue: High
+ *          acceptanceCriteria: this must work, this must not be allowd
+ *          status: SprintBacklog
+ *          sprintId: 1
  *        required:
  *          - projectId
  *          - name
  *          - description
  *          - priority
  *          - businessValue
+ *          - acceptanceCriteria
+ *          - status
+ *          - sprintId
  *      StoryPriority:
  *        type: string
  *        enum:
@@ -93,6 +118,9 @@ export const StoryBaseSchema = z.object({
     }),
     priority: priorityConvert(StoryPriority),
     businessValue: bvalConvert(BusinessValue),
+    acceptanceCriteria: z.string(),
+    status: z.string(),
+    sprintId: z.number().or(z.null())
 });
 //used for story creation
 export const StoryCreateSchema = StoryBaseSchema.omit({projectId: true});
