@@ -559,9 +559,9 @@ components:
         description:
           type: string
         priority:
-          type: string
+          $ref: '#/components/schemas/StoryPriority'
         businessValue:
-          type: string
+          $ref: '#/components/schemas/BusinessValue'
       example:
         name: FrogifyStory
         description: Story about musical frogs
@@ -584,9 +584,9 @@ components:
         description:
           type: string
         priority:
-          type: string
+          $ref: '#/components/schemas/StoryPriority'
         businessValue:
-          type: string
+          $ref: '#/components/schemas/BusinessValue'
       example:
         id: 1
         projectId: 1
@@ -600,6 +600,19 @@ components:
         - description
         - priority
         - businessValue
+    StoryPriority:
+      type: string
+      enum:
+        - CouldHave
+        - ShouldHave
+        - MustHave
+        - WontHaveThisTime
+    BusinessValue:
+      type: string
+      enum:
+        - Low
+        - Medium
+        - High
     UserCreate:
       type: object
       properties:

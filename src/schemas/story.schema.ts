@@ -16,9 +16,9 @@ import { BusinessValue } from '@prisma/client';
  *          description:
  *            type: string
  *          priority:
- *            type: string
+ *            $ref: '#/components/schemas/StoryPriority'
  *          businessValue:
- *            type: string
+ *            $ref: '#/components/schemas/BusinessValue'
  *        example:
  *          name: FrogifyStory
  *          description: Story about musical frogs
@@ -41,9 +41,9 @@ import { BusinessValue } from '@prisma/client';
  *          description:
  *            type: string
  *          priority:
- *            type: string
+ *            $ref: '#/components/schemas/StoryPriority'
  *          businessValue:
- *            type: string
+ *            $ref: '#/components/schemas/BusinessValue'
  *        example:
  *          id: 1
  *          projectId: 1
@@ -57,6 +57,19 @@ import { BusinessValue } from '@prisma/client';
  *          - description
  *          - priority
  *          - businessValue
+ *      StoryPriority:
+ *        type: string
+ *        enum:
+ *          - CouldHave
+ *          - ShouldHave
+ *          - MustHave
+ *          - WontHaveThisTime
+ *      BusinessValue:
+ *        type: string
+ *        enum:
+ *          - Low
+ *          - Medium
+ *          - High
  *          
  */
 
