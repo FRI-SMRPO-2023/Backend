@@ -138,7 +138,7 @@ projectRouter.route("/:id").all(validateId)
  *     tags: [Story]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: projectId
  *         schema:
  *           type: integer
  *         required: true
@@ -157,7 +157,7 @@ projectRouter.route("/:id").all(validateId)
  *     tags: [Story]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: projectId
  *         schema:
  *           type: integer
  *         required: true
