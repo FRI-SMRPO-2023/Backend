@@ -40,7 +40,7 @@ function swaggerDocs(app: Express) {
     });
 
     // write to file
-    writeFileSync("swagger.yaml", yaml.dump(specs, {'indent': 2}, {flag: "w"}));
+    writeFileSync("postman/schemas/swagger.yaml", yaml.dump(specs, {'indent': 2}, {flag: "w"}));
 
 
 }
