@@ -75,14 +75,14 @@ function getSprints(): Array<Sprint> {
     return [
         {
             id: 1,
-            startDate: new Date(2023, 3, 1),
-            endDate: new Date(2023, 4, 1),
+            startDate: new Date("2023-03-03"),
+            endDate: new Date("2023-04-01"),
             speed: 20,
         },
         {
             id: 2,
-            startDate: new Date(2023, 2, 1),
-            endDate: new Date(2023, 2, 28),
+            startDate: new Date("2023-02-01"),
+            endDate: new Date("2023-02-28"),
             speed: 20,
         },
     ]

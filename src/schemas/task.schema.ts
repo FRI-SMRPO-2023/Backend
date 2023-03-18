@@ -3,8 +3,12 @@ import { z } from "zod"
 
 const TaskBaseSchema = z.object({
     storyId: z.number(),
-    description: z.string().min(1),
-    timeEstimation: z.string(),
+    description: z.string({
+        required_error: "property 'description' is required"
+    }).min(1),
+    timeEstimation: z.string({
+        required_error: "property 'timeEstimation' is required"
+    }),
     asigneeId: z.number().or(z.null()).optional(),
     status: z.enum(["Unassigned", "Assigned", "Active", "Completed"])
 });
