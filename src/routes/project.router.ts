@@ -1,6 +1,7 @@
 import express from "express";
 import ProjectController from "../controller/project.controller";
 import StoryController from "../controller/story.controller";
+import SprintController from "../controller/sprint.controller";
 import {validateProjectCreate, 
         validateProjectUpdate, 
         validateId, 
@@ -185,5 +186,85 @@ projectRouter.route("/:projectId/stories").all(validateProjectId)
         .get(StoryController.getAll)
         .post(validateStoryCreate, StoryController.create)
 
+
+// SPRINTS
+/**
+ * @openapi
+ * tags:
+ *   name: Sprint
+ *   description: Sprint management api
+ *  
+ * /api/projects/{projectId}/sprints:
+ *   get:
+ *     summary: Get all sprints
+ *     tags: [Sprint]
+ *     parameters:
+ *       - in: path
+ *         name: projectId
+ *         schema:
+ *           type: integer
+ *         required: true
+ *     responses:
+ *       200:
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: array
+ *                items:
+ *                  $ref: '#/components/schemas/SprintReturn'
+ *               
+ *         description: Return a list of all sprints
+ *   post:
+ *     summary: Create a new Sprint
+ *     tags: [Sprint]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/SprintCreate'
+ *     responses:
+ *       201:
+ *         description: The created Sprint.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/SprintReturn'
+ *       409:
+ *         description: Project with specified name already exists.
+ *       500:
+ *         description: Some server error
+ *              
+ */
+
+projectRouter.route("/:projectId/sprints")
+    .get(SprintController.getAll)
+    .post(SprintController.createSprint)
+
+/**
+ * @openapi
+ * /api/projects/{projectId}/sprints/current:
+ *   get:
+ *     summary: Get current sprint (based on current date)
+ *     tags: [Sprint]
+ *     parameters:
+ *       - in: path
+ *         name: projectId
+ *         schema:
+ *           type: integer
+ *         required: true
+ *     responses:
+ *       200:
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: array
+ *                items:
+ *                  $ref: '#/components/schemas/SprintReturn'
+ *         description: Return current sprint or return null if no such sprint exists
+ */
+
+projectRouter.route("/:projectId/sprints/current")
+    .get(SprintController.getCurrent)
 
 export default projectRouter;

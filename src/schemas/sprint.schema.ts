@@ -7,6 +7,8 @@ import {z} from "zod";
  *      SprintCreate:
  *        type: object
  *        properties:
+ *          name:
+ *            type: string
  *          startDate:
  *            type: string
  *          endDate:
@@ -14,10 +16,12 @@ import {z} from "zod";
  *          speed:
  *            type: number
  *        example:
+ *          name: snailing
  *          startDate: "2023-03-01"
  *          endDate: "2023-04-01"
  *          speed: 20
  *        required:
+ *          - name
  *          - startDate
  *          - endDate
  *          - speed
@@ -26,6 +30,8 @@ import {z} from "zod";
  *        properties:
  *          id:
  *            type: number
+ *          name:
+ *            type: string
  *          startDate:
  *            type: string
  *          endDate:
@@ -34,11 +40,13 @@ import {z} from "zod";
  *            type: number
  *        example:
  *          id: 1
+ *          name: snailing
  *          startDate: "2023-03-01"
  *          endDate: "2023-04-01"
  *          speed: 20
  *        required:
  *          - id
+ *          - name
  *          - startDate
  *          - endDate
  *          - speed
@@ -46,6 +54,9 @@ import {z} from "zod";
 
 
 const SprintBaseSchema = z.object({
+    name: z.string({
+        required_error: "property 'name' is required"
+    }).min(1),
     startDate: z.date({
         required_error: "property 'startDate' is required"
     }),

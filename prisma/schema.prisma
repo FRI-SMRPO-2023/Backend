@@ -101,6 +101,7 @@ enum TaskStatus {
 
 model Sprint {
   id        Int      @id @default(autoincrement())
+  name      String
   startDate DateTime
   endDate   DateTime
   speed     Int

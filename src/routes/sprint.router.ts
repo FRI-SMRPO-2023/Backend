@@ -46,7 +46,6 @@ const sprintRouter = express.Router();
  *              
  */
 
-
 sprintRouter.route("/")
     .get(SprintController.getAll)
     .post(SprintController.createSprint)
@@ -67,7 +66,6 @@ sprintRouter.route("/")
  *                  $ref: '#/components/schemas/SprintReturn'
  *         description: Return current sprint or return null if no such sprint exists
  */
-
 
 sprintRouter.route("/current")
     .get(SprintController.getCurrent)
