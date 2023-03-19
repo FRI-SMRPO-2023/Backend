@@ -133,7 +133,7 @@ function getTasks(): Array<Task> {
         {
             id: 1,
             description: "fix the backend",
-            status: "Unassigned",
+            status: "Assigned",
             asigneeId: 2,
             storyId: 1,
             timeEstimation: "PT4H"
@@ -141,7 +141,7 @@ function getTasks(): Array<Task> {
         {
             id: 2,
             description: "fix the frontend",
-            status: "Unassigned",
+            status: "Assigned",
             asigneeId: 3,
             storyId: 1,
             timeEstimation: "PT5H"
@@ -189,7 +189,11 @@ async function seed() {
     for (let task of getTasks()) {
         await prisma.task.create({
             data: {
-                ...task
+                description: task.description,
+                timeEstimation: task.timeEstimation,
+                asigneeId: task.asigneeId,
+                status: task.status,
+                storyId: task.storyId
             }
         })
     }
