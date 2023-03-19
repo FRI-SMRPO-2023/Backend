@@ -69,11 +69,11 @@ const SprintBaseSchema = z.object({
     }),
 });
 
-const SprintCreateSchema = SprintBaseSchema.omit({projectId: true});
+export const SprintCreateSchema = SprintBaseSchema.omit({projectId: true});
 const SprintReturnSchema = SprintCreateSchema.extend({
     id: z.number()
 });
-const SprintUpdateSchema = SprintCreateSchema.partial();
+export const SprintUpdateSchema = SprintCreateSchema.partial();
 
 export type SprintCreate = z.infer<typeof SprintCreateSchema>;
 export type SprintReturn = z.infer<typeof SprintReturnSchema>;

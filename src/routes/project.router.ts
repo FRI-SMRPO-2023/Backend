@@ -9,7 +9,8 @@ import {validateProjectCreate,
         validateStoryCreate, 
         validateStoryId,
         validateStoryUpdate,
-        validateTaskId} from "../services/validator.service";
+        validateTaskId,
+        validateSprintCreate} from "../services/validator.service";
 
 
 const projectRouter = express.Router();
@@ -239,7 +240,7 @@ projectRouter.route("/:projectId/stories").all(validateProjectId)
 
 projectRouter.route("/:projectId/sprints")
     .get(SprintController.getAll)
-    .post(SprintController.createSprint)
+    .post(validateSprintCreate, SprintController.createSprint)
 
 /**
  * @openapi
