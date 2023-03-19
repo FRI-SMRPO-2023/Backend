@@ -232,7 +232,34 @@ projectRouter.route("/:projectId/stories").all(validateProjectId)
  *             schema:
  *               $ref: '#/components/schemas/SprintReturn'
  *       409:
- *         description: Dates are overlaping with existing sprint
+ *         description: Dates are overlaping with existing sprint. Also returns the overlapping sprint in the project
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                 error:
+ *                   type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                     sprint:
+ *                       $ref: '#/components/schemas/SprintReturn'
+ *             example:
+ *               status: failed
+ *               error:
+ *                 message: Dates of the new sprint are overlapping with existing sprint in the project
+ *                 sprint:
+ *                   id: 1
+ *                   name: badExample
+ *                   startDate: "2020-02-01T00:00:00.000Z"
+ *                   endDate: "2020-02-28T00:00:00.000Z"
+ *                   speed: 20
+ *             required:
+ *               - status
+ *               - error
  *       500:
  *         description: Some server error
  *              
