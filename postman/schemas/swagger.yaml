@@ -213,6 +213,67 @@ paths:
           description: Story with specified name in the project.
         '500':
           description: Some server error
+  /api/projects/{projectId}/sprints:
+    get:
+      summary: Get all sprints
+      tags:
+        - Sprint
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SprintReturn'
+          description: Return a list of all sprints
+    post:
+      summary: Create a new Sprint
+      tags:
+        - Sprint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SprintCreate'
+      responses:
+        '201':
+          description: The created Sprint.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SprintReturn'
+        '409':
+          description: Project with specified name already exists.
+        '500':
+          description: Some server error
+  /api/projects/{projectId}/sprints/current:
+    get:
+      summary: Get current sprint (based on current date)
+      tags:
+        - Sprint
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SprintReturn'
+          description: Return current sprint or return null if no such sprint exists
   /api/sprints:
     get:
       summary: Get all sprints
@@ -714,6 +775,8 @@ components:
     SprintCreate:
       type: object
       properties:
+        name:
+          type: string
         startDate:
           type: string
         endDate:
@@ -721,10 +784,12 @@ components:
         speed:
           type: number
       example:
+        name: snailing
         startDate: '2023-03-01'
         endDate: '2023-04-01'
         speed: 20
       required:
+        - name
         - startDate
         - endDate
         - speed
@@ -733,6 +798,8 @@ components:
       properties:
         id:
           type: number
+        name:
+          type: string
         startDate:
           type: string
         endDate:
@@ -741,11 +808,13 @@ components:
           type: number
       example:
         id: 1
+        name: snailing
         startDate: '2023-03-01'
         endDate: '2023-04-01'
         speed: 20
       required:
         - id
+        - name
         - startDate
         - endDate
         - speed

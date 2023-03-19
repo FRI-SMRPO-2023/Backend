@@ -71,7 +71,7 @@ app.use("/api/users", userRouter);
 app.use("/api/projects", projectRouter);
 app.use("/api/stories", storyRouter);
 app.use("/api/tasks", taskRouter);
-app.use("/api/sprints", sprintRouter);
+// app.use("/api/sprints", sprintRouter);
 app.use("/api/", usersOnProjectsRouter);
 
 /**

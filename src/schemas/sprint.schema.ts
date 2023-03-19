@@ -54,6 +54,7 @@ import {z} from "zod";
 
 
 const SprintBaseSchema = z.object({
+    projectId: z.number(),
     name: z.string({
         required_error: "property 'name' is required"
     }).min(1),
@@ -68,10 +69,10 @@ const SprintBaseSchema = z.object({
     }),
 });
 
-const SprintCreateSchema = SprintBaseSchema;
-const SprintReturnSchema = SprintCreateSchema.merge(z.object({
+const SprintCreateSchema = SprintBaseSchema.omit({projectId: true});
+const SprintReturnSchema = SprintCreateSchema.extend({
     id: z.number()
-}));
+});
 const SprintUpdateSchema = SprintCreateSchema.partial();
 
 export type SprintCreate = z.infer<typeof SprintCreateSchema>;

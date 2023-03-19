@@ -29,6 +29,7 @@ model Project {
   description String
   users       UsersOnProjects[]
   stories     Story[]
+  sprints      Sprint[]
 }
 
 // used as a many to many relationship table
@@ -105,5 +106,7 @@ model Sprint {
   startDate DateTime
   endDate   DateTime
   speed     Int
+  projectId Int
+  project   Project  @relation(fields: [projectId], references: [id])
   stories   Story[]
 }

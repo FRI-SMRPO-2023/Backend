@@ -1,9 +1,12 @@
 import prisma from "../libs/prisma";
-import { BusinessValue, Story, Sprint, Task } from "@prisma/client";
+import { BusinessValue } from "@prisma/client";
 import bcrypt from "bcrypt";
 import ProjectService from "../src/services/project.service";
 import { UserCreate } from "../src/schemas/users.schema";
 import { ProjectCreate } from "../src/schemas/project.schema";
+import { TaskCreate } from "../src/schemas/task.schema";
+import { SprintCreate } from "../src/schemas/sprint.schema";
+import { StoryCreate } from "../src/schemas/story.schema";
 
 function getUsers(): Array<UserCreate> {
     return [
@@ -71,16 +74,18 @@ function getProjects(): Array<ProjectCreate> {
     ]
 }
 
-function getSprints(): Array<Sprint> {
+function getSprints(): Array<SprintCreate & {projectId: number}> {
     return [
-        {
-            id: 1,
+        {   
+            projectId: 1,
+            name: "first sprint",
             startDate: new Date("2023-03-03"),
             endDate: new Date("2023-04-01"),
             speed: 20,
         },
-        {
-            id: 2,
+        {   
+            projectId: 1,
+            name: "second sprint",
             startDate: new Date("2023-02-01"),
             endDate: new Date("2023-02-28"),
             speed: 20,
@@ -88,10 +93,9 @@ function getSprints(): Array<Sprint> {
     ]
 }
 
-function getStories(): Array<Story> {
+function getStories(): Array<StoryCreate & {projectId: number}> {
     return [
         {
-            id: 1,
             projectId: 1,
             name: "test1",
             description: "mockup project used for development",
@@ -102,7 +106,6 @@ function getStories(): Array<Story> {
             sprintId: 1
         },
         {
-            id: 2,
             projectId: 1,
             name: "test2",
             description: "mockup project used for development",
@@ -113,7 +116,6 @@ function getStories(): Array<Story> {
             sprintId: 1
         },
         {
-            id: 3,
             projectId: 2,
             name: "test3",
             description: "In project 2",
@@ -128,10 +130,9 @@ function getStories(): Array<Story> {
 
 
 
-function getTasks(): Array<Task> {
+function getTasks(): Array<TaskCreate & {storyId: number}> {
     return [
         {
-            id: 1,
             description: "fix the backend",
             status: "Assigned",
             asigneeId: 2,
@@ -139,7 +140,6 @@ function getTasks(): Array<Task> {
             timeEstimation: "PT4H"
         },
         {
-            id: 2,
             description: "fix the frontend",
             status: "Assigned",
             asigneeId: 3,
