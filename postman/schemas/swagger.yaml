@@ -215,7 +215,7 @@ paths:
           description: Some server error
   /api/projects/{projectId}/sprints:
     get:
-      summary: Get all sprints
+      summary: Get all sprints for the specified project
       tags:
         - Sprint
       parameters:
@@ -234,7 +234,7 @@ paths:
                   $ref: '#/components/schemas/SprintReturn'
           description: Return a list of all sprints
     post:
-      summary: Create a new Sprint
+      summary: Create a new Sprint inside the project
       tags:
         - Sprint
       requestBody:
@@ -251,7 +251,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/SprintReturn'
         '409':
-          description: Project with specified name already exists.
+          description: Dates are overlaping with existing sprint
         '500':
           description: Some server error
   /api/projects/{projectId}/sprints/current:
@@ -265,55 +265,6 @@ paths:
           schema:
             type: integer
           required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/SprintReturn'
-          description: Return current sprint or return null if no such sprint exists
-  /api/sprints:
-    get:
-      summary: Get all sprints
-      tags:
-        - Sprint
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/SprintReturn'
-          description: Return a list of all sprints
-    post:
-      summary: Create a new Sprint
-      tags:
-        - Sprint
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SprintCreate'
-      responses:
-        '201':
-          description: The created Sprint.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SprintReturn'
-        '409':
-          description: Project with specified name already exists.
-        '500':
-          description: Some server error
-  /api/sprints/current:
-    get:
-      summary: Get current sprint (based on current date)
-      tags:
-        - Sprint
       responses:
         '200':
           content:

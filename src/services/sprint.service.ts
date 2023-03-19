@@ -37,11 +37,18 @@ const createNewSprint = async (projectId: number, sprint: SprintCreate): Promise
     })
 }
 
+const collidingDates = async (sprint1: SprintReturn, sprintnew: {startDate: Date, endDate: Date}): Promise<boolean> => {
+    return (sprint1.startDate >= sprintnew.startDate || sprint1.endDate >= sprintnew.startDate) &&
+        (sprint1.startDate <= sprintnew.endDate || sprint1.endDate <= sprintnew.endDate)
+
+}
+
 
 const SprintService = {
     getCurrentSprint,
     getAllSprints,
-    createNewSprint
+    createNewSprint,
+    collidingDates
 };
 
 export default SprintService;

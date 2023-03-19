@@ -58,12 +58,12 @@ const SprintBaseSchema = z.object({
     name: z.string({
         required_error: "property 'name' is required"
     }).min(1),
-    startDate: z.date({
+    startDate: z.string({
         required_error: "property 'startDate' is required"
-    }),
-    endDate: z.date({
+    }).datetime(),
+    endDate: z.string({
         required_error: "property 'endDate' is required"
-    }),
+    }).datetime(),
     speed: z.number({
         required_error: "property 'speed' is required"
     }),
@@ -71,7 +71,13 @@ const SprintBaseSchema = z.object({
 
 export const SprintCreateSchema = SprintBaseSchema.omit({projectId: true});
 const SprintReturnSchema = SprintCreateSchema.extend({
-    id: z.number()
+    id: z.number(),
+    startDate: z.date({
+        required_error: "property 'startDate' is required"
+    }),
+    endDate: z.date({
+        required_error: "property 'endDate' is required"
+    }),
 });
 export const SprintUpdateSchema = SprintCreateSchema.partial();
 

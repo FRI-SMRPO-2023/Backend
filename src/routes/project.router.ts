@@ -197,7 +197,7 @@ projectRouter.route("/:projectId/stories").all(validateProjectId)
  *  
  * /api/projects/{projectId}/sprints:
  *   get:
- *     summary: Get all sprints
+ *     summary: Get all sprints for the specified project
  *     tags: [Sprint]
  *     parameters:
  *       - in: path
@@ -216,7 +216,7 @@ projectRouter.route("/:projectId/stories").all(validateProjectId)
  *               
  *         description: Return a list of all sprints
  *   post:
- *     summary: Create a new Sprint
+ *     summary: Create a new Sprint inside the project
  *     tags: [Sprint]
  *     requestBody:
  *       required: true
@@ -232,7 +232,7 @@ projectRouter.route("/:projectId/stories").all(validateProjectId)
  *             schema:
  *               $ref: '#/components/schemas/SprintReturn'
  *       409:
- *         description: Project with specified name already exists.
+ *         description: Dates are overlaping with existing sprint
  *       500:
  *         description: Some server error
  *              
@@ -240,7 +240,7 @@ projectRouter.route("/:projectId/stories").all(validateProjectId)
 
 projectRouter.route("/:projectId/sprints")
     .get(SprintController.getAll)
-    .post(validateSprintCreate, SprintController.createSprint)
+    .post(SprintController.createSprint)
 
 /**
  * @openapi

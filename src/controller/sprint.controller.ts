@@ -15,6 +15,23 @@ const getCurrent: RequestHandler = async (req, res, next) => {
 const createSprint: RequestHandler = async (req, res, next) => {
     try {
         const projectId = parseInt(req.params.projectId);
+        const allSprints = await SprintService.getAllSprints(projectId);
+        const newDates = {
+            startDate: new Date(req.body.startDate),
+            endDate: new Date(req.body.endDate)
+        }
+        for (let sprint of allSprints) {
+            const collides = await SprintService.collidingDates(sprint, newDates);
+            if (collides) {
+                return res.status(409).json({
+                    status: "failed",
+                    error: {
+                        message: "Dates of the new sprint are colliding with another sprint in the project",
+                        sprint: sprint
+                    }
+                })
+            }
+        }
         const newSprint = await SprintService.createNewSprint(projectId, req.body);
         res.status(201).json(newSprint);
     } catch (err) {
