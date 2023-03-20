@@ -3,6 +3,7 @@ import SprintController from "../controller/sprint.controller";
 
 const sprintRouter = express.Router();
 
+//its all inside project.router.ts
 // sprintRouter.route("/")
 //     .get(SprintController.getAll)
 //     .post(SprintController.createSprint)

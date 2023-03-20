@@ -11,7 +11,7 @@ import {validateProjectCreate,
         validateStoryUpdate,
         validateTaskId,
         validateSprintCreate} from "../services/validator.service";
-import { isPOorSM } from "../middleware/authorizeUser";
+import { isPOorSM, isSM } from "../middleware/authorizeUser";
 
 
 const projectRouter = express.Router();
@@ -268,7 +268,7 @@ projectRouter.route("/:projectId/stories").all(validateProjectId)
 
 projectRouter.route("/:projectId/sprints")
     .get(SprintController.getAll)
-    .post(SprintController.createSprint)
+    .post(isSM, SprintController.createSprint)
 
 /**
  * @openapi
