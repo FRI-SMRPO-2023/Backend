@@ -1,5 +1,6 @@
 import prisma from "../../libs/prisma";
 import { UsersOnProjects } from "@prisma/client";
+import { ProjectWithId } from "../schemas/project.schema";
 
 const addUserToProject = async (groupMembership: UsersOnProjects): Promise<UsersOnProjects> => {
     return prisma.usersOnProjects.create({
@@ -29,33 +30,16 @@ const getUserRoleInProject = async (userId: number, projectId: number): Promise<
 }
 
 
-const getAllProjectsOfUser = async (userId: number, expandProject: boolean, expandUser: boolean) => {
-    return prisma.usersOnProjects.findMany({
+const getAllProjectsOfUser = async (userId: number, expandProject: boolean, expandUser: boolean): Promise<ProjectWithId[]> => {
+    return prisma.project.findMany({
         where: {
-            userId: userId
-        },
-        select: {
-            projectId: true,
-            userId: true,
-            role: true,
-            project: expandProject && {
-                select: {
-                    name: true,
-                    description: true
-                }
-            },
-            user: expandUser && {
-                select: {
-                    username: true,
-                    name: true,
-                    lastName: true,
-                    isAdmin: true,
-                    email: true,
-                    lastLogin: true
+            users: {
+                some: {
+                    userId: userId
                 }
             }
         }
-    })
+    });
 }
 
 const getAllUsersOfProject = async (projectId: number): Promise<UsersOnProjects[]> => {
