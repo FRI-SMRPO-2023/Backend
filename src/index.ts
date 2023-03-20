@@ -6,6 +6,7 @@ import { validateProjectId } from "./services/validator.service";
 declare module "express-session" {
   interface Session {
     user: UserWithId;
+    projects: Record<number, string>
     authenticated: boolean;
     views: number;
   }

@@ -11,6 +11,7 @@ import {validateProjectCreate,
         validateStoryUpdate,
         validateTaskId,
         validateSprintCreate} from "../services/validator.service";
+import { isPOorSM } from "../middleware/authorizeUser";
 
 
 const projectRouter = express.Router();
@@ -185,7 +186,7 @@ projectRouter.route("/:id").all(validateId)
 
 projectRouter.route("/:projectId/stories").all(validateProjectId)
         .get(StoryController.getAll)
-        .post(validateStoryCreate, StoryController.create)
+        .post(validateStoryCreate, isPOorSM, StoryController.create)
 
 
 // SPRINTS

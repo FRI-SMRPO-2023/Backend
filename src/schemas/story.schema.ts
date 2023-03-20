@@ -125,10 +125,11 @@ export const StoryBaseSchema = z.object({
 //used for story creation
 export const StoryCreateSchema = StoryBaseSchema.omit({projectId: true});
 
-const StoryWithId = StoryBaseSchema.merge(HasId);
+const StoryWithId = StoryBaseSchema.merge(HasId).extend(
+    {timeComplexity: z.number().min(0).or(z.null())});
 
 // used for patch updates, when not every field is required
-export const StoryUpdateSchema = StoryCreateSchema.partial();
+export const StoryUpdateSchema = StoryCreateSchema.extend({timeComplexity: z.number().min(0)}).partial();
 
 // type exports for typescript functions
 export type StoryCreate = z.infer<typeof StoryCreateSchema>

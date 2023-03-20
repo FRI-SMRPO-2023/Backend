@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from "express"
 import { general_error_handler } from "../utils/error_handling"
+import UserService from "../services/user.service";
+import UsersOnProjectsService from "../services/usersOnProjects.service";
 
 const USE_AUTH = process.env.USE_AUTH === "true" || process.env.ENV_TYPE === "production";
 console.log("USE_AUTH set to", USE_AUTH);
@@ -30,6 +32,25 @@ export const adminOrCorrectUser = async (req: Request, res: Response, next: Next
     } else {
         res.sendStatus(403);
     }
-
 }
+
+const correctProjectRole = (roles: String[]) =>
+    async (req: Request, res: Response, next: NextFunction) => {
+        if (!USE_AUTH) {next(); return;}
+        const projectId = parseInt(req.params.projectId);
+        if (!projectId) {console.log("[ERROR] projectId is not in the PARAMS!!!")}
+        // if the user is admin, let it trough anyway
+        if (req.session.user.isAdmin) {return next();}
+        const userId = req.session.user.id;
+        const roleUser = await UsersOnProjectsService.getUserRoleInProject(userId, projectId);
+        if (roleUser && roles.includes(roleUser.role)) {
+            console.log("User is the Correct role ", roleUser);
+            next();
+        } else {
+            res.sendStatus(403);
+        }
+    }
+
+export const isPOorSM = correctProjectRole(["ProductOwner", "ScrumMaster"])
+export const isSM = correctProjectRole(["ScrumMaster"])
 
