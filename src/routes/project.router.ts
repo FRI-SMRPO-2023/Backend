@@ -189,7 +189,7 @@ projectRouter.route("/:projectId/stories").all(validateProjectId)
         .post(validateStoryCreate, isPOorSM, StoryController.create)
 
 
-// SPRINTS
+// sprints
 /**
  * @openapi
  * tags:
