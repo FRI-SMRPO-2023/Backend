@@ -237,6 +237,12 @@ paths:
       summary: Create a new Sprint inside the project
       tags:
         - Sprint
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
       requestBody:
         required: true
         content:

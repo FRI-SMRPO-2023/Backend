@@ -11,7 +11,7 @@ import {validateProjectCreate,
         validateStoryUpdate,
         validateTaskId,
         validateSprintCreate} from "../services/validator.service";
-import { isPOorSM, isSM } from "../middleware/authorizeUser";
+import { isPOorSM, isSM, adminAuthorizer } from "../middleware/authorizeUser";
 
 
 const projectRouter = express.Router();
@@ -62,7 +62,7 @@ const projectRouter = express.Router();
 
 projectRouter.route("/")
         .get(ProjectController.getAll)
-        .post(validateProjectCreate, ProjectController.create);
+        .post(adminAuthorizer, validateProjectCreate, ProjectController.create);
 
 
 /**
@@ -219,6 +219,12 @@ projectRouter.route("/:projectId/stories").all(validateProjectId)
  *   post:
  *     summary: Create a new Sprint inside the project
  *     tags: [Sprint]
+ *     parameters:
+ *       - in: path
+ *         name: projectId
+ *         schema:
+ *           type: integer
+ *         required: true
  *     requestBody:
  *       required: true
  *       content:

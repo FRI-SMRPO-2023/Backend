@@ -25,7 +25,7 @@ const getAllSprints = async (projectId: number): Promise<SprintReturn[]> => {
 }
 
 const createNewSprint = async (projectId: number, sprint: SprintCreate): Promise<SprintReturn> => {
-    console.log(sprint)
+    console.log("this is sprint", sprint)
     return prisma.sprint.create({
         data: {
             projectId: projectId,

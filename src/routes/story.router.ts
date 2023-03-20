@@ -3,6 +3,7 @@ import StoryController from "../controller/story.controller";
 import TaskController from "../controller/task.controller";
 import {validateStoryUpdate, validateId} from "../services/validator.service";
 import { validateTaskCreate } from "../services/validator.service";
+import { isPOorSM } from "../middleware/authorizeUser";
 
 //EVERYTHING IS INSIDE project.router.ts, since it's a one-to-many relationship
 // and i encoutered some bugs, which didn't allow for separate story router 
@@ -70,7 +71,7 @@ const storyRouter = express.Router();
 storyRouter.route("/:id").all(validateId)
         .get(StoryController.findbyId)
         .delete(StoryController.deletebyId)
-        .patch(validateStoryUpdate, StoryController.updatebyId)
+        .patch(isPOorSM, validateStoryUpdate, StoryController.updatebyId)
 
 
 /**
