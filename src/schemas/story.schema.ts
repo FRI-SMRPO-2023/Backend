@@ -61,6 +61,8 @@ import { BusinessValue } from '@prisma/client';
  *              type: string
  *          status:
  *              type: string
+ *          timeComplexity:
+ *              type: number
  *          sprintId:
  *              type: [number, 'null']
  *        example:
@@ -72,6 +74,7 @@ import { BusinessValue } from '@prisma/client';
  *          businessValue: High
  *          acceptanceCriteria: this must work, this must not be allowd
  *          status: SprintBacklog
+ *          timeComplexity: 3
  *          sprintId: 1
  *        required:
  *          - projectId
@@ -81,6 +84,7 @@ import { BusinessValue } from '@prisma/client';
  *          - businessValue
  *          - acceptanceCriteria
  *          - status
+ *          - timeComplexity
  *          - sprintId
  *      StoryPriority:
  *        type: string

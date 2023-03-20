@@ -42,7 +42,7 @@ const taskRouter = express.Router();
  *                      
  *  get:
  *    summary: Get task by id
- *    tags: [Story]
+ *    tags: [Task]
  *    parameters:
  *    - in: path
  *      name: taskId

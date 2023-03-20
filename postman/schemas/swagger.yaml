@@ -450,7 +450,7 @@ paths:
     get:
       summary: Get task by id
       tags:
-        - Story
+        - Task
       parameters:
         - in: path
           name: taskId
@@ -860,6 +860,8 @@ components:
           type: string
         status:
           type: string
+        timeComplexity:
+          type: number
         sprintId:
           type:
             - number
@@ -873,6 +875,7 @@ components:
         businessValue: High
         acceptanceCriteria: this must work, this must not be allowd
         status: SprintBacklog
+        timeComplexity: 3
         sprintId: 1
       required:
         - projectId
@@ -882,6 +885,7 @@ components:
         - businessValue
         - acceptanceCriteria
         - status
+        - timeComplexity
         - sprintId
     StoryPriority:
       type: string
