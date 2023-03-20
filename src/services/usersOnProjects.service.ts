@@ -1,6 +1,7 @@
 import prisma from "../../libs/prisma";
 import { UsersOnProjects } from "@prisma/client";
 import { ProjectWithId } from "../schemas/project.schema";
+import { UOPProjectReturn, UOPUserReturn } from "../schemas/usersOnProjects.schema";
 
 const addUserToProject = async (groupMembership: UsersOnProjects): Promise<UsersOnProjects> => {
     return prisma.usersOnProjects.create({
@@ -30,22 +31,36 @@ const getUserRoleInProject = async (userId: number, projectId: number): Promise<
 }
 
 
-const getAllProjectsOfUser = async (userId: number, expandProject: boolean, expandUser: boolean): Promise<ProjectWithId[]> => {
-    return prisma.project.findMany({
+const getAllProjectsOfUser = async (userId: number): Promise<UOPProjectReturn[]> => {
+    return prisma.usersOnProjects.findMany({
         where: {
-            users: {
-                some: {
-                    userId: userId
-                }
-            }
+            userId: userId
+        },
+        select: {
+            role: true,
+            project: true
         }
-    });
+    })
 }
 
-const getAllUsersOfProject = async (projectId: number): Promise<UsersOnProjects[]> => {
+const getAllUsersOfProject = async (projectId: number): Promise<UOPUserReturn[]> => {
     return prisma.usersOnProjects.findMany({
         where: {
             projectId: projectId
+        },
+        select: {
+            role: true,
+            user: {
+                select: {
+                    username: true,
+                    id: true,
+                    name: true,
+                    lastName: true,
+                    email: true,
+                    isAdmin: true,
+                    lastLogin: true
+                }
+            }
         }
     })
 }

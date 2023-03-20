@@ -30,9 +30,13 @@ const usersOnProjectsRouter = express.Router();
  *             schema:
  *                type: array
  *                items:
- *                  $ref: '#/components/schemas/UserOnProject'
- *               
- *         description: Return all a list of all users on a project
+ *                  type: object
+ *                  properties:
+ *                      role:
+ *                          $ref: '#/components/schemas/RoleInProject'
+ *                      user:
+ *                          $ref: '#/components/schemas/UserReturn'
+ *         description: Return all a list of all users on a project and their roles
  * /api/users/{id}/projects:
  *   get:
  *     summary: Get all projects of user with id
@@ -43,16 +47,6 @@ const usersOnProjectsRouter = express.Router();
  *       schema:
  *         type: integer
  *       required: true
- *     - in: query
- *       name: project
- *       schema:
- *         type: boolean
- *       description: Include the whole project object in return body, not just the id
- *     - in: query
- *       name: user
- *       schema:
- *         type: boolean
- *       description: Include the whole user object in return body, not just the id
  *     responses:
  *       200:
  *         content:
@@ -60,8 +54,13 @@ const usersOnProjectsRouter = express.Router();
  *             schema:
  *                type: array
  *                items:
- *                  $ref: '#/components/schemas/UserOnProject'
- *         description: Return all a list of all projects of a user            
+ *                  type: object
+ *                  properties:
+ *                      role:
+ *                          $ref: '#/components/schemas/RoleOnProject'
+ *                      project:
+ *                          $ref: '#/components/schemas/ProjectReturn'
+ *         description: Return all a list of all projects of a user and a role          
  * 
  * /api/users/{userId}/projects/{projectId}:
  *   get:

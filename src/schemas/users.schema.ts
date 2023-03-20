@@ -49,6 +49,8 @@ import { z } from "zod";
  *            type: string
  *          isAdmin:
  *            type: boolean
+ *          lastLogin:
+ *            type: [datetime , "null"]
  *        example:
  *          id: 2
  *          username: 'admin'
@@ -56,6 +58,7 @@ import { z } from "zod";
  *          lastName: 'Premrl'
  *          email: bademail123@mail.com
  *          isAdmin: false
+ *          lastLogin: "2020-03-04T22:13:13Z"
  *        required:
  *          - id
  *          - username
@@ -63,6 +66,7 @@ import { z } from "zod";
  *          - lastName
  *          - email
  *          - isAdmin 
+ *          - lastLogin
  *      UserLogin:
  *        type: object
  *        properties:

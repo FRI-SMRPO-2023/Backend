@@ -75,7 +75,7 @@ export const ProjectCreateSchema = ProjectBaseSchema.merge(z.object({
     }).array().nonempty()
 })).required();
 
-const ProjectWithId = ProjectBaseSchema.merge(HasId);
+export const ProjectWithIdSchema = ProjectBaseSchema.merge(HasId);
 
 // used for patch updates, when not every field is required
 export const ProjectUpdateSchema = ProjectCreateSchema.partial();
@@ -83,4 +83,4 @@ export const ProjectUpdateSchema = ProjectCreateSchema.partial();
 // type exports for typescript functions
 export type ProjectCreate = z.infer<typeof ProjectCreateSchema>
 export type ProjectUpdate = z.infer<typeof ProjectUpdateSchema>;
-export type ProjectWithId = z.infer<typeof ProjectWithId>;
+export type ProjectWithId = z.infer<typeof ProjectWithIdSchema>;

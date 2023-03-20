@@ -36,9 +36,7 @@ const getSingle: RequestHandler = async (req: Request, res: Response, next: Next
 const getProjectsOfUser: RequestHandler = async (req: Request, res: Response, next: NextFunction ) => {
     try {
         const userId = parseInt(req.params.userId, 10);
-        const expandProject = req.query.project === 'true';
-        const expandUser = req.query.user === 'true';
-        const projectsOfUser = await UsersOnProjectsService.getAllProjectsOfUser(userId, expandProject, expandUser);
+        const projectsOfUser = await UsersOnProjectsService.getAllProjectsOfUser(userId);
         return res.status(200).json(projectsOfUser);
     } catch (err) {
         general_error_handler(err, res, next);

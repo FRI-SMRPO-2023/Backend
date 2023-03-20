@@ -2,6 +2,9 @@ import { z } from 'zod';
 import { RoleInProject } from "@prisma/client"
 import { convertEnum } from '../utils/enum_conversion';
 
+import { ProjectWithIdSchema } from './project.schema';
+import { UserWithIdSchema } from './users.schema';
+
 
 /**
  * @openapi
@@ -36,3 +39,16 @@ export const UsersOnProjectsSchema = z.object({
     role: convertEnum(RoleInProject),
     
 });
+
+export const UOPProjectReturnSchema = z.object({
+    role: convertEnum(RoleInProject),
+    project: ProjectWithIdSchema
+})
+
+export const UOPUserReturnSchema = z.object({
+    role: convertEnum(RoleInProject),
+    user: UserWithIdSchema
+})
+
+export type UOPProjectReturn = z.infer<typeof UOPProjectReturnSchema>;
+export type UOPUserReturn = z.infer<typeof UOPUserReturnSchema>;
