@@ -274,7 +274,7 @@ projectRouter.route("/:projectId/stories").all(validateProjectId)
 
 projectRouter.route("/:projectId/sprints")
     .get(SprintController.getAll)
-    .post(isSM, SprintController.createSprint)
+    .post(isSM, validateSprintCreate, SprintController.createSprint)
 
 /**
  * @openapi

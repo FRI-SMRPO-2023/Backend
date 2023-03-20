@@ -60,10 +60,10 @@ const SprintBaseSchema = z.object({
     }).min(1),
     startDate: z.string({
         required_error: "property 'startDate' is required"
-    }).datetime(),
+    }).regex(/^\d{4}-\d{2}-\d{2}$/,  "startDate should be of the form YYYY-MM-DD"),
     endDate: z.string({
         required_error: "property 'endDate' is required"
-    }).datetime(),
+    }).regex(/^\d{4}-\d{2}-\d{2}$/,  "endDate should be of the form YYYY-MM-DD"),
     speed: z.number({
         required_error: "property 'speed' is required"
     }),
