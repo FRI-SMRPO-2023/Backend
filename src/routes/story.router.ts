@@ -71,7 +71,7 @@ const storyRouter = express.Router();
 storyRouter.route("/:id").all(validateId)
         .get(StoryController.findbyId)
         .delete(StoryController.deletebyId)
-        .patch(isPOorSM, validateStoryUpdate, StoryController.updatebyId)
+        .patch(validateStoryUpdate, StoryController.updatebyId)
 
 
 /**
