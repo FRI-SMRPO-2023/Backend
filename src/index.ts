@@ -3,6 +3,8 @@ import express from "express";
 import session from "express-session";
 import { UserWithId } from "./schemas/users.schema";
 import { validateProjectId } from "./services/validator.service";
+import { logRequest } from "./middleware/logger";
+
 declare module "express-session" {
   interface Session {
     user: UserWithId;
@@ -57,6 +59,7 @@ app.use(
     name: "session",
   })
 );
+app.use(logRequest);
 
 //docs
 swaggerDocs(app);

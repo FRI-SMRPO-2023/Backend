@@ -11,12 +11,13 @@ import {validateProjectCreate,
         validateStoryUpdate,
         validateTaskId,
         validateSprintCreate} from "../services/validator.service";
+import { lowercaseName } from "../middleware/toLowercase";
 import { isPOorSM, isSM, adminAuthorizer } from "../middleware/authorizeUser";
 
 
 const projectRouter = express.Router();
 
-
+// projects
 /**
  * @openapi
  * tags:
@@ -62,7 +63,7 @@ const projectRouter = express.Router();
 
 projectRouter.route("/")
         .get(ProjectController.getAll)
-        .post(adminAuthorizer, validateProjectCreate, ProjectController.create);
+        .post(adminAuthorizer, validateProjectCreate, lowercaseName, ProjectController.create);
 
 
 /**
@@ -125,7 +126,7 @@ projectRouter.route("/")
 projectRouter.route("/:id").all(validateId)
         .get(ProjectController.findbyId)
         .delete(ProjectController.deletebyId)
-        .patch(validateProjectUpdate, ProjectController.updatebyId)
+        .patch(validateProjectUpdate, lowercaseName, ProjectController.updatebyId)
 
 
 // stories
@@ -186,7 +187,7 @@ projectRouter.route("/:id").all(validateId)
 
 projectRouter.route("/:projectId/stories").all(validateProjectId)
         .get(StoryController.getAll)
-        .post(validateStoryCreate, isPOorSM, StoryController.create)
+        .post(validateStoryCreate, isPOorSM, lowercaseName, StoryController.create)
 
 
 // sprints
