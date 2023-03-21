@@ -65,6 +65,91 @@ password: 123456789012
 
 ### 4 - Dodajanje projekta
 
+#### Create new project as admin
+name: new project
+description: This is just a mocking description
+users: neki doloci
+
+#### Create new project with the same name
+name: new project
+description: a new description
+users: same
+it should fail
+
+=========================================
+### 8 - Adding user stories
+
+go to the first project (test1 - you are a product owner)
+create a new story
+
+#### create a new story
+name: new simple story
+description: description mockup
+priority: ShouldHave
+businessValue: Medium
+status: ProductBacklog
+acceptanceCriteria: this must work, but this also
+
+#### try creating a story with the same name
+it should fail and notice the user
+
+===========================================
+### 6 - starting new sprint
+logout and login as scrum master
+
+developerka@prisma.com
+123456789012
+
+select project "test1"
+
+create a new sprint:
+
+name: snailing,
+startDate: 2024-03-01,
+endDate: 2024-04-01,
+speed": 20
+
+#### overlapping dates
+try creating a new sprint with overlapping dates:
+it should fail (notice to the user)
+
+try new sprint, change year to 2025
+
+#### dates in the past, or start date after end date
+start date after end date -> should fail
+start date in the past -> should fail
+
+#### speed should be positive integer
+try
+speed: -1
+it can't be done
+
+====================================
+<!-- ### 14 - adding tasks to user stories
+select first project, the first story and assign a new task
+
+description: false description,
+timeEstimation: PT10H,
+status: Unassigned -->
+
+
+wont have this time --> special section
+imena - case insensitive
+sprints - vikendi
+sprint velocity - can be null (future sprints)
+suggest sprint name
+current sprint - can't change date
+task time estimation - show its in hours
+task can be created unassigned
+sum of all hours for tasks in the story
+delete tasks
+
+
+
+
+
+
+
 
 
 

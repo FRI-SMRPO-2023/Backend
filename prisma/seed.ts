@@ -1,5 +1,4 @@
 import prisma from "../libs/prisma";
-import { BusinessValue } from "@prisma/client";
 import bcrypt from "bcrypt";
 import ProjectService from "../src/services/project.service";
 import { UserCreate } from "../src/schemas/users.schema";
@@ -45,11 +44,11 @@ function getProjects(): Array<ProjectCreate> {
             users: [
                 {
                     id: 1,
-                    role: "ProductOwner"
+                    role: "Developer"
                 },
                 {
                     id: 2,
-                    role: "Developer"
+                    role: "ProductOwner"
                 },
                 {
                     id: 3,
@@ -100,7 +99,7 @@ function getStories(): Array<StoryCreate & {projectId: number}> {
             name: "test1",
             description: "mockup project used for development",
             priority: "MustHave",
-            businessValue: "Low",
+            businessValue: 2,
             acceptanceCriteria: "create new mockup",
             status: "SprintBacklog",
             sprintId: 1
@@ -110,7 +109,7 @@ function getStories(): Array<StoryCreate & {projectId: number}> {
             name: "test2",
             description: "mockup project used for development",
             priority: "CouldHave",
-            businessValue: "Medium",
+            businessValue: 5,
             acceptanceCriteria: "create new mockup 2",
             status: "SprintBacklog",
             sprintId: 1
@@ -120,7 +119,7 @@ function getStories(): Array<StoryCreate & {projectId: number}> {
             name: "test3",
             description: "In project 2",
             priority: "ShouldHave",
-            businessValue: "High",
+            businessValue: 9,
             acceptanceCriteria: "create new mockup, add new users",
             status: "ProductBacklog",
             sprintId: null

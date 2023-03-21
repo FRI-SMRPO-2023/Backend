@@ -58,7 +58,7 @@ model Story {
   name               String
   description        String
   priority           StoryPriority
-  businessValue      BusinessValue
+  businessValue      Int
   acceptanceCriteria String
   status             String
   timeComplexity     Int?
@@ -75,12 +75,6 @@ enum StoryPriority {
   CouldHave
   ShouldHave
   WontHaveThisTime
-}
-
-enum BusinessValue {
-  Low
-  Medium
-  High
 }
 
 model Task {

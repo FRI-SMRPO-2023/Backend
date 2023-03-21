@@ -816,7 +816,8 @@ components:
         priority:
           $ref: '#/components/schemas/StoryPriority'
         businessValue:
-          $ref: '#/components/schemas/BusinessValue'
+          type: number
+          description: ranges from 1 - 10
         acceptanceCriteria:
           type: string
         status:
@@ -829,7 +830,7 @@ components:
         name: FrogifyStory
         description: Story about musical frogs
         priority: MustHave
-        businessValue: High
+        businessValue: 4
         acceptanceCriteria: this must work, this must not be allowd
         status: SprintBacklog
         sprintId: 1
@@ -855,7 +856,7 @@ components:
         priority:
           $ref: '#/components/schemas/StoryPriority'
         businessValue:
-          $ref: '#/components/schemas/BusinessValue'
+          type: number
         acceptanceCriteria:
           type: string
         status:
@@ -872,7 +873,7 @@ components:
         name: Frogify
         description: Story about musical frogs
         priority: MustHave
-        businessValue: High
+        businessValue: 5
         acceptanceCriteria: this must work, this must not be allowd
         status: SprintBacklog
         timeComplexity: 3
@@ -894,12 +895,6 @@ components:
         - ShouldHave
         - MustHave
         - WontHaveThisTime
-    BusinessValue:
-      type: string
-      enum:
-        - Low
-        - Medium
-        - High
     TaskCreate:
       type: object
       properties:
