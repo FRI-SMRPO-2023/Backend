@@ -13,6 +13,25 @@ const addUserToProject = async (req: Request, res: Response, next: NextFunction)
     }
 }
 
+const changeUserRole: RequestHandler = async (req, res, next) => {
+    try {
+        const userId = parseInt(req.params.userId, 10);
+        const projectId = parseInt(req.params.projectId, 10);
+        const changeUser = await UsersOnProjectsService.changeUserRole(userId, projectId, req.body.role);
+        if (!changeUser) {
+            return res.status(409).json({
+                status: "failed",
+                error: {
+                    message: "Role does not exist"
+                }
+            })
+        }
+        res.status(200).json(changeUser);
+    } catch (err) {
+        general_error_handler(err, res, next);
+    }
+}
+
 const removeUserFromProject = async (req: Request, res: Response, next: NextFunction) => {
     try {
         await UsersOnProjectsService.removeUserFromProject(req.body);
@@ -57,6 +76,7 @@ const UsersOnProjectsController = {
     getSingle,
     getUsersOfProject,
     getProjectsOfUser,
+    changeUserRole,
     addUserToProject,
     removeUserFromProject
 }

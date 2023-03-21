@@ -1,7 +1,11 @@
 import prisma from "../../libs/prisma";
 import { UsersOnProjects } from "@prisma/client";
+import {RoleInProject} from "@prisma/client"
 import { ProjectWithId } from "../schemas/project.schema";
 import { UOPProjectReturn, UOPUserReturn } from "../schemas/usersOnProjects.schema";
+
+
+
 
 const addUserToProject = async (groupMembership: UsersOnProjects): Promise<UsersOnProjects> => {
     return prisma.usersOnProjects.create({
@@ -65,8 +69,31 @@ const getAllUsersOfProject = async (projectId: number): Promise<UOPUserReturn[]>
     })
 }
 
+const changeUserRole = async (userId: number, projectId: number, role: string): Promise<UsersOnProjects|null> =>  {
+    if (role !== "Developer" && role !== "ProjectManager" && role != "ProductOwner" && role != "ScrumMaster") {
+        return null;
+    }
+    return prisma.usersOnProjects.update({
+        where: {
+            userId_projectId: {
+                userId: userId,
+                projectId: projectId
+            }
+        },
+        data: {
+            role: role
+        },
+        select: {
+            role: true,
+            userId: true,
+            projectId: true
+        }
+    });
+}
+
 const UsersOnProjectsService = {
     addUserToProject,
+    changeUserRole,
     getAllProjectsOfUser,
     getAllUsersOfProject,
     getUserRoleInProject,

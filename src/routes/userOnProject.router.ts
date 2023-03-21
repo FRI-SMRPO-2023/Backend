@@ -88,7 +88,9 @@ const usersOnProjectsRouter = express.Router();
 //get 
 usersOnProjectsRouter.get("/projects/:projectId/users", validateProjectId, UsersOnProjectsController.getUsersOfProject);
 usersOnProjectsRouter.get("/users/:userId/projects", validateUserId, UsersOnProjectsController.getProjectsOfUser);
-usersOnProjectsRouter.get("/users/:userId/projects/:projectId", adminOrCorrectUser, validateUserId, validateProjectId, UsersOnProjectsController.getSingle)
+usersOnProjectsRouter.get("/users/:userId/projects/:projectId", validateUserId, validateProjectId, UsersOnProjectsController.getSingle)
+usersOnProjectsRouter.patch("/users/:userId/projects/:projectId",validateUserId, validateProjectId, UsersOnProjectsController.changeUserRole)
+
 /**
  * @openapi  
  * /api/projects/{projectId}/users{userId}:
@@ -111,8 +113,8 @@ usersOnProjectsRouter.get("/users/:userId/projects/:projectId", adminOrCorrectUs
  *         description: User successfully removed       
  */
 //delete
-usersOnProjectsRouter.delete("/projects/:projectId/users/:userId", validateProjectId, validateUserId, UsersOnProjectsController.removeUserFromProject);
-usersOnProjectsRouter.delete("/users/:userId/projects/:projectId", validateProjectId, validateUserId, UsersOnProjectsController.removeUserFromProject);
+usersOnProjectsRouter.delete("/projects/:projectId/users/:userId", adminAuthorizer, validateProjectId, validateUserId, UsersOnProjectsController.removeUserFromProject);
+usersOnProjectsRouter.delete("/users/:userId/projects/:projectId", adminAuthorizer, validateProjectId, validateUserId, UsersOnProjectsController.removeUserFromProject);
 
 /**
  * @openapi
@@ -141,7 +143,7 @@ usersOnProjectsRouter.delete("/users/:userId/projects/:projectId", validateProje
  */
 
 //create
-usersOnProjectsRouter.post("/project-roles", validateUsersOnProjects, UsersOnProjectsController.addUserToProject);
+usersOnProjectsRouter.post("/project-roles", adminAuthorizer, validateUsersOnProjects, UsersOnProjectsController.addUserToProject);
 
 
 export default usersOnProjectsRouter;
