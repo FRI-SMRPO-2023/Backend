@@ -101,8 +101,8 @@ function getStories(): Array<StoryCreate & {projectId: number}> {
             priority: "MustHave",
             businessValue: 2,
             acceptanceCriteria: "create new mockup",
-            status: "SprintBacklog",
-            sprintId: 1
+            status: "ProductBacklog",
+            sprintId: null
         },
         {
             projectId: 1,
@@ -111,8 +111,8 @@ function getStories(): Array<StoryCreate & {projectId: number}> {
             priority: "CouldHave",
             businessValue: 5,
             acceptanceCriteria: "create new mockup 2",
-            status: "SprintBacklog",
-            sprintId: 1
+            status: "ProductBacklog",
+            sprintId: null
         },
         {
             projectId: 2,
