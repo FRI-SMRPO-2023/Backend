@@ -1,7 +1,7 @@
 import prisma from "../../libs/prisma";
-import type { UserCreate, UserBase, UserWithId, UserUpdate } from "../schemas/users.schema";
+import type { UserCreate, UserWithId, UserUpdate } from "../schemas/users.schema";
 import bcrypt from "bcrypt";
-import { isDataView } from "util/types";
+// import { isDataView } from "util/types";
 
 const getAllUsers = async (): Promise<UserWithId[]> => {
     return prisma.user.findMany({

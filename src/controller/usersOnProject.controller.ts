@@ -17,7 +17,9 @@ const changeUserRole: RequestHandler = async (req, res, next) => {
     try {
         const userId = parseInt(req.params.userId, 10);
         const projectId = parseInt(req.params.projectId, 10);
-        const changeUser = await UsersOnProjectsService.changeUserRole(userId, projectId, req.body.role);
+        const role = req.body?.role;
+        const srole = req.body?.secondaryRole || null;
+        const changeUser = await UsersOnProjectsService.changeUserRole(userId, projectId, role, srole);
         if (!changeUser) {
             return res.status(409).json({
                 status: "failed",

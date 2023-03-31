@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { convertEnum } from '../utils/enum_conversion';
-import { RoleInProject } from '@prisma/client';
+import { RoleInProject, SecondaryRole } from '@prisma/client';
 
 const HasId = z.object({
     id: z.number(),
@@ -71,7 +71,8 @@ export const ProjectBaseSchema = z.object({
 export const ProjectCreateSchema = ProjectBaseSchema.merge(z.object({
     users: z.object({
         id: z.number(),
-        role: convertEnum(RoleInProject)
+        role: convertEnum<RoleInProject>(RoleInProject),
+        secondaryRole: convertEnum<SecondaryRole>(SecondaryRole).or(z.null()).optional()
     }).array().nonempty()
 })).required();
 

@@ -42,7 +42,8 @@ const getAllProjectsOfUser = async (userId: number): Promise<UOPProjectReturn[]>
         },
         select: {
             role: true,
-            project: true
+            project: true,
+            secondaryRole: true
         }
     })
 }
@@ -54,6 +55,7 @@ const getAllUsersOfProject = async (projectId: number): Promise<UOPUserReturn[]>
         },
         select: {
             role: true,
+            secondaryRole: true,
             user: {
                 select: {
                     username: true,
@@ -69,8 +71,11 @@ const getAllUsersOfProject = async (projectId: number): Promise<UOPUserReturn[]>
     })
 }
 
-const changeUserRole = async (userId: number, projectId: number, role: string): Promise<UsersOnProjects|null> =>  {
-    if (role !== "Developer" && role !== "ProjectManager" && role != "ProductOwner" && role != "ScrumMaster") {
+const changeUserRole = async (userId: number, projectId: number, role: string, srole: string | null): Promise<UsersOnProjects|null> =>  {
+    if (role != "Developer" && role != "ProductOwner" && role != "ScrumMaster" && role != undefined) {
+        return null;
+    }
+    if (srole != "Developer" && srole != null) {
         return null;
     }
     return prisma.usersOnProjects.update({
@@ -81,12 +86,14 @@ const changeUserRole = async (userId: number, projectId: number, role: string): 
             }
         },
         data: {
-            role: role
+            role: role,
+            secondaryRole: srole
         },
         select: {
             role: true,
             userId: true,
-            projectId: true
+            projectId: true,
+            secondaryRole: true
         }
     });
 }

@@ -1042,7 +1042,6 @@ components:
       type: string
       enum:
         - Developer
-        - ProjectManager
         - ProductOwner
         - ScrumMaster
     UserOnProject:
@@ -1054,10 +1053,13 @@ components:
           type: number
         role:
           $ref: '#/components/schemas/RoleInProject'
+        secondaryRole:
+          $ref: '#/components/schemas/RoleInProject'
       example:
         userId: 1
         projectId: 2
         role: ScrumMaster
+        secondaryRole: Developer
 tags:
   - name: Auth
     description: Authentication api
