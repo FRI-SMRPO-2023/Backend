@@ -14,7 +14,6 @@ import { UserWithIdSchema } from './users.schema';
  *        type: string
  *        enum:
  *          - Developer
- *          - ProjectManager
  *          - ProductOwner
  *          - ScrumMaster
  *      UserOnProject:
