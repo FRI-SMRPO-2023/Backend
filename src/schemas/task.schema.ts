@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { UserReturnSchema } from "./users.schema";
 
 /**
  * @openapi
@@ -75,7 +76,8 @@ const TaskBaseSchema = z.object({
 
 
 const TaskReturnSchema = TaskBaseSchema.merge(z.object({
-    id: z.number()
+    id: z.number(),
+    asignee: UserReturnSchema.or(z.null()).optional()
 }))
 
 export const TaskCreateSchema = TaskBaseSchema.omit({storyId: true});

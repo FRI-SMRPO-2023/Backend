@@ -1,9 +1,9 @@
 import prisma from "../../libs/prisma";
-import type { UserCreate, UserWithId, UserUpdate } from "../schemas/users.schema";
+import type { UserCreate, UserReturn, UserUpdate } from "../schemas/users.schema";
 import bcrypt from "bcrypt";
 // import { isDataView } from "util/types";
 
-const getAllUsers = async (): Promise<UserWithId[]> => {
+const getAllUsers = async (): Promise<UserReturn[]> => {
     return prisma.user.findMany({
         select: {
             id: true,
@@ -17,7 +17,7 @@ const getAllUsers = async (): Promise<UserWithId[]> => {
     });
 }
 
-const checkEmailPassword = async (email: string, password: string): Promise<UserWithId | null> => {
+const checkEmailPassword = async (email: string, password: string): Promise<UserReturn | null> => {
     const user = await prisma.user.findUnique({
         where: {
             email: email,
@@ -38,7 +38,7 @@ const checkEmailPassword = async (email: string, password: string): Promise<User
     const passed = await bcrypt.compare(password, user.password);
     console.log("user logged in: ", passed);
     if (passed) {
-        const returned: UserWithId = {
+        const returned: UserReturn = {
             id: user.id,
             username: user.username,
             name: user.name,
@@ -55,7 +55,7 @@ const checkEmailPassword = async (email: string, password: string): Promise<User
 
 }
 
-const getUserById = async (id: number): Promise<UserWithId | null> => {
+const getUserById = async (id: number): Promise<UserReturn | null> => {
     return prisma.user.findUniqueOrThrow({
         where: {
             id
@@ -72,7 +72,7 @@ const getUserById = async (id: number): Promise<UserWithId | null> => {
     });
 }
 
-const createUser = async (user: UserCreate): Promise<UserWithId> => {
+const createUser = async (user: UserCreate): Promise<UserReturn> => {
     const hashedPass = await bcrypt.hash(user.password, 10);
     return prisma.user.create({
         data: {
@@ -95,7 +95,7 @@ const createUser = async (user: UserCreate): Promise<UserWithId> => {
     })
 }
 
-const updateUser = async (userId: number, user: UserUpdate): Promise<UserWithId> => {
+const updateUser = async (userId: number, user: UserUpdate): Promise<UserReturn> => {
     const hashedPass = user.password ? await bcrypt.hash(user.password, 10) : undefined;
     return prisma.user.update({
         where: {
@@ -122,7 +122,7 @@ const updateUser = async (userId: number, user: UserUpdate): Promise<UserWithId>
     })
 }
 
-const changePassword = async (userId: number, oldPassword: string, newPassword: string): Promise<UserWithId | null> => {
+const changePassword = async (userId: number, oldPassword: string, newPassword: string): Promise<UserReturn | null> => {
     const user = await prisma.user.findUniqueOrThrow({
         where: {
             id: userId,
@@ -136,7 +136,7 @@ const changePassword = async (userId: number, oldPassword: string, newPassword: 
 
 }
 
-const deleteUser = async (userId: number): Promise<UserWithId> => {
+const deleteUser = async (userId: number): Promise<UserReturn> => {
     return prisma.user.delete({
         where: {
             id: userId

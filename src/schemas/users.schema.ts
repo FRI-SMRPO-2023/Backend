@@ -124,7 +124,7 @@ export const UserCreateSchema = UserBaseSchema.merge(z.object({
 
 export const UserLoginSchema = UserCreateSchema.pick({email: true, password: true});
 
-export const UserWithIdSchema = UserBaseSchema.merge(z.object({
+export const UserReturnSchema = UserBaseSchema.merge(z.object({
     id: z.number()
 }));
 
@@ -141,7 +141,7 @@ export const UserUpdateSchema = UserCreateSchema.partial();
 
 //when exporting types, just omit the "Schema" part of the name
 export type UserBase = z.infer<typeof UserBaseSchema>;
-export type UserWithId = z.infer<typeof UserWithIdSchema>;
+export type UserReturn = z.infer<typeof UserReturnSchema>;
 export type UserCreate = z.infer<typeof UserCreateSchema>;
 export type UserUpdate = z.infer<typeof UserUpdateSchema>;
 export type UserLogin = z.infer<typeof UserLoginSchema>;

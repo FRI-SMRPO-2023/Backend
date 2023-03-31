@@ -3,7 +3,7 @@ import { RoleInProject, SecondaryRole } from "@prisma/client"
 import { convertEnum } from '../utils/enum_conversion';
 
 import { ProjectWithIdSchema } from './project.schema';
-import { UserWithIdSchema } from './users.schema';
+import { UserReturnSchema } from './users.schema';
 
 
 /**
@@ -52,7 +52,7 @@ export const UOPProjectReturnSchema = z.object({
 export const UOPUserReturnSchema = z.object({
     role: convertEnum<RoleInProject>(RoleInProject),
     secondaryRole: convertEnum<SecondaryRole>(SecondaryRole).or(z.null()),
-    user: UserWithIdSchema
+    user: UserReturnSchema
 })
 
 export type UOPProjectReturn = z.infer<typeof UOPProjectReturnSchema>;

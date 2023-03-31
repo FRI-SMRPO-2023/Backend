@@ -13,6 +13,17 @@ const getTasksOnStory = async (storyId: number): Promise<TaskReturn[]> => {
             description: true,
             timeEstimation: true,
             asigneeId: true,
+            asignee: {
+                select: {
+                    id: true,
+                    username: true,
+                    name: true,
+                    lastName: true,
+                    email: true,
+                    isAdmin: true,
+                    lastLogin: true
+                }
+            },
             status: true,
         }
     })
@@ -22,6 +33,25 @@ const getSingle = async (taskId: number): Promise<TaskReturn> => {
     return prisma.task.findUniqueOrThrow({
         where: {
             id: taskId
+        },
+        select: {
+            id: true,
+            storyId: true,
+            description: true,
+            timeEstimation: true,
+            asigneeId: true,
+            asignee: {
+                select: {
+                    id: true,
+                    username: true,
+                    name: true,
+                    lastName: true,
+                    email: true,
+                    isAdmin: true,
+                    lastLogin: true
+                }
+            },
+            status: true,
         }
     })
 }
@@ -38,6 +68,17 @@ const updateTaskById = async (taskId: number, task: TaskUpdate): Promise<TaskRet
             description: true,
             asigneeId: true,
             timeEstimation: true,
+            asignee: {
+                select: {
+                    id: true,
+                    username: true,
+                    name: true,
+                    lastName: true,
+                    email: true,
+                    isAdmin: true,
+                    lastLogin: true
+                }
+            },
             status: true
         }
     })
@@ -48,6 +89,25 @@ const createTask = async (storyId: number, task: TaskCreate): Promise<TaskReturn
         data: {
             ...task,
             storyId: storyId
+        },
+        select: {
+            id: true,
+            storyId: true,
+            description: true,
+            asigneeId: true,
+            timeEstimation: true,
+            asignee: {
+                select: {
+                    id: true,
+                    username: true,
+                    name: true,
+                    lastName: true,
+                    email: true,
+                    isAdmin: true,
+                    lastLogin: true
+                }
+            },
+            status: true
         }
     })
 };
