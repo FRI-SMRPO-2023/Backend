@@ -34,18 +34,17 @@ model Project {
 
 // used as a many to many relationship table
 model UsersOnProjects {
-  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
-  project   Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId Int
-  role      RoleInProject
-
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        Int
+  project       Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId     Int
+  role          RoleInProject
+  secondaryRole RoleInProject?
   @@id([userId, projectId])
 }
 
 enum RoleInProject {
   ProductOwner
-  ProjectManager
   ScrumMaster
   Developer
 }
