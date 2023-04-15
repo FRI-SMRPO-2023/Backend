@@ -5,6 +5,7 @@ import { UsersOnProjectsSchema } from "../schemas/usersOnProjects.schema";
 import { StoryCreateSchema, StoryUpdateSchema } from "../schemas/story.schema"
 import { TaskCreateSchema, TaskUpdateSchema } from "../schemas/task.schema";
 import { SprintCreateSchema, SprintUpdateSchema } from "../schemas/sprint.schema";
+import { TimeLogCreateSchema } from "../schemas/timelog.schema";
 
 //Project validation
 export const validateProjectCreate = validate(ProjectCreateSchema);
@@ -37,3 +38,6 @@ export const validateTaskUpdate = validate(TaskUpdateSchema);
 //Sprint validation
 export const validateSprintCreate = validate(SprintCreateSchema);
 export const validateSprintUpdate = validate(SprintUpdateSchema);
+
+//timelog validation
+export const validateTimeLogCreate = validate(TimeLogCreateSchema);

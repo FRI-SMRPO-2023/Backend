@@ -65,6 +65,31 @@ taskRouter.route("/:id")
     .patch(TaskController.updateTask)
     .delete(validateTaskUpdate, TaskController.deleteTask);
 
+
+/**
+ * @openapi
+ * /api/tasks/{taskId}/timelogs:
+ *  get:
+ *    summary: get all timelogs of certain task
+ *    tags: [Task, TimeLog]
+ *    parameters:
+ *    - in: path
+ *      name: taskId
+ *      schema:
+ *        type: integer
+ *      required: true
+ *    responses:
+ *      200:
+ *         description: multiple objects returned successfully
+ *         content:
+ *           application/json:
+ *             schema:
+*                  type: array
+*                  items:
+ *                   $ref: '#/components/schemas/TimeLogReturn'
+ *      409:
+ *          description: Task with specified id does not exist
+ */
 taskRouter.route("/:taskId/timelogs")
     .get(TimeLogController.getTimeLogsOfTask)
 

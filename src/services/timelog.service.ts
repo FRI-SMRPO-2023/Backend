@@ -94,9 +94,11 @@ const createTimeLog = async (
     },
   });
 };
+
 const TimeLogService = {
   getTimeLogsStory,
   getTimeLogsTask,
   createTimeLog,
 };
+
 export default TimeLogService;

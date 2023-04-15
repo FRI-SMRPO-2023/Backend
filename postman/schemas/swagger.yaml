@@ -466,6 +466,49 @@ paths:
                 $ref: '#/components/schemas/TaskReturn'
         '409':
           description: Task with specified id does not exist
+  /api/tasks/{taskId}/timelogs:
+    get:
+      summary: get all timelogs of certain task
+      tags:
+        - Task
+        - TimeLog
+      parameters:
+        - in: path
+          name: taskId
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: multiple objects returned successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TimeLogReturn'
+        '409':
+          description: Task with specified id does not exist
+  /api/timelogs:
+    post:
+      summary: create a new timelog (or append time to existing timelog)
+      tags:
+        - TimeLog
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TimeLogCreate'
+      responses:
+        '201':
+          description: Timelog created / update. Return the created/updated time log.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeLogReturn'
+        '500':
+          description: Some server error
   /api/users:
     get:
       summary: Get all users
@@ -948,6 +991,59 @@ components:
         - Assigned
         - Active
         - Completed
+    TimeLogCreate:
+      type: object
+      properties:
+        userId:
+          type: number
+          example: 1
+        taskId:
+          type: number
+          example: 1
+        day:
+          type: string
+          example: '2023-01-03'
+          description: YYYY-MM-DD date format
+        hours:
+          example: 1.5
+          type: number
+          description: can be float number, but positive
+      required:
+        - userId
+        - taskId
+        - day
+        - hours
+    TimeLogReturn:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        userId:
+          type: number
+          example: 1
+        taskId:
+          type: number
+          example: 1
+        day:
+          type: string
+          example: '2023-01-03'
+          description: YYYY-MM-DD date format
+        hours:
+          example: 1.5
+          type: number
+          description: can be float number, but positive
+        hours_estimate:
+          example: 7
+          type: number
+          description: can be float number, but positive
+      required:
+        - id
+        - userId
+        - taskId
+        - day
+        - hours
+        - hours_estimate
     UserCreate:
       type: object
       properties:
@@ -1071,6 +1167,8 @@ tags:
     description: Sprint management api
   - name: Task
     description: Task management api
+  - name: TimeLog
+    description: TimeLog management api
   - name: User
     description: User management api
   - name: UsersOnProjects
