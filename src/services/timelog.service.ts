@@ -2,7 +2,7 @@ import prisma from "../../libs/prisma";
 import type { TimeLogCreate, TimeLogReturn } from "../schemas/timelog.schema";
 import { isoDurationToHours } from "../utils/datetime_conversion";
 
-const getTimeLogs = async (storyId: number): Promise<TimeLogReturn[]> => {
+const getTimeLogsStory = async (storyId: number): Promise<TimeLogReturn[]> => {
   return prisma.timeLog.findMany({
     where: {
       task: {
@@ -20,15 +20,33 @@ const getTimeLogs = async (storyId: number): Promise<TimeLogReturn[]> => {
   });
 };
 
-const createTimeLog = async (timeLog: TimeLogCreate): Promise<TimeLogReturn> => {
+const getTimeLogsTask = async (taskId: number): Promise<TimeLogReturn[]> => {
+  return prisma.timeLog.findMany({
+    where: {
+      taskId: taskId,
+    },
+    select: {
+      id: true,
+      userId: true,
+      taskId: true,
+      day: true,
+      hours: true,
+      hours_estimate: true,
+    },
+  });
+};
+
+const createTimeLog = async (
+  timeLog: TimeLogCreate
+): Promise<TimeLogReturn> => {
   let log = await prisma.timeLog.findUnique({
     where: {
       userId_taskId_day: {
         userId: timeLog.userId,
         taskId: timeLog.taskId,
-        day: new Date(timeLog.day)
-      }
-    }
+        day: new Date(timeLog.day),
+      },
+    },
   });
   if (log) {
     return prisma.timeLog.update({
@@ -36,8 +54,8 @@ const createTimeLog = async (timeLog: TimeLogCreate): Promise<TimeLogReturn> => 
         userId_taskId_day: {
           userId: log.userId,
           taskId: log.taskId,
-          day: log.day
-        }
+          day: log.day,
+        },
       },
       data: {
         hours: log.hours + timeLog.hours,
@@ -77,7 +95,8 @@ const createTimeLog = async (timeLog: TimeLogCreate): Promise<TimeLogReturn> => 
   });
 };
 const TimeLogService = {
-  getTimeLogs,
-  createTimeLog
+  getTimeLogsStory,
+  getTimeLogsTask,
+  createTimeLog,
 };
 export default TimeLogService;

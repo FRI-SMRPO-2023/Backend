@@ -6,7 +6,17 @@ import { stripTime } from "../utils/datetime_conversion";
 const getTimeLogsOfStory: RequestHandler = async (req, res, next) => {
   try {
     const storyId = parseInt(req.params.storyId);
-    const timelogs = await TimeLogService.getTimeLogs(storyId);
+    const timelogs = await TimeLogService.getTimeLogsStory(storyId);
+    res.status(200).json(timelogs);
+  } catch (err) {
+    general_error_handler(err, res, next);
+  }
+};
+
+const getTimeLogsOfTask: RequestHandler = async (req, res, next) => {
+  try {
+    const taskId = parseInt(req.params.taskId);
+    const timelogs = await TimeLogService.getTimeLogsTask(taskId);
     res.status(200).json(timelogs);
   } catch (err) {
     general_error_handler(err, res, next);
@@ -19,12 +29,13 @@ const createTimeLogs: RequestHandler = async (req, res, next) => {
     res.status(201).json(timeLog);
   } catch (err) {
     general_error_handler(err, res, next);
-  } 
-}
+  }
+};
 
 const TimeLogController = {
   getTimeLogsOfStory,
-  createTimeLogs
+  createTimeLogs,
+  getTimeLogsOfTask,
 };
 
 export default TimeLogController;

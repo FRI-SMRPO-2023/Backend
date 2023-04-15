@@ -1,5 +1,6 @@
 import express from "express";
 import TaskController from "../controller/task.controller";
+import TimeLogController from "../controller/timelog.controller";
 import { validateTaskUpdate } from "../services/validator.service";
 const taskRouter = express.Router();
 
@@ -63,5 +64,8 @@ taskRouter.route("/:id")
     .get(TaskController.getById)
     .patch(TaskController.updateTask)
     .delete(validateTaskUpdate, TaskController.deleteTask);
+
+taskRouter.route("/:taskId/timelogs")
+    .get(TimeLogController.getTimeLogsOfTask)
 
 export default taskRouter
