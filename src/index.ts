@@ -25,6 +25,7 @@ import storyRouter from "./routes/story.router";
 import usersOnProjectsRouter from "./routes/userOnProject.router";
 import authRouter from "./routes/auth.router";
 import taskRouter from "./routes/task.router";
+import timelogRouter from "./routes/timelogs.router";
 import { authorizer, adminAuthorizer } from "./middleware/authorizeUser";
 import swaggerDocs from "./utils/swagger";
 
@@ -77,6 +78,7 @@ app.use("/api/stories", storyRouter);
 app.use("/api/tasks", taskRouter);
 // app.use("/api/sprints", sprintRouter);
 app.use("/api/", usersOnProjectsRouter);
+app.use("/api/timelogs", timelogRouter)
 
 /**
  * @openapi

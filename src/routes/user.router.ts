@@ -1,7 +1,15 @@
 import express from "express";
 import UserController from "../controller/user.controller";
-import { adminAuthorizer, adminOrCorrectUser } from "../middleware/authorizeUser";
-import { validateUserId, validateUserCreate, validateUserUpdate, validateUserPasswordChange } from "../services/validator.service"
+import {
+    adminAuthorizer,
+    adminOrCorrectUser,
+} from "../middleware/authorizeUser";
+import {
+    validateUserId,
+    validateUserCreate,
+    validateUserUpdate,
+    validateUserPasswordChange,
+} from "../services/validator.service";
 
 const userRouter = express.Router();
 
@@ -10,7 +18,7 @@ const userRouter = express.Router();
  * tags:
  *   name: User
  *   description: User management api
- *  
+ *
  * /api/users:
  *   get:
  *     summary: Get all users
@@ -44,13 +52,13 @@ const userRouter = express.Router();
  *         description: User with specified email already exists.
  *       500:
  *         description: Some server error
- *              
+ *
  */
 
-userRouter.route("/")
+userRouter
+    .route("/")
     .get(UserController.getAll)
     .post(adminAuthorizer, validateUserCreate, UserController.create);
-
 
 /**
  * @openapi
@@ -79,7 +87,7 @@ userRouter.route("/")
  *                    $ref: '#/components/schemas/UserCreate'
  *          409:
  *              description: User with specified id does not exist or email already exists (when updating mail)
- * 
+ *
  *  delete:
  *      summary: Delete user by id
  *      tags: [User]
@@ -94,7 +102,7 @@ userRouter.route("/")
  *              description: Delete successful
  *          409:
  *              description: User with specified id does not exist
- *                      
+ *
  *  get:
  *    summary: Get user by id
  *    tags: [User]
@@ -112,14 +120,14 @@ userRouter.route("/")
  *             schema:
  *                 $ref: '#/components/schemas/UserReturn'
  *      409:
- *          description: User with specified id does not exist  
+ *          description: User with specified id does not exist
  */
-userRouter.route("/:userId").all(validateUserId)
+userRouter
+    .route("/:userId")
+    .all(validateUserId)
     .get(UserController.getSingle)
-    .patch(adminAuthorizer, validateUserUpdate, UserController.updateSingle)
+    .patch(adminOrCorrectUser, validateUserUpdate, UserController.updateSingle)
     .delete(adminAuthorizer, UserController.deleteSingle);
-
-
 
 /**
  * @openapi
@@ -149,9 +157,13 @@ userRouter.route("/:userId").all(validateUserId)
  *          409:
  *              description: Invalid old password or new password not valid (too short)
  */
-userRouter.patch("/:userId/password-change", validateUserId,
-                                        adminOrCorrectUser,
-                                        validateUserPasswordChange, 
-                                        UserController.changePassword);
+
+userRouter.patch(
+    "/:userId/password-change",
+    validateUserId,
+    adminOrCorrectUser,
+    validateUserPasswordChange,
+    UserController.changePassword
+);
 
 export default userRouter;

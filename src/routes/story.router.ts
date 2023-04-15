@@ -1,12 +1,13 @@
 import express from "express";
 import StoryController from "../controller/story.controller";
 import TaskController from "../controller/task.controller";
-import {validateStoryUpdate, validateId} from "../services/validator.service";
+import TimeLogController from "../controller/timelog.controller";
+import { validateStoryUpdate, validateId } from "../services/validator.service";
 import { validateTaskCreate } from "../services/validator.service";
 import { isPOorSM } from "../middleware/authorizeUser";
 
 //EVERYTHING IS INSIDE project.router.ts, since it's a one-to-many relationship
-// and i encoutered some bugs, which didn't allow for separate story router 
+// and i encoutered some bugs, which didn't allow for separate story router
 
 const storyRouter = express.Router();
 
@@ -31,7 +32,7 @@ const storyRouter = express.Router();
  *                    $ref: '#/components/schemas/StoryReturn'
  *          409:
  *              description: Story with specified id does not exist
- * 
+ *
  *  delete:
  *      summary: Delete story by id
  *      tags: [Story]
@@ -46,7 +47,7 @@ const storyRouter = express.Router();
  *              description: Delete successful
  *          409:
  *              description: Story with specified id does not exist
- *                      
+ *
  *  get:
  *    summary: Get story by id
  *    tags: [Story]
@@ -65,21 +66,22 @@ const storyRouter = express.Router();
  *                 $ref: '#/components/schemas/StoryReturn'
  *      409:
  *          description: Story with specified id does not exist
- *     
+ *
  */
 
-storyRouter.route("/:id").all(validateId)
+storyRouter
+        .route("/:id")
+        .all(validateId)
         .get(StoryController.findbyId)
         .delete(StoryController.deletebyId)
-        .patch(validateStoryUpdate, StoryController.updatebyId)
-
+        .patch(validateStoryUpdate, StoryController.updatebyId);
 
 /**
  * @openapi
  * tags:
  *   name: Task
  *   description: Task management api
- *  
+ *
  * /api/stories/{storyId}/tasks:
  *   get:
  *     summary: Get all tasks on certain story
@@ -98,7 +100,7 @@ storyRouter.route("/:id").all(validateId)
  *                type: array
  *                items:
  *                  $ref: '#/components/schemas/TaskReturn'
- *               
+ *
  *         description: Return a list of all stories in a project
  *   post:
  *     summary: Create a new Task in a Story
@@ -126,11 +128,16 @@ storyRouter.route("/:id").all(validateId)
  *         description: Task with specified name in the project already exists.
  *       500:
  *         description: Some server error
- *              
+ *
  */
 
-storyRouter.route("/:storyId/tasks")
+storyRouter
+        .route("/:storyId/tasks")
         .get(TaskController.getAllFromStory)
         .post(validateTaskCreate, TaskController.createNewTask);
+
+storyRouter
+        .route("/:storyId/timelogs")
+        .get(TimeLogController.getTimeLogsOfStory);
 
 export default storyRouter;

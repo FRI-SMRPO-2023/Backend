@@ -6,6 +6,7 @@ import { ProjectCreate } from "../src/schemas/project.schema";
 import { TaskCreate } from "../src/schemas/task.schema";
 import { SprintCreate } from "../src/schemas/sprint.schema";
 import { StoryCreate } from "../src/schemas/story.schema";
+import { TimeLogCreate } from "../src/schemas/timelog.schema";
 
 function getUsers(): Array<UserCreate> {
     return [
@@ -23,7 +24,7 @@ function getUsers(): Array<UserCreate> {
             lastName: "Podmrl",
             password: "123456789012",
             email: "developer@prisma.com",
-            isAdmin: false
+            isAdmin: false,
         },
         {
             username: "themaster",
@@ -31,9 +32,9 @@ function getUsers(): Array<UserCreate> {
             lastName: "Nadmrl",
             password: "123456789012",
             email: "developerka@prisma.com",
-            isAdmin: false
-        }
-    ]
+            isAdmin: false,
+        },
+    ];
 }
 
 function getProjects(): Array<ProjectCreate> {
@@ -44,17 +45,17 @@ function getProjects(): Array<ProjectCreate> {
             users: [
                 {
                     id: 1,
-                    role: "Developer"
+                    role: "Developer",
                 },
                 {
                     id: 2,
-                    role: "ProductOwner"
+                    role: "ProductOwner",
                 },
                 {
                     id: 3,
-                    role: "ScrumMaster"
-                }
-            ]
+                    role: "ScrumMaster",
+                },
+            ],
         },
         {
             name: "project2",
@@ -62,37 +63,37 @@ function getProjects(): Array<ProjectCreate> {
             users: [
                 {
                     id: 1,
-                    role: "ProductOwner"
+                    role: "ProductOwner",
                 },
                 {
                     id: 3,
-                    role: "ScrumMaster"
-                }
-            ]
-        }
-    ]
+                    role: "ScrumMaster",
+                },
+            ],
+        },
+    ];
 }
 
-function getSprints(): Array<SprintCreate & {projectId: number}> {
+function getSprints(): Array<SprintCreate & { projectId: number }> {
     return [
-        {   
+        {
             projectId: 1,
             name: "first sprint",
             startDate: new Date("2023-03-03").toISOString(),
             endDate: new Date("2023-04-01").toISOString(),
             speed: 20,
         },
-        {   
+        {
             projectId: 1,
             name: "second sprint",
             startDate: new Date("2023-02-01").toISOString(),
             endDate: new Date("2023-02-28").toISOString(),
             speed: 20,
         },
-    ]
+    ];
 }
 
-function getStories(): Array<StoryCreate & {projectId: number}> {
+function getStories(): Array<StoryCreate & { projectId: number }> {
     return [
         {
             projectId: 1,
@@ -102,7 +103,7 @@ function getStories(): Array<StoryCreate & {projectId: number}> {
             businessValue: 2,
             acceptanceCriteria: "create new mockup",
             status: "ProductBacklog",
-            sprintId: null
+            sprintId: null,
         },
         {
             projectId: 1,
@@ -112,7 +113,7 @@ function getStories(): Array<StoryCreate & {projectId: number}> {
             businessValue: 5,
             acceptanceCriteria: "create new mockup 2",
             status: "ProductBacklog",
-            sprintId: null
+            sprintId: null,
         },
         {
             projectId: 2,
@@ -122,30 +123,57 @@ function getStories(): Array<StoryCreate & {projectId: number}> {
             businessValue: 9,
             acceptanceCriteria: "create new mockup, add new users",
             status: "ProductBacklog",
-            sprintId: null
-        }
-    ]
+            sprintId: null,
+        },
+    ];
 }
 
-
-
-function getTasks(): Array<TaskCreate & {storyId: number}> {
+function getTasks(): Array<TaskCreate & { storyId: number }> {
     return [
         {
             description: "fix the backend",
             status: "Assigned",
             asigneeId: 2,
             storyId: 1,
-            timeEstimation: "PT4H"
+            timeEstimation: "PT4H",
         },
         {
             description: "fix the frontend",
             status: "Assigned",
             asigneeId: 3,
             storyId: 1,
-            timeEstimation: "PT5H"
-        }
-    ]
+            timeEstimation: "PT5H",
+        },
+    ];
+}
+
+function getTimeLogs(): Array<TimeLogCreate & { storyId: number, hours_estimate: number }> {
+    return [
+        {
+            storyId: 1,
+            userId: 1,
+            taskId: 1,
+            day: new Date("2023-03-10"),
+            hours: 5.0,
+            hours_estimate: 7.0,
+        },
+        {
+            storyId: 1,
+            userId: 2,
+            taskId: 1,
+            day: new Date("2023-03-11"),
+            hours: 2.0,
+            hours_estimate: 7.0,
+        },
+        {
+            storyId: 1,
+            userId: 2,
+            taskId: 1,
+            day: new Date("2023-03-12"),
+            hours: 5.5,
+            hours_estimate: 1.0,
+        },
+    ];
 }
 
 async function seed() {
@@ -160,9 +188,9 @@ async function seed() {
                 lastName: user.lastName,
                 password: hashed_pass,
                 email: user.email,
-                isAdmin: user.isAdmin
-            }
-        })
+                isAdmin: user.isAdmin,
+            },
+        });
     }
     // seed projects
     for (let project of getProjects()) {
@@ -172,17 +200,17 @@ async function seed() {
     for (let sprint of getSprints()) {
         await prisma.sprint.create({
             data: {
-                ...sprint
-            }
-        })
+                ...sprint,
+            },
+        });
     }
 
     for (let story of getStories()) {
         await prisma.story.create({
             data: {
-                ...story
-            }
-        })
+                ...story,
+            },
+        });
     }
 
     for (let task of getTasks()) {
@@ -192,19 +220,29 @@ async function seed() {
                 timeEstimation: task.timeEstimation,
                 asigneeId: task.asigneeId,
                 status: task.status,
-                storyId: task.storyId
-            }
-        })
+                storyId: task.storyId,
+            },
+        });
     }
-
+    for (let log of getTimeLogs()) {
+        await prisma.timeLog.create({
+            data: {
+                userId: log.userId,
+                taskId: log.taskId,
+                day: log.day, 
+                hours: log.hours,
+                hours_estimate: log.hours_estimate
+            },
+        });
+    }
 }
 
 seed()
     .then(async () => {
-        await prisma.$disconnect()
+        await prisma.$disconnect();
     })
     .catch(async (e) => {
-        console.error(e)
-        await prisma.$disconnect()
-        process.exit(1)
-    })
+        console.error(e);
+        await prisma.$disconnect();
+        process.exit(1);
+    });

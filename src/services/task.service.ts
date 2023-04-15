@@ -1,11 +1,10 @@
 import prisma from "../../libs/prisma";
-import { TaskReturn, TaskUpdate, TaskCreate} from "../schemas/task.schema";
-
+import { TaskReturn, TaskUpdate, TaskCreate } from "../schemas/task.schema";
 
 const getTasksOnStory = async (storyId: number): Promise<TaskReturn[]> => {
     return prisma.task.findMany({
         where: {
-            storyId: storyId
+            storyId: storyId,
         },
         select: {
             id: true,
@@ -21,18 +20,18 @@ const getTasksOnStory = async (storyId: number): Promise<TaskReturn[]> => {
                     lastName: true,
                     email: true,
                     isAdmin: true,
-                    lastLogin: true
-                }
+                    lastLogin: true,
+                },
             },
             status: true,
-        }
-    })
-}
+        },
+    });
+};
 
 const getSingle = async (taskId: number): Promise<TaskReturn> => {
     return prisma.task.findUniqueOrThrow({
         where: {
-            id: taskId
+            id: taskId,
         },
         select: {
             id: true,
@@ -48,18 +47,21 @@ const getSingle = async (taskId: number): Promise<TaskReturn> => {
                     lastName: true,
                     email: true,
                     isAdmin: true,
-                    lastLogin: true
-                }
+                    lastLogin: true,
+                },
             },
             status: true,
-        }
-    })
-}
+        },
+    });
+};
 
-const updateTaskById = async (taskId: number, task: TaskUpdate): Promise<TaskReturn> => {
+const updateTaskById = async (
+    taskId: number,
+    task: TaskUpdate
+): Promise<TaskReturn> => {
     return prisma.task.update({
         where: {
-            id: taskId
+            id: taskId,
         },
         data: task,
         select: {
@@ -76,19 +78,22 @@ const updateTaskById = async (taskId: number, task: TaskUpdate): Promise<TaskRet
                     lastName: true,
                     email: true,
                     isAdmin: true,
-                    lastLogin: true
-                }
+                    lastLogin: true,
+                },
             },
-            status: true
-        }
-    })
-}
+            status: true,
+        },
+    });
+};
 
-const createTask = async (storyId: number, task: TaskCreate): Promise<TaskReturn> => {
+const createTask = async (
+    storyId: number,
+    task: TaskCreate
+): Promise<TaskReturn> => {
     return prisma.task.create({
         data: {
             ...task,
-            storyId: storyId
+            storyId: storyId,
         },
         select: {
             id: true,
@@ -104,28 +109,28 @@ const createTask = async (storyId: number, task: TaskCreate): Promise<TaskReturn
                     lastName: true,
                     email: true,
                     isAdmin: true,
-                    lastLogin: true
-                }
+                    lastLogin: true,
+                },
             },
-            status: true
-        }
-    })
+            status: true,
+        },
+    });
 };
 
 const deleteTask = async (taskId: number): Promise<TaskReturn> => {
     return prisma.task.delete({
         where: {
-            id: taskId
-        }
-    })
-}
+            id: taskId,
+        },
+    });
+};
 
 const TaskService = {
     getTasksOnStory,
     getSingle,
     createTask,
     updateTaskById,
-    deleteTask
+    deleteTask,
 };
 
 export default TaskService;

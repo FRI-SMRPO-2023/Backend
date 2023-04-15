@@ -51,8 +51,6 @@ const checkEmailPassword = async (email: string, password: string): Promise<User
     } else {
         return null;
     }
-
-
 }
 
 const getUserById = async (id: number): Promise<UserReturn | null> => {
