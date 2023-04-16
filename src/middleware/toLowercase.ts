@@ -1,4 +1,5 @@
 import {Request, Response, NextFunction} from "express";
+import { trim } from "../utils/parsing";
 
 const lowercaseBodyProp = (prop: string) =>  
     async (req: Request, res: Response, next: NextFunction) => {
@@ -6,7 +7,7 @@ const lowercaseBodyProp = (prop: string) =>
             if (typeof req.body[prop] !== 'string') {
                 console.log("property not a string, can't lowercase it")
             } else {
-                req.body[prop] = req.body[prop].toLowerCase();
+                req.body[prop] = trim(req.body[prop].toLowerCase(), " ");
             }
         } else {
             console.log(`Property ${prop} does not exist in the body`)
@@ -15,3 +16,4 @@ const lowercaseBodyProp = (prop: string) =>
     }
 
 export const lowercaseName = lowercaseBodyProp("name");
+export const lowercaseDescription = lowercaseBodyProp("description");

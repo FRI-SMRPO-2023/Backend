@@ -4,6 +4,7 @@ import TaskController from "../controller/task.controller";
 import TimeLogController from "../controller/timelog.controller";
 import { validateStoryUpdate, validateId } from "../services/validator.service";
 import { validateTaskCreate } from "../services/validator.service";
+import { lowercaseDescription } from "../middleware/toLowercase";
 import { isPOorSM } from "../middleware/authorizeUser";
 
 //EVERYTHING IS INSIDE project.router.ts, since it's a one-to-many relationship
@@ -134,7 +135,7 @@ storyRouter
 storyRouter
         .route("/:storyId/tasks")
         .get(TaskController.getAllFromStory)
-        .post(validateTaskCreate, TaskController.createNewTask);
+        .post(validateTaskCreate, lowercaseDescription, TaskController.createNewTask);
 
 storyRouter
         .route("/:storyId/timelogs")

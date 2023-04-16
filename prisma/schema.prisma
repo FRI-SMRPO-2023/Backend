@@ -92,6 +92,8 @@ model Task {
   asigneeId      Int?
   status         TaskStatus
   TimeLog        TimeLog[]
+
+  @@unique([storyId, description])
 }
 
 enum TaskStatus {

@@ -38,7 +38,7 @@ const createNewTask: RequestHandler = async (req, res, next) => {
         const task = await TaskService.createTask(storyId, req.body);
         res.status(201).json(task);
     } catch (err) {
-        general_error_handler(err, res, next);
+        general_error_handler(err, res, next, "Task with this description already exists in this story");
     }
 };
 
