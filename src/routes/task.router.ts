@@ -2,6 +2,7 @@ import express from "express";
 import TaskController from "../controller/task.controller";
 import TimeLogController from "../controller/timelog.controller";
 import { validateTaskUpdate } from "../services/validator.service";
+import { lowercaseDescription } from "../middleware/toLowercase";
 const taskRouter = express.Router();
 
 /**
@@ -62,7 +63,7 @@ const taskRouter = express.Router();
  */
 taskRouter.route("/:id")
     .get(TaskController.getById)
-    .patch(TaskController.updateTask)
+    .patch(lowercaseDescription, TaskController.updateTask)
     .delete(validateTaskUpdate, TaskController.deleteTask);
 
 

@@ -10,7 +10,7 @@ const lowercaseBodyProp = (prop: string) =>
                 req.body[prop] = trim(req.body[prop].toLowerCase(), " ");
             }
         } else {
-            console.log(`Property ${prop} does not exist in the body`)
+            console.log(`"lowercaseBodyProp": Property ${prop} does not exist in the body`)
         }
         next();
     }

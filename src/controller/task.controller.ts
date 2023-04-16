@@ -48,7 +48,7 @@ const updateTask: RequestHandler = async (req, res, next) => {
         const task = await TaskService.updateTaskById(taskId, req.body);
         res.status(200).json(task);
     } catch (err) {
-        general_error_handler(err, res, next);
+        general_error_handler(err, res, next, "Task with this description already exists in this story");
     }
 };
 

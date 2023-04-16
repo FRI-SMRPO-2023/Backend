@@ -4,7 +4,7 @@ import TaskController from "../controller/task.controller";
 import TimeLogController from "../controller/timelog.controller";
 import { validateStoryUpdate, validateId } from "../services/validator.service";
 import { validateTaskCreate } from "../services/validator.service";
-import { lowercaseDescription } from "../middleware/toLowercase";
+import { lowercaseDescription, lowercaseName } from "../middleware/toLowercase";
 import { isPOorSM } from "../middleware/authorizeUser";
 
 //EVERYTHING IS INSIDE project.router.ts, since it's a one-to-many relationship
@@ -75,7 +75,7 @@ storyRouter
         .all(validateId)
         .get(StoryController.findbyId)
         .delete(StoryController.deletebyId)
-        .patch(validateStoryUpdate, StoryController.updatebyId);
+        .patch(validateStoryUpdate, lowercaseName, StoryController.updatebyId);
 
 /**
  * @openapi
