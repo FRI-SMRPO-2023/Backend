@@ -57,7 +57,7 @@ const SprintBaseSchema = z.object({
     projectId: z.number(),
     name: z.string({
         required_error: "property 'name' is required"
-    }).min(1),
+        }).min(1),
     startDate: z.string({
         required_error: "property 'startDate' is required"
     }).regex(/^\d{4}-\d{2}-\d{2}$/,  "startDate should be of the form YYYY-MM-DD"),
@@ -70,7 +70,7 @@ const SprintBaseSchema = z.object({
 });
 
 export const SprintCreateSchema = SprintBaseSchema.omit({projectId: true});
-const SprintReturnSchema = SprintCreateSchema.extend({
+const SprintReturnSchema = SprintBaseSchema.extend({
     id: z.number(),
     startDate: z.date({
         required_error: "property 'startDate' is required"

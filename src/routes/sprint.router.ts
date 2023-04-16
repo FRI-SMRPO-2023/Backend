@@ -1,5 +1,6 @@
 import express from "express";
 import SprintController from "../controller/sprint.controller";
+import { validateSprintUpdate } from "../services/validator.service";
 
 const sprintRouter = express.Router();
 
@@ -11,5 +12,8 @@ const sprintRouter = express.Router();
 
 // sprintRouter.route("/current")
 //     .get(SprintController.getCurrent)
+//
+sprintRouter.route("/:id")
+      .post(validateSprintUpdate, SprintController.updateSprint);
 
 export default sprintRouter;
