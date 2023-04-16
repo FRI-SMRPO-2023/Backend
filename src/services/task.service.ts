@@ -1,4 +1,5 @@
 import prisma from "../../libs/prisma";
+import SprintService from "./sprint.service";
 import { TaskReturn, TaskUpdate, TaskCreate } from "../schemas/task.schema";
 
 const getTasksOnStory = async (storyId: number): Promise<TaskReturn[]> => {
@@ -26,6 +27,41 @@ const getTasksOnStory = async (storyId: number): Promise<TaskReturn[]> => {
             status: true,
         },
     });
+};
+
+const getTasksOnCurrentSprint = async (
+    projectId: number
+): Promise<TaskReturn[]> => {
+    let currentSprint = await SprintService.getCurrentSprint(projectId);
+    if (currentSprint) {
+        let sprintId = currentSprint.id;
+        return prisma.task.findMany({
+            where: {
+                story: {
+                    sprintId: sprintId,
+                },
+            },
+            select: {
+                id: true,
+                storyId: true,
+                description: true,
+                timeEstimation: true,
+                asignee: {
+                    select: {
+                        id: true,
+                        username: true,
+                        name: true,
+                        lastName: true,
+                        email: true,
+                        isAdmin: true,
+                        lastLogin: true,
+                    },
+                },
+                status: true,
+            },
+        });
+    }
+    return Promise.resolve([]);
 };
 
 const getSingle = async (taskId: number): Promise<TaskReturn> => {
@@ -127,6 +163,7 @@ const deleteTask = async (taskId: number): Promise<TaskReturn> => {
 
 const TaskService = {
     getTasksOnStory,
+    getTasksOnCurrentSprint,
     getSingle,
     createTask,
     updateTaskById,

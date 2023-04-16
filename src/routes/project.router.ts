@@ -13,6 +13,7 @@ import {validateProjectCreate,
         validateSprintCreate} from "../services/validator.service";
 import { lowercaseName } from "../middleware/toLowercase";
 import { isPOorSM, isSM, adminAuthorizer } from "../middleware/authorizeUser";
+import TaskController from "../controller/task.controller";
 
 
 const projectRouter = express.Router();
@@ -302,5 +303,30 @@ projectRouter.route("/:projectId/sprints")
 
 projectRouter.route("/:projectId/sprints/current")
     .get(SprintController.getCurrent)
+
+/**
+ * @openapi
+ * /api/projects/{projectId}/sprints/current/tasks:
+ *   get:
+ *     summary: Get all tasks in the  current sprint (based on current date)
+ *     tags: [Sprint, Task]
+ *     parameters:
+ *       - in: path
+ *         name: projectId
+ *         schema:
+ *           type: integer
+ *         required: true
+ *     responses:
+ *       200:
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: array
+ *                items:
+ *                  $ref: '#/components/schemas/TaskReturn'
+ *         description: Return current sprint or return null if no such sprint exists
+ */
+projectRouter.route("/:projectId/sprints/current/tasks")
+        .get(TaskController.getAllFromCurrentSprint)
 
 export default projectRouter;

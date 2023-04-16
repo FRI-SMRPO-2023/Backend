@@ -311,6 +311,27 @@ paths:
                 items:
                   $ref: '#/components/schemas/SprintReturn'
           description: Return current sprint or return null if no such sprint exists
+  /api/projects/{projectId}/sprints/current/tasks:
+    get:
+      summary: Get all tasks in the  current sprint (based on current date)
+      tags:
+        - Sprint
+        - Task
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskReturn'
+          description: Return current sprint or return null if no such sprint exists
   /api/stories/{storyId}:
     patch:
       summary: Update any (or multiple) fields in the story

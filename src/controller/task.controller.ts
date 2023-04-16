@@ -2,7 +2,6 @@ import { RequestHandler } from "express";
 import { general_error_handler } from "../utils/error_handling";
 import TaskService from "../services/task.service";
 
-
 const getAllFromStory: RequestHandler = async (req, res, next) => {
     try {
         const storyId = parseInt(req.params.storyId);
@@ -11,7 +10,17 @@ const getAllFromStory: RequestHandler = async (req, res, next) => {
     } catch (err) {
         general_error_handler(err, res, next);
     }
-}
+};
+
+const getAllFromCurrentSprint: RequestHandler = async (req, res, next) => {
+    try {
+        const projectId = parseInt(req.params.projectId);
+        const tasks = await TaskService.getTasksOnCurrentSprint(projectId);
+        res.status(200).json(tasks);
+    } catch (err) {
+        general_error_handler(err, res, next);
+    }
+};
 
 const getById: RequestHandler = async (req, res, next) => {
     try {
@@ -21,8 +30,7 @@ const getById: RequestHandler = async (req, res, next) => {
     } catch (err) {
         general_error_handler(err, res, next);
     }
-    
-}
+};
 
 const createNewTask: RequestHandler = async (req, res, next) => {
     try {
@@ -32,7 +40,7 @@ const createNewTask: RequestHandler = async (req, res, next) => {
     } catch (err) {
         general_error_handler(err, res, next);
     }
-}
+};
 
 const updateTask: RequestHandler = async (req, res, next) => {
     try {
@@ -52,14 +60,15 @@ const deleteTask: RequestHandler = async (req, res, next) => {
     } catch (err) {
         general_error_handler(err, res, next);
     }
-}
+};
 
 const TaskController = {
     getAllFromStory,
+    getAllFromCurrentSprint,
     getById,
     createNewTask,
     updateTask,
-    deleteTask
+    deleteTask,
 };
 
 export default TaskController;
