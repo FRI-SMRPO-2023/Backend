@@ -2,19 +2,19 @@ import express from "express";
 import ProjectController from "../controller/project.controller";
 import StoryController from "../controller/story.controller";
 import SprintController from "../controller/sprint.controller";
-import {validateProjectCreate, 
-        validateProjectUpdate, 
-        validateId, 
-        validateProjectId, 
-        validateStoryCreate, 
+import {
+        validateProjectCreate,
+        validateProjectUpdate,
+        validateId,
+        validateProjectId,
+        validateStoryCreate,
         validateStoryId,
         validateStoryUpdate,
         validateTaskId,
-        validateSprintCreate} from "../services/validator.service";
-import { lowercaseName } from "../middleware/toLowercase";
+        validateSprintCreate,
+} from "../services/validator.service";
 import { isPOorSM, isSM, adminAuthorizer } from "../middleware/authorizeUser";
 import TaskController from "../controller/task.controller";
-
 
 const projectRouter = express.Router();
 
@@ -24,7 +24,7 @@ const projectRouter = express.Router();
  * tags:
  *   name: Project
  *   description: Project management api
- *  
+ *
  * /api/projects:
  *   get:
  *     summary: Get all projects
@@ -37,7 +37,7 @@ const projectRouter = express.Router();
  *                type: array
  *                items:
  *                  $ref: '#/components/schemas/ProjectReturn'
- *               
+ *
  *         description: Return all a list of all projects
  *   post:
  *     summary: Create a new Project
@@ -59,13 +59,13 @@ const projectRouter = express.Router();
  *         description: Project with specified name already exists.
  *       500:
  *         description: Some server error
- *              
+ *
  */
 
-projectRouter.route("/")
+projectRouter
+        .route("/")
         .get(ProjectController.getAll)
-        .post(adminAuthorizer, validateProjectCreate, lowercaseName, ProjectController.create);
-
+        .post(adminAuthorizer, validateProjectCreate, ProjectController.create);
 
 /**
  * @openapi
@@ -88,7 +88,7 @@ projectRouter.route("/")
  *                    $ref: '#/components/schemas/ProjectReturn'
  *          409:
  *              description: Project with specified id does not exist
- * 
+ *
  *  delete:
  *      summary: Delete project by id
  *      tags: [Project]
@@ -103,7 +103,7 @@ projectRouter.route("/")
  *              description: Delete successful
  *          409:
  *              description: Project with specified id does not exist
- *                      
+ *
  *  get:
  *    summary: Get project by id
  *    tags: [Project]
@@ -122,13 +122,14 @@ projectRouter.route("/")
  *                 $ref: '#/components/schemas/ProjectReturn'
  *      409:
  *          description: Project with specified id does not exist
- *     
+ *
  */
-projectRouter.route("/:id").all(validateId)
+projectRouter
+        .route("/:id")
+        .all(validateId)
         .get(ProjectController.findbyId)
         .delete(ProjectController.deletebyId)
-        .patch(validateProjectUpdate, lowercaseName, ProjectController.updatebyId)
-
+        .patch(validateProjectUpdate, ProjectController.updatebyId);
 
 // stories
 /**
@@ -136,7 +137,7 @@ projectRouter.route("/:id").all(validateId)
  * tags:
  *   name: Story
  *   description: Story management api
- *  
+ *
  * /api/projects/{projectId}/stories:
  *   get:
  *     summary: Get all stories on certain project
@@ -155,7 +156,7 @@ projectRouter.route("/:id").all(validateId)
  *                type: array
  *                items:
  *                  $ref: '#/components/schemas/StoryReturn'
- *               
+ *
  *         description: Return a list of all stories in a project
  *   post:
  *     summary: Create a new story in a project
@@ -183,13 +184,14 @@ projectRouter.route("/:id").all(validateId)
  *         description: Story with specified name in the project.
  *       500:
  *         description: Some server error
- *              
+ *
  */
 
-projectRouter.route("/:projectId/stories").all(validateProjectId)
+projectRouter
+        .route("/:projectId/stories")
+        .all(validateProjectId)
         .get(StoryController.getAll)
-        .post(validateStoryCreate, isPOorSM, lowercaseName, StoryController.create)
-
+        .post(validateStoryCreate, isPOorSM, StoryController.create);
 
 // sprints
 /**
@@ -197,7 +199,7 @@ projectRouter.route("/:projectId/stories").all(validateProjectId)
  * tags:
  *   name: Sprint
  *   description: Sprint management api
- *  
+ *
  * /api/projects/{projectId}/sprints:
  *   get:
  *     summary: Get all sprints for the specified project
@@ -216,7 +218,7 @@ projectRouter.route("/:projectId/stories").all(validateProjectId)
  *                type: array
  *                items:
  *                  $ref: '#/components/schemas/SprintReturn'
- *               
+ *
  *         description: Return a list of all sprints
  *   post:
  *     summary: Create a new Sprint inside the project
@@ -271,12 +273,13 @@ projectRouter.route("/:projectId/stories").all(validateProjectId)
  *               - error
  *       500:
  *         description: Some server error
- *              
+ *
  */
 
-projectRouter.route("/:projectId/sprints")
-    .get(SprintController.getAll)
-    .post(isSM, validateSprintCreate, SprintController.createSprint)
+projectRouter
+        .route("/:projectId/sprints")
+        .get(SprintController.getAll)
+        .post(isSM, validateSprintCreate, SprintController.createSprint);
 
 /**
  * @openapi
@@ -301,8 +304,9 @@ projectRouter.route("/:projectId/sprints")
  *         description: Return current sprint or return null if no such sprint exists
  */
 
-projectRouter.route("/:projectId/sprints/current")
-    .get(SprintController.getCurrent)
+projectRouter
+        .route("/:projectId/sprints/current")
+        .get(SprintController.getCurrent);
 
 /**
  * @openapi
@@ -326,7 +330,8 @@ projectRouter.route("/:projectId/sprints/current")
  *                  $ref: '#/components/schemas/TaskReturn'
  *         description: Return current sprint or return null if no such sprint exists
  */
-projectRouter.route("/:projectId/sprints/current/tasks")
-        .get(TaskController.getAllFromCurrentSprint)
+projectRouter
+        .route("/:projectId/sprints/current/tasks")
+        .get(TaskController.getAllFromCurrentSprint);
 
 export default projectRouter;

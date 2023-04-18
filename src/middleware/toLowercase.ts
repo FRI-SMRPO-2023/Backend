@@ -15,5 +15,5 @@ const lowercaseBodyProp = (prop: string) =>
         next();
     }
 
-export const lowercaseName = lowercaseBodyProp("name");
-export const lowercaseDescription = lowercaseBodyProp("description");
+// export const lowercaseName = lowercaseBodyProp("name");
+// export const lowercaseDescription = lowercaseBodyProp("description");

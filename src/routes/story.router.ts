@@ -4,8 +4,6 @@ import TaskController from "../controller/task.controller";
 import TimeLogController from "../controller/timelog.controller";
 import { validateStoryUpdate, validateId } from "../services/validator.service";
 import { validateTaskCreate } from "../services/validator.service";
-import { lowercaseDescription, lowercaseName } from "../middleware/toLowercase";
-import { isPOorSM } from "../middleware/authorizeUser";
 
 //EVERYTHING IS INSIDE project.router.ts, since it's a one-to-many relationship
 // and i encoutered some bugs, which didn't allow for separate story router
@@ -75,7 +73,7 @@ storyRouter
   .all(validateId)
   .get(StoryController.findbyId)
   .delete(StoryController.deletebyId)
-  .patch(validateStoryUpdate, lowercaseName, StoryController.updatebyId);
+  .patch(validateStoryUpdate, StoryController.updatebyId);
 
 /**
  * @openapi
@@ -135,7 +133,7 @@ storyRouter
 storyRouter
   .route("/:storyId/tasks")
   .get(TaskController.getAllFromStory)
-  .post(validateTaskCreate, lowercaseDescription, TaskController.createNewTask);
+  .post(validateTaskCreate, TaskController.createNewTask);
 
 storyRouter
   .route("/:storyId/timelogs")
