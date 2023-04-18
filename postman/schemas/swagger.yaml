@@ -958,6 +958,10 @@ components:
           type: string
         status:
           type: string
+        rejectedComment:
+          type:
+            - string
+            - 'null'
         timeComplexity:
           type: number
         sprintId:
@@ -973,6 +977,7 @@ components:
         businessValue: 5
         acceptanceCriteria: this must work, this must not be allowd
         status: SprintBacklog
+        rejectedComment: this can be string or can be set to null
         timeComplexity: 3
         sprintId: 1
       required:
@@ -983,6 +988,7 @@ components:
         - businessValue
         - acceptanceCriteria
         - status
+        - rejectedComment
         - timeComplexity
         - sprintId
     StoryPriority:

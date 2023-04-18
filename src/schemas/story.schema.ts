@@ -60,6 +60,8 @@ import { StoryPriority } from "@prisma/client";
  *              type: string
  *          status:
  *              type: string
+ *          rejectedComment:
+ *              type: [string, 'null']
  *          timeComplexity:
  *              type: number
  *          sprintId:
@@ -73,6 +75,7 @@ import { StoryPriority } from "@prisma/client";
  *          businessValue: 5
  *          acceptanceCriteria: this must work, this must not be allowd
  *          status: SprintBacklog
+ *          rejectedComment: "this can be string or can be set to null" 
  *          timeComplexity: 3
  *          sprintId: 1
  *        required:
@@ -83,6 +86,7 @@ import { StoryPriority } from "@prisma/client";
  *          - businessValue
  *          - acceptanceCriteria
  *          - status
+ *          - rejectedComment 
  *          - timeComplexity
  *          - sprintId
  *      StoryPriority:
