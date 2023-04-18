@@ -2,7 +2,6 @@ import * as dotenv from "dotenv";
 import express from "express";
 import session from "express-session";
 import { UserReturn } from "./schemas/users.schema";
-import { validateProjectId } from "./services/validator.service";
 import { logRequest } from "./middleware/logger";
 
 declare module "express-session" {
@@ -26,7 +25,7 @@ import usersOnProjectsRouter from "./routes/userOnProject.router";
 import authRouter from "./routes/auth.router";
 import taskRouter from "./routes/task.router";
 import timelogRouter from "./routes/timelogs.router";
-import { authorizer, adminAuthorizer } from "./middleware/authorizeUser";
+import { authorizer } from "./middleware/authorizeUser";
 import swaggerDocs from "./utils/swagger";
 
 dotenv.config();
@@ -91,7 +90,7 @@ app.use("/api/timelogs", timelogRouter)
  *      200:
  *        description: Healthy
  */
-app.get("/healthcheck", async (req: express.Request, res: express.Response) => {
+app.get("/healthcheck", async (_req: express.Request, res: express.Response) => {
   res.status(200).send("OK");
 });
 

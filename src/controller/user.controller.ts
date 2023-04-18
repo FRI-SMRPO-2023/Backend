@@ -2,7 +2,7 @@ import UserService from "../services/user.service";
 import { RequestHandler } from "express";
 import { general_error_handler } from "../utils/error_handling";
 
-const getAll: RequestHandler = async (req, res, next) => {
+const getAll: RequestHandler = async (_req, res, next) => {
   try {
     const users = await UserService.getAllUsers();
     res.status(200).json(users);
