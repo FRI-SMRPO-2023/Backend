@@ -80,5 +80,8 @@ export const TimeLogCreateSchema = TimeLogBasicSchema.extend({
   hours_estimate: z.number().optional(),
 });
 
+export const TimeLogUpdateSchema = TimeLogCreateSchema.partial();
+
 export type TimeLogReturn = z.infer<typeof TimeLogReturnSchema>;
 export type TimeLogCreate = z.infer<typeof TimeLogCreateSchema>;
+export type TimeLogUpdate = z.infer<typeof TimeLogUpdateSchema>;

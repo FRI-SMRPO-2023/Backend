@@ -1,18 +1,21 @@
 import express from "express";
 import TimeLogController from "../controller/timelog.controller";
-import { validateTimeLogCreate } from "../services/validator.service";
+import {
+  validateTimeLogCreate,
+  validateTimeLogUpdate,
+} from "../services/validator.service";
 
 const timelogRouter = express.Router();
 
 /**
  * @openapi
  * tags:
- *   name: TimeLog 
+ *   name: TimeLog
  *   description: TimeLog management api
  *
  * /api/timelogs:
  *   post:
- *     summary: create a new timelog (or append time to existing timelog) 
+ *     summary: create a new timelog (or append time to existing timelog)
  *     tags: [TimeLog]
  *     requestBody:
  *       required: true
@@ -34,5 +37,9 @@ const timelogRouter = express.Router();
 timelogRouter
   .route("/")
   .post(validateTimeLogCreate, TimeLogController.createTimeLogs);
+
+timelogRouter
+  .route("/:id")
+  .patch(validateTimeLogUpdate, TimeLogController.updateTimeLogs);
 
 export default timelogRouter;

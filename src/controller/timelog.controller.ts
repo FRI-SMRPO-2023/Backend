@@ -1,7 +1,6 @@
 import { RequestHandler } from "express";
 import { general_error_handler } from "../utils/error_handling";
 import TimeLogService from "../services/timelog.service";
-import { stripTime } from "../utils/datetime_conversion";
 
 const getTimeLogsOfStory: RequestHandler = async (req, res, next) => {
   try {
@@ -32,10 +31,21 @@ const createTimeLogs: RequestHandler = async (req, res, next) => {
   }
 };
 
+const updateTimeLogs: RequestHandler = async (req, res, next) => {
+  try {
+    const timeLogId = parseInt(req.params.id);
+    const timeLog = await TimeLogService.updateTimeLog(timeLogId, req.body);
+    res.status(201).json(timeLog);
+  } catch (err) {
+    general_error_handler(err, res, next);
+  }
+};
+
 const TimeLogController = {
   getTimeLogsOfStory,
   createTimeLogs,
   getTimeLogsOfTask,
+  updateTimeLogs,
 };
 
 export default TimeLogController;
