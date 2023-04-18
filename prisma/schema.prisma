@@ -66,6 +66,7 @@ model Story {
   businessValue      Int
   acceptanceCriteria String
   status             String
+  rejectedComment    String?
   timeComplexity     Int?
   sprint             Sprint?       @relation(fields: [sprintId], references: [id])
   sprintId           Int?

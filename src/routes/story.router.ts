@@ -71,11 +71,11 @@ const storyRouter = express.Router();
  */
 
 storyRouter
-        .route("/:id")
-        .all(validateId)
-        .get(StoryController.findbyId)
-        .delete(StoryController.deletebyId)
-        .patch(validateStoryUpdate, lowercaseName, StoryController.updatebyId);
+  .route("/:id")
+  .all(validateId)
+  .get(StoryController.findbyId)
+  .delete(StoryController.deletebyId)
+  .patch(validateStoryUpdate, lowercaseName, StoryController.updatebyId);
 
 /**
  * @openapi
@@ -133,12 +133,12 @@ storyRouter
  */
 
 storyRouter
-        .route("/:storyId/tasks")
-        .get(TaskController.getAllFromStory)
-        .post(validateTaskCreate, lowercaseDescription, TaskController.createNewTask);
+  .route("/:storyId/tasks")
+  .get(TaskController.getAllFromStory)
+  .post(validateTaskCreate, lowercaseDescription, TaskController.createNewTask);
 
 storyRouter
-        .route("/:storyId/timelogs")
-        .get(TimeLogController.getTimeLogsOfStory);
+  .route("/:storyId/timelogs")
+  .get(TimeLogController.getTimeLogsOfStory);
 
 export default storyRouter;
