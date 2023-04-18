@@ -14,6 +14,7 @@ const sprintRouter = express.Router();
 //     .get(SprintController.getCurrent)
 //
 sprintRouter.route("/:id")
-      .post(validateSprintUpdate, SprintController.updateSprint);
+      .patch(validateSprintUpdate, SprintController.updateSprint)
+      .delete(SprintController.deleteSprint)
 
 export default sprintRouter;

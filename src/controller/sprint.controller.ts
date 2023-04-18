@@ -7,18 +7,15 @@ const getCurrent: RequestHandler = async (req, res, next) => {
     const projectId = parseInt(req.params.projectId);
     const currSprint = await SprintService.getCurrentSprint(projectId);
     res.status(200).json(currSprint);
-  } catch (err) {
-    general_error_handler(req, res, next);
+  } catch (err: any) {
+    general_error_handler(err, res, next);
   }
 };
 
 const createSprint: RequestHandler = async (req, res, next) => {
   try {
-    console.log("Creating new sprint");
     const projectId = parseInt(req.params.projectId);
-    console.log("THis is project ID:", projectId);
     const allSprints = await SprintService.getAllSprints(projectId);
-    console.log("These are all sprints", allSprints);
     const newDates = {
       startDate: new Date(req.body.startDate),
       endDate: new Date(req.body.endDate),
@@ -32,10 +29,8 @@ const createSprint: RequestHandler = async (req, res, next) => {
       });
     }
     for (let sprint of allSprints) {
-      console.log("chekcing colliding");
       const collides = await SprintService.collidingDates(sprint, newDates);
       if (collides) {
-        console.log("Dates are colliding");
         return res.status(409).json({
           status: "failed",
           error: {
@@ -46,20 +41,25 @@ const createSprint: RequestHandler = async (req, res, next) => {
         });
       }
     }
-    console.log("Dates are not colliding");
     const newSprint = await SprintService.createNewSprint(projectId, req.body);
     res.status(201).json(newSprint);
-  } catch (err) {
-    general_error_handler(req, res, next);
+  } catch (err: any) {
+    general_error_handler(err, res, next);
   }
 };
 
 const updateSprint: RequestHandler = async (req, res, next) => {
   try {
-    console.log("ENTERED");
     const sprintId = parseInt(req.params.id, 10);
     const thisSprint = await SprintService.getSprintById(sprintId);
-    console.log(thisSprint);
+    if (thisSprint == null) {
+      return res.status(409).json({
+        status: "failed",
+        error: {
+          message: "sprint with this ID doesn't exist"
+        }
+      });
+    }
     if (req.body.startDate || req.body.endDate) {
       const allSprints = await SprintService.getAllSprints(
         thisSprint.projectId
@@ -72,7 +72,6 @@ const updateSprint: RequestHandler = async (req, res, next) => {
           ? new Date(req.body.endDate)
           : thisSprint.endDate,
       };
-      console.log(newDates);
       if (!SprintService.dateInOrder(newDates)) {
         return res.status(409).json({
           status: "failed",
@@ -86,7 +85,6 @@ const updateSprint: RequestHandler = async (req, res, next) => {
         if (sprint.id != sprintId) {
           const collides = await SprintService.collidingDates(sprint, newDates);
           if (collides) {
-            console.log("Dates are colliding on sprint update");
             return res.status(409).json({
               status: "failed",
               error: {
@@ -102,8 +100,18 @@ const updateSprint: RequestHandler = async (req, res, next) => {
 
     const updatedSprint = await SprintService.updateSprint(sprintId, req.body);
     res.status(201).json(updatedSprint);
-  } catch (err) {
-    general_error_handler(req, res, next);
+  } catch (err: any) {
+    general_error_handler(err, res, next);
+  }
+};
+
+const deleteSprint: RequestHandler = async (req, res, next) => {
+  try {
+    const sprintId = parseInt(req.params.id);
+    const sprint = await SprintService.deleteSprint(sprintId);
+    res.sendStatus(204);
+  } catch (err: any) {
+    general_error_handler(err, res, next);
   }
 };
 
@@ -112,8 +120,8 @@ const getAll: RequestHandler = async (req, res, next) => {
     const projectId = parseInt(req.params.projectId);
     const sprints = await SprintService.getAllSprints(projectId);
     res.status(200).json(sprints);
-  } catch (err) {
-    general_error_handler(req, res, next);
+  } catch (err: any) {
+    general_error_handler(err, res, next);
   }
 };
 
@@ -122,6 +130,7 @@ const SprintController = {
   getAll,
   createSprint,
   updateSprint,
+  deleteSprint,
 };
 
 export default SprintController;
