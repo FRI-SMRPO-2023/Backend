@@ -1,6 +1,8 @@
 import express from "express";
 import SprintController from "../controller/sprint.controller";
+import SprintService from "../services/sprint.service";
 import { validateSprintUpdate } from "../services/validator.service";
+import { isSMFunc } from "../middleware/authorizeUser";
 
 const sprintRouter = express.Router();
 
@@ -41,7 +43,7 @@ const sprintRouter = express.Router();
  */
 
 sprintRouter
-  .route("/:id")
+  .route("/:id").all(isSMFunc(SprintService.getProjectId))
   .patch(validateSprintUpdate, SprintController.updateSprint)
   .delete(SprintController.deleteSprint);
 

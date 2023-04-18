@@ -30,12 +30,20 @@ const getAllSprints = async (projectId: number): Promise<SprintReturn[]> => {
   });
 };
 
-const getSprintById = async (sprintId: number): Promise<SprintReturn | null> => {
+const getSprintById = async (
+  sprintId: number
+): Promise<SprintReturn | null> => {
   return prisma.sprint.findUnique({
     where: {
       id: sprintId,
     },
   });
+};
+
+const getProjectId = async (sprintId: number): Promise<number | null> => {
+  let sprint = await getSprintById(sprintId);
+  console.log(sprint);
+  return sprint != null ? sprint.projectId : null;
 };
 
 const createNewSprint = async (
@@ -71,14 +79,15 @@ const updateSprint = async (
   });
 };
 
-const deleteSprint = async (sprintId: number): Promise<SprintReturn | undefined> => {
+const deleteSprint = async (
+  sprintId: number
+): Promise<SprintReturn | undefined> => {
   return prisma.sprint.delete({
     where: {
-      id: sprintId
-    }
-  })
-
-}
+      id: sprintId,
+    },
+  });
+};
 
 const collidingDates = async (
   sprint1: SprintReturn,
@@ -104,6 +113,7 @@ const SprintService = {
   getSprintById,
   deleteSprint,
   collidingDates,
+  getProjectId,
   dateInOrder,
 };
 
