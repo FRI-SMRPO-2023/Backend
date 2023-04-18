@@ -4,17 +4,6 @@ import { validateSprintUpdate } from "../services/validator.service";
 
 const sprintRouter = express.Router();
 
-//its all inside project.router.ts
-// sprintRouter.route("/")
-//     .get(SprintController.getAll)
-//     .post(SprintController.createSprint)
-
-
-// sprintRouter.route("/current")
-//     .get(SprintController.getCurrent)
-//
-
-
 /**
  * @openapi
  * /api/sprint/{id}:
@@ -36,7 +25,7 @@ const sprintRouter = express.Router();
  *                    $ref: '#/components/schemas/SprintReturn'
  *          409:
  *              description: Sprint with specified id does not exist error message
- * 
+ *
  *  delete:
  *      summary: Delete sprint by id
  *      tags: [Sprint]
@@ -51,8 +40,9 @@ const sprintRouter = express.Router();
  *              description: Delete successful
  */
 
-sprintRouter.route("/:id")
-      .patch(validateSprintUpdate, SprintController.updateSprint)
-      .delete(SprintController.deleteSprint)
+sprintRouter
+  .route("/:id")
+  .patch(validateSprintUpdate, SprintController.updateSprint)
+  .delete(SprintController.deleteSprint);
 
 export default sprintRouter;
