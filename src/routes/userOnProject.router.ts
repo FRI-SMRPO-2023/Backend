@@ -175,7 +175,93 @@ usersOnProjectsRouter.delete(
  *         description: User with specified id already part of the project
  *       500:
  *         description: Some server error
- *
+ * /api/projects/{projectId}/project-roles-createmany:
+ *   post:
+ *     summary: Add multiple users to a project. Secondary role is optional. If the user already exists, just set the field "active" to true
+ *     tags: [UsersOnProjects]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *              type: array
+ *              items:
+ *               type: object
+ *               properties:                                   
+ *                 userId:                                     
+ *                   type: number                              
+ *                 role:                                       
+ *                   $ref: '#/components/schemas/RoleInProject'
+ *                 secondaryRole:                              
+ *                   $ref: '#/components/schemas/RoleInProject'
+ *               example:                                      
+ *                 userId: 1                                   
+ *                 role: ScrumMaster                           
+ *                 secondaryRole: Developer                    
+ *     responses:
+ *       201:
+ *         description: User added to the project. Return the UserOnProject resource.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UserOnProject'
+ *       409:
+ *         description: User with specified id already part of the project
+ *       500:
+ *         description: Some server error
+ * /api/projects/{projectId}/project-roles-updatemany:
+ *   post:
+ *     summary: Update multiple users in a project. Any field is optional, except userId. Can also set "active" to false to soft-delete 
+ *     tags: [UsersOnProjects]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *              type: array
+ *              items:
+ *               type: object
+ *               properties:                                   
+ *                 userId:                                     
+ *                   type: number                              
+ *                 role:                                       
+ *                   $ref: '#/components/schemas/RoleInProject'
+ *                 secondaryRole:                              
+ *                   $ref: '#/components/schemas/RoleInProject'
+ *                 active:                                     
+ *                   type: bool
+ *               example:                                      
+ *                 userId: 1                                   
+ *                 role: ScrumMaster                           
+ *                 secondaryRole: Developer                    
+ *                 active: true
+ *     responses:
+ *       201:
+ *         description: User added to the project. Return the UserOnProject and the user is actually full.
+ *         content:
+ *           application/json:
+ *            schema:
+ *               type: array
+ *               items:
+ *                type: object
+ *                properties:                                   
+ *                  userId:                                     
+ *                    type: number                              
+ *                  role:                                       
+ *                    $ref: '#/components/schemas/RoleInProject'
+ *                  secondaryRole:                              
+ *                    $ref: '#/components/schemas/RoleInProject'
+ *                  active:                                     
+ *                    type: bool
+ *                example:                                      
+ *                  userId: 1                                   
+ *                  role: ScrumMaster                           
+ *                  secondaryRole: Developer                    
+ *                  active: true
+ *       409:
+ *         description: User with specified id already part of the project
+ *       500:
+ *         description: Some server error
  */
 
 //create
