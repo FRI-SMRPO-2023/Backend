@@ -67,8 +67,10 @@ model Story {
   acceptanceCriteria String
   status             String
   rejectedComment    String?
+  rejectedSprint     Sprint?       @relation(name: "rejectedSprint", fields: [rejectedSprintId], references: [id])
+  rejectedSprintId   Int?
   timeComplexity     Int?
-  sprint             Sprint?       @relation(fields: [sprintId], references: [id])
+  sprint             Sprint?       @relation(name: "currentSprint", fields: [sprintId], references: [id])
   sprintId           Int?
   tasks              Task[]
 
@@ -105,14 +107,15 @@ enum TaskStatus {
 }
 
 model Sprint {
-  id        Int      @id @default(autoincrement())
-  name      String
-  startDate DateTime
-  endDate   DateTime
-  speed     Int?
-  projectId Int
-  project   Project  @relation(fields: [projectId], references: [id])
-  stories   Story[]
+  id          Int      @id @default(autoincrement())
+  name        String
+  startDate   DateTime
+  endDate     DateTime
+  speed       Int?
+  projectId   Int
+  project     Project  @relation(fields: [projectId], references: [id])
+  Story       Story[]  @relation("currentSprint")
+  RejectStory Story[]  @relation("rejectedSprint")
 }
 
 model TimeLog {

@@ -20,6 +20,7 @@ const getAllStories = async (projectId: number): Promise<StoryWithId[]> => {
             businessValue: true,
             status: true,
             rejectedComment: true,
+            rejectedSprintId: true,
             acceptanceCriteria: true,
             timeComplexity: true,
             sprintId: true,

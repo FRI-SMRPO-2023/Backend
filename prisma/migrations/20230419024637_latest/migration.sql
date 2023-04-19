@@ -54,6 +54,7 @@ CREATE TABLE "Story" (
     "acceptanceCriteria" TEXT NOT NULL,
     "status" TEXT NOT NULL,
     "rejectedComment" TEXT,
+    "rejectedSprintId" INTEGER,
     "timeComplexity" INTEGER,
     "sprintId" INTEGER,
 
@@ -125,6 +126,9 @@ ALTER TABLE "UsersOnProjects" ADD CONSTRAINT "UsersOnProjects_projectId_fkey" FO
 
 -- AddForeignKey
 ALTER TABLE "Story" ADD CONSTRAINT "Story_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Story" ADD CONSTRAINT "Story_rejectedSprintId_fkey" FOREIGN KEY ("rejectedSprintId") REFERENCES "Sprint"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Story" ADD CONSTRAINT "Story_sprintId_fkey" FOREIGN KEY ("sprintId") REFERENCES "Sprint"("id") ON DELETE SET NULL ON UPDATE CASCADE;

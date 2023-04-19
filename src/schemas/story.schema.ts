@@ -24,7 +24,6 @@ import { StoryPriority } from "@prisma/client";
  *              type: string
  *          sprintId:
  *              type: [number, 'null']
- *
  *        example:
  *          name: FrogifyStory
  *          description: Story about musical frogs
@@ -41,6 +40,44 @@ import { StoryPriority } from "@prisma/client";
  *          - acceptanceCriteria
  *          - status
  *          - sprintId
+ *      StoryUpdate:
+ *        type: object
+ *        properties:
+ *          name:
+ *            type: string
+ *          description:
+ *            type: string
+ *          priority:
+ *            $ref: '#/components/schemas/StoryPriority'
+ *          businessValue:
+ *            type: number
+ *            description: ranges from 1 - 10
+ *          acceptanceCriteria:
+ *              type: string
+ *          status:
+ *              type: string
+ *          sprintId:
+ *              type: [number, 'null']
+ *          rejectedSprintId:
+ *              type: [number, 'null']
+ *        example:
+ *          name: FrogifyStory
+ *          description: Story about musical frogs
+ *          priority: MustHave
+ *          businessValue: 4
+ *          acceptanceCriteria: this must work, this must not be allowd
+ *          status: SprintBacklog
+ *          sprintId: 1
+ *          rejectedSprintId: null
+ *        required:
+ *          - name
+ *          - description
+ *          - priority
+ *          - businessValue
+ *          - acceptanceCriteria
+ *          - status
+ *          - sprintId
+ *          - rejectedSprintId
  *      StoryReturn:
  *        type: object
  *        properties:
@@ -123,6 +160,7 @@ export const StoryBaseSchema = z.object({
   acceptanceCriteria: z.string(),
   status: z.string(),
   rejectedComment: z.string().or(z.null()).optional(),
+  rejectedSprintId: z.number().or(z.null()).optional(),
   sprintId: z.number().or(z.null()),
 });
 //used for story creation
