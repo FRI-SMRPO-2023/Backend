@@ -65,6 +65,29 @@ const changeMultipleUserRoles: RequestHandler = async (req, res, next) => {
   }
 };
 
+const createMultipleUserRoles: RequestHandler = async (req, res, next) => {
+  try {
+    console.log("inside");
+    const projectId = parseInt(req.params.projectId, 10);
+    let result = [];
+    for (let userUp of req.body) {
+      const userId = parseInt(userUp.userId, 10);
+      const role = userUp?.role;
+      const srole = userUp?.secondaryRole || null;
+      let changeUser = await UsersOnProjectsService.createUserRole(
+        userId,
+        projectId,
+        role,
+        srole
+      );
+      result.push(changeUser);
+    }
+    res.status(200).json(result);
+  } catch (err) {
+    general_error_handler(err, res, next);
+  }
+};
+
 const removeUserFromProject = async (
   req: Request,
   res: Response,
@@ -136,6 +159,7 @@ const UsersOnProjectsController = {
   addUserToProject,
   removeUserFromProject,
   changeMultipleUserRoles,
+  createMultipleUserRoles,
 };
 
 export default UsersOnProjectsController;

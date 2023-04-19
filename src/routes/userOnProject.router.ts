@@ -1,9 +1,15 @@
 import express from "express";
-import UsersOnProjectsController  from "../controller/usersOnProject.controller";
-import { validateProjectId, validateUserId, validateUsersOnProjects } from "../services/validator.service";
-import { adminOrCorrectUser, adminAuthorizer } from "../middleware/authorizeUser";
-
-
+import UsersOnProjectsController from "../controller/usersOnProject.controller";
+import {
+  validateProjectId,
+  validateUserId,
+  validateUsersOnProjects,
+} from "../services/validator.service";
+import {
+  adminOrCorrectUser,
+  adminAuthorizer,
+  isSM,
+} from "../middleware/authorizeUser";
 
 const usersOnProjectsRouter = express.Router();
 
@@ -12,7 +18,7 @@ const usersOnProjectsRouter = express.Router();
  * tags:
  *   name: UsersOnProjects
  *   description: Adding users to projects and getting projects of users and users of projects
- *  
+ *
  * /api/projects/{id}/users:
  *   get:
  *     summary: Get all users of project with id
@@ -60,8 +66,8 @@ const usersOnProjectsRouter = express.Router();
  *                          $ref: '#/components/schemas/RoleOnProject'
  *                      project:
  *                          $ref: '#/components/schemas/ProjectReturn'
- *         description: Return all a list of all projects of a user and a role          
- * 
+ *         description: Return all a list of all projects of a user and a role
+ *
  * /api/users/{userId}/projects/{projectId}:
  *   get:
  *     summary: Get role for a single user in a single project
@@ -76,23 +82,41 @@ const usersOnProjectsRouter = express.Router();
  *       name: projectId
  *       schema:
  *         type: integer
- *       required: true 
+ *       required: true
  *     responses:
  *       200:
  *         content:
  *           application/json:
  *             schema:
  *                $ref: '#/components/schemas/UserOnProject'
- *         description: Return all a single UserOnProject resource          
+ *         description: Return all a single UserOnProject resource
  */
-//get 
-usersOnProjectsRouter.get("/projects/:projectId/users", validateProjectId, UsersOnProjectsController.getUsersOfProject);
-usersOnProjectsRouter.get("/users/:userId/projects", validateUserId, UsersOnProjectsController.getProjectsOfUser);
-usersOnProjectsRouter.get("/users/:userId/projects/:projectId", validateUserId, validateProjectId, UsersOnProjectsController.getSingle)
-usersOnProjectsRouter.patch("/users/:userId/projects/:projectId",validateUserId, validateProjectId, UsersOnProjectsController.changeUserRole)
+//get
+usersOnProjectsRouter.get(
+  "/projects/:projectId/users",
+  validateProjectId,
+  UsersOnProjectsController.getUsersOfProject
+);
+usersOnProjectsRouter.get(
+  "/users/:userId/projects",
+  validateUserId,
+  UsersOnProjectsController.getProjectsOfUser
+);
+usersOnProjectsRouter.get(
+  "/users/:userId/projects/:projectId",
+  validateUserId,
+  validateProjectId,
+  UsersOnProjectsController.getSingle
+);
+usersOnProjectsRouter.patch(
+  "/users/:userId/projects/:projectId",
+  validateUserId,
+  validateProjectId,
+  UsersOnProjectsController.changeUserRole
+);
 
 /**
- * @openapi  
+ * @openapi
  * /api/projects/{projectId}/users{userId}:
  *   delete:
  *     summary: Remove user from a project
@@ -109,12 +133,24 @@ usersOnProjectsRouter.patch("/users/:userId/projects/:projectId",validateUserId,
  *         type: integer
  *       required: true
  *     responses:
- *       204:    
- *         description: User successfully removed       
+ *       204:
+ *         description: User successfully removed
  */
 //delete
-usersOnProjectsRouter.delete("/projects/:projectId/users/:userId", adminAuthorizer, validateProjectId, validateUserId, UsersOnProjectsController.removeUserFromProject);
-usersOnProjectsRouter.delete("/users/:userId/projects/:projectId", adminAuthorizer, validateProjectId, validateUserId, UsersOnProjectsController.removeUserFromProject);
+usersOnProjectsRouter.delete(
+  "/projects/:projectId/users/:userId",
+  adminAuthorizer,
+  validateProjectId,
+  validateUserId,
+  UsersOnProjectsController.removeUserFromProject
+);
+usersOnProjectsRouter.delete(
+  "/users/:userId/projects/:projectId",
+  adminAuthorizer,
+  validateProjectId,
+  validateUserId,
+  UsersOnProjectsController.removeUserFromProject
+);
 
 /**
  * @openapi
@@ -139,12 +175,25 @@ usersOnProjectsRouter.delete("/users/:userId/projects/:projectId", adminAuthoriz
  *         description: User with specified id already part of the project
  *       500:
  *         description: Some server error
- *              
+ *
  */
 
 //create
-usersOnProjectsRouter.post("/project-roles", adminAuthorizer, validateUsersOnProjects, UsersOnProjectsController.addUserToProject);
-usersOnProjectsRouter.post("/projects/:projectId/project-roles:updatemany", UsersOnProjectsController.changeMultipleUserRoles);
-
+usersOnProjectsRouter.post(
+  "/project-roles",
+  isSM,
+  validateUsersOnProjects,
+  UsersOnProjectsController.addUserToProject
+);
+usersOnProjectsRouter.post(
+  "/projects/:projectId/project-roles-updatemany",
+  isSM,
+  UsersOnProjectsController.changeMultipleUserRoles
+);
+usersOnProjectsRouter.post(
+  "/projects/:projectId/project-roles-createmany",
+  isSM,
+  UsersOnProjectsController.createMultipleUserRoles
+);
 
 export default usersOnProjectsRouter;
