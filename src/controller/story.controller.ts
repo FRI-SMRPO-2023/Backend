@@ -1,4 +1,3 @@
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { Request, Response, NextFunction } from "express";
 import { RequestHandler } from "express";
 import StoryService from "../services/story.service";
