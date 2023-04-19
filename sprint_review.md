@@ -133,16 +133,16 @@ timeEstimation: PT10H,
 status: Unassigned -->
 
 
-wont have this time --> special section
-imena - case insensitive
-sprints - vikendi
-sprint velocity - can be null (future sprints)
+wont have this time --> special section : DONE
+imena - case insensitive : DONE
+sprints - vikendi: DONE
+sprint velocity - can be null (future sprints) : DONE
 suggest sprint name
 current sprint - can't change date
 task time estimation - show its in hours
-task can be created unassigned
+task can be created unassigned: DONE
 sum of all hours for tasks in the story
-delete tasks
+delete tasks: DONE
 
 
 

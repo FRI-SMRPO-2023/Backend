@@ -79,8 +79,8 @@ function getSprints(): Array<SprintCreate & { projectId: number }> {
         {
             projectId: 1,
             name: "first sprint",
-            startDate: new Date("2023-03-03").toISOString(),
-            endDate: new Date("2023-04-01").toISOString(),
+            startDate: new Date("2023-04-18").toISOString(),
+            endDate: new Date("2023-04-30").toISOString(),
             speed: 20,
         },
         {

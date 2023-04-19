@@ -78,7 +78,7 @@ CREATE TABLE "Sprint" (
     "name" TEXT NOT NULL,
     "startDate" TIMESTAMP(3) NOT NULL,
     "endDate" TIMESTAMP(3) NOT NULL,
-    "speed" INTEGER NOT NULL,
+    "speed" INTEGER,
     "projectId" INTEGER NOT NULL,
 
     CONSTRAINT "Sprint_pkey" PRIMARY KEY ("id")
@@ -97,13 +97,13 @@ CREATE TABLE "TimeLog" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
+CREATE UNIQUE INDEX "User_username_key" ON "User"(lower("username"));
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"(lower("email"));
 
 -- CreateIndex
-CREATE UNIQUE INDEX "lower" ON "Project"(lower("name"));
+CREATE UNIQUE INDEX "Project_name_key" ON "Project"(lower("name"));
 
 -- CreateIndex
 CREATE INDEX "Story_projectId_idx" ON "Story"("projectId");

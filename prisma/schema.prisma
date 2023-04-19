@@ -109,7 +109,7 @@ model Sprint {
   name      String
   startDate DateTime
   endDate   DateTime
-  speed     Int
+  speed     Int?
   projectId Int
   project   Project  @relation(fields: [projectId], references: [id])
   stories   Story[]

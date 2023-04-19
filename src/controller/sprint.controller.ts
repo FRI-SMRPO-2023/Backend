@@ -20,13 +20,21 @@ const createSprint: RequestHandler = async (req, res, next) => {
       startDate: new Date(req.body.startDate),
       endDate: new Date(req.body.endDate),
     };
+    if (newDates.startDate.getDay() == 0 || newDates.startDate.getDay() == 6) {
+      return return_error("Start date should not be on a weekend", res, next);
+    }
+    if (newDates.endDate.getDay() == 0 || newDates.endDate.getDay() == 6) {
+      return return_error("End date should not be on a weekend", res, next);
+    }
+    if (newDates.startDate < new Date()) {
+      return return_error("Can't create new sprint in the past", res, next);
+    }
     if (!SprintService.dateInOrder(newDates)) {
-      return res.status(409).json({
-        status: "failed",
-        error: {
-          message: "endDate should be later than startDate",
-        },
-      });
+      return return_error(
+        "End Date should be later than Start Date",
+        res,
+        next
+      );
     }
     for (let sprint of allSprints) {
       const collides = await SprintService.collidingDates(sprint, newDates);
@@ -60,10 +68,14 @@ const updateSprint: RequestHandler = async (req, res, next) => {
         },
       });
     }
-    if (req.body.startDate || req.body.endDate) {
-      const allSprints = await SprintService.getAllSprints(
-        thisSprint.projectId
+    if (thisSprint.startDate <= new Date()) {
+      return return_error(
+        "Can't update dates of the current or past sprints",
+        res,
+        next
       );
+    }
+    if (req.body.startDate || req.body.endDate) {
       const newDates = {
         startDate: req.body.startDate
           ? new Date(req.body.startDate)
@@ -72,6 +84,18 @@ const updateSprint: RequestHandler = async (req, res, next) => {
           ? new Date(req.body.endDate)
           : thisSprint.endDate,
       };
+      const allSprints = await SprintService.getAllSprints(
+        thisSprint.projectId
+      );
+      if (
+        newDates.startDate.getDay() == 0 ||
+        newDates.startDate.getDay() == 6
+      ) {
+        return return_error("Start date should not be on a weekend", res, next);
+      }
+      if (newDates.endDate.getDay() == 0 || newDates.endDate.getDay() == 6) {
+        return return_error("End date should not be on a weekend", res, next);
+      }
       if (!SprintService.dateInOrder(newDates)) {
         return res.status(409).json({
           status: "failed",
@@ -89,12 +113,15 @@ const updateSprint: RequestHandler = async (req, res, next) => {
               status: "failed",
               error: {
                 message:
-                  "Dates of updated sprints are colliding with another sprint in the project, ABORTING UPDATE",
+                  "Dates of updated sprints are colliding with another sprint in the project",
                 sprint: sprint,
               },
             });
           }
         }
+      }
+      if (newDates.startDate < new Date()) {
+        return return_error("Can't update sprint date to the past", res, next);
       }
     }
 
@@ -110,11 +137,15 @@ const deleteSprint: RequestHandler = async (req, res, next) => {
     const sprintId = parseInt(req.params.id);
     const thisSprint = await SprintService.getSprintById(sprintId);
     if (!thisSprint) {
-      return res.sendStatus(204) 
+      return res.sendStatus(204);
     }
     var curDate = new Date();
     if (thisSprint.startDate <= curDate) {
-      return return_error("Can't delete current or previous sprints", res, next);
+      return return_error(
+        "Can't delete current or previous sprints",
+        res,
+        next
+      );
     }
     await SprintService.deleteSprint(sprintId);
     res.sendStatus(204);
