@@ -1,6 +1,5 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import {Response, NextFunction} from "express";
-import { custom } from "zod";
 
 export const general_error_handler = (err: any, res: Response, next: NextFunction, customMessage?: string) => {
     if (err instanceof PrismaClientKnownRequestError) {
@@ -10,7 +9,7 @@ export const general_error_handler = (err: any, res: Response, next: NextFunctio
     }
 }
 
-export const prisma_error_handler = async (err: PrismaClientKnownRequestError, 
+export const prisma_error_handler = (err: PrismaClientKnownRequestError, 
                                            res: Response, next: NextFunction, 
                                            customMessage?: string) => {
     if (err.code === "P2002") {
@@ -34,4 +33,14 @@ export const prisma_error_handler = async (err: PrismaClientKnownRequestError,
         console.log("unknown error code: ", err.code);
         next(err);
     }
+}
+
+export const return_error = (message: string, res: Response, next: NextFunction) => {
+    res.status(409).json({
+        status: "failed",
+        error: {
+            message: message
+        }
+    })
+    next()
 }

@@ -1,7 +1,6 @@
 import prisma from "../../libs/prisma";
 import { Prisma } from "@prisma/client";
 import type { ProjectWithId, ProjectCreate, ProjectUpdate } from "../schemas/project.schema";
-import { RoleInProject } from "@prisma/client";
 
 const getAllProjects = async (): Promise<ProjectWithId[]> => {
     return prisma.project.findMany({

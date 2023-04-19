@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { general_error_handler } from "../utils/error_handling";
+import { general_error_handler, return_error } from "../utils/error_handling";
 import SprintService from "../services/sprint.service";
 
 const getCurrent: RequestHandler = async (req, res, next) => {
@@ -56,8 +56,8 @@ const updateSprint: RequestHandler = async (req, res, next) => {
       return res.status(409).json({
         status: "failed",
         error: {
-          message: "sprint with this ID doesn't exist"
-        }
+          message: "sprint with this ID doesn't exist",
+        },
       });
     }
     if (req.body.startDate || req.body.endDate) {
@@ -108,7 +108,15 @@ const updateSprint: RequestHandler = async (req, res, next) => {
 const deleteSprint: RequestHandler = async (req, res, next) => {
   try {
     const sprintId = parseInt(req.params.id);
-    const sprint = await SprintService.deleteSprint(sprintId);
+    const thisSprint = await SprintService.getSprintById(sprintId);
+    if (!thisSprint) {
+      return res.sendStatus(204) 
+    }
+    var curDate = new Date();
+    if (thisSprint.startDate <= curDate) {
+      return return_error("Can't delete current or previous sprints", res, next);
+    }
+    await SprintService.deleteSprint(sprintId);
     res.sendStatus(204);
   } catch (err: any) {
     general_error_handler(err, res, next);
