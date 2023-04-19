@@ -41,6 +41,7 @@ model UsersOnProjects {
   projectId     Int
   role          RoleInProject
   secondaryRole SecondaryRole?
+  active        Boolean        @default(true)
 
   @@id([userId, projectId])
 }

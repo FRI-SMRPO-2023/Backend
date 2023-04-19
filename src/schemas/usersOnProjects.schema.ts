@@ -52,8 +52,16 @@ export const UOPProjectReturnSchema = z.object({
 export const UOPUserReturnSchema = z.object({
     role: convertEnum<RoleInProject>(RoleInProject),
     secondaryRole: convertEnum<SecondaryRole>(SecondaryRole).or(z.null()),
-    user: UserReturnSchema
+    user: UserReturnSchema,
+    active: z.boolean()
 })
+
+export const UOPUserUpdateSchema = z.object({
+    role: convertEnum<RoleInProject>(RoleInProject).optional(),
+    secondaryRole: convertEnum<SecondaryRole>(SecondaryRole).or(z.null()).optional(),
+    userId: z.number(),
+}).array() 
 
 export type UOPProjectReturn = z.infer<typeof UOPProjectReturnSchema>;
 export type UOPUserReturn = z.infer<typeof UOPUserReturnSchema>;
+export type UOPUserUpdate = z.infer<typeof UOPUserUpdateSchema>;

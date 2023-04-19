@@ -39,6 +39,7 @@ CREATE TABLE "UsersOnProjects" (
     "projectId" INTEGER NOT NULL,
     "role" "RoleInProject" NOT NULL,
     "secondaryRole" "SecondaryRole",
+    "active" BOOLEAN NOT NULL DEFAULT true,
 
     CONSTRAINT "UsersOnProjects_pkey" PRIMARY KEY ("userId","projectId")
 );
@@ -115,14 +116,11 @@ CREATE UNIQUE INDEX "Story_projectId_name_key" ON "Story"("projectId", lower("na
 -- CreateIndex
 CREATE UNIQUE INDEX "Task_storyId_description_key" ON "Task"("storyId", lower("description"));
 
--- CreateIndex
-CREATE UNIQUE INDEX "TimeLog_userId_taskId_day_key" ON "TimeLog"("userId", "taskId", "day");
+-- AddForeignKey
+ALTER TABLE "UsersOnProjects" ADD CONSTRAINT "UsersOnProjects_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "UsersOnProjects" ADD CONSTRAINT "UsersOnProjects_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "UsersOnProjects" ADD CONSTRAINT "UsersOnProjects_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "UsersOnProjects" ADD CONSTRAINT "UsersOnProjects_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Story" ADD CONSTRAINT "Story_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

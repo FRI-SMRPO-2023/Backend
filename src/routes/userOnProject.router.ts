@@ -144,6 +144,7 @@ usersOnProjectsRouter.delete("/users/:userId/projects/:projectId", adminAuthoriz
 
 //create
 usersOnProjectsRouter.post("/project-roles", adminAuthorizer, validateUsersOnProjects, UsersOnProjectsController.addUserToProject);
+usersOnProjectsRouter.post("/projects/:projectId/project-roles:updatemany", UsersOnProjectsController.changeMultipleUserRoles);
 
 
 export default usersOnProjectsRouter;

@@ -1,10 +1,6 @@
 import prisma from "../../libs/prisma";
 import { UsersOnProjects } from "@prisma/client";
-import {RoleInProject} from "@prisma/client"
-import { ProjectWithId } from "../schemas/project.schema";
-import { UOPProjectReturn, UOPUserReturn } from "../schemas/usersOnProjects.schema";
-
-
+import { UOPProjectReturn, UOPUserReturn, UOPUserUpdate} from "../schemas/usersOnProjects.schema";
 
 
 const addUserToProject = async (groupMembership: UsersOnProjects): Promise<UsersOnProjects> => {
@@ -56,6 +52,7 @@ const getAllUsersOfProject = async (projectId: number): Promise<UOPUserReturn[]>
         select: {
             role: true,
             secondaryRole: true,
+            active: true,
             user: {
                 select: {
                     username: true,
@@ -71,7 +68,22 @@ const getAllUsersOfProject = async (projectId: number): Promise<UOPUserReturn[]>
     })
 }
 
-const changeUserRole = async (userId: number, projectId: number, role: string, srole: string | null): Promise<UsersOnProjects|null> =>  {
+// const changeMultipleRoles = async (projectId: number, updateArr: UOPUserUpdate): Promise<UOPUserReturn[]> => {
+//    let retarr = [];
+//     for (let userUp of updateArr) {
+//         let updated = prisma.usersOnProjects.upsert({
+//             where: {
+//                 userId_projectId: {
+//                     projectId: projectId,
+//                     userId: userUp.userId
+//                 }
+//             }
+//         })
+//     }
+//    return prisma.usersOnProjects.upsert
+// }
+
+const changeUserRole = async (userId: number, projectId: number, role: string, srole: string | null, active?: boolean): Promise<UsersOnProjects|null> =>  {
     if (role != "Developer" && role != "ProductOwner" && role != "ScrumMaster" && role != undefined) {
         return null;
     }
@@ -87,13 +99,26 @@ const changeUserRole = async (userId: number, projectId: number, role: string, s
         },
         data: {
             role: role,
-            secondaryRole: srole
+            secondaryRole: srole,
+            active: active
         },
         select: {
             role: true,
             userId: true,
+            user: {
+                select: {
+                    username: true,
+                    id: true,
+                    name: true,
+                    lastName: true,
+                    email: true,
+                    isAdmin: true,
+                    lastLogin: true
+                }
+            },
             projectId: true,
-            secondaryRole: true
+            secondaryRole: true,
+            active: true
         }
     });
 }
