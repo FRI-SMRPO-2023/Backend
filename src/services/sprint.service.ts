@@ -27,6 +27,9 @@ const getAllSprints = async (projectId: number): Promise<SprintReturn[]> => {
     where: {
       projectId: projectId,
     },
+    orderBy: {
+      startDate: 'asc'
+    }
   });
 };
 
