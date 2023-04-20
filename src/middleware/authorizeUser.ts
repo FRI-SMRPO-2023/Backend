@@ -104,4 +104,4 @@ const correctProjectRole =
 export const isPOorSM = correctProjectRole(["ProductOwner", "ScrumMaster"]);
 export const isSM = correctProjectRole(["ScrumMaster"]);
 export const isSMFunc = (func: Function) =>
-  correctProjectRole(["ScrumMaster"], func);
+  correctProjectRole(["ScrumMaster", "ProductOwner"], func);
