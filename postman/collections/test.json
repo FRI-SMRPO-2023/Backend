@@ -127,8 +127,8 @@
 							"script": {
 								"id": "66bd3725-ecd3-450d-b154-44850a783400",
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
+									"pm.test(\"Status code is 409\", function () {",
+									"    pm.response.to.have.status(409);",
 									"});",
 									"",
 									"pm.test(\"The response has all properties\", () => {",
@@ -180,8 +180,8 @@
 							"script": {
 								"id": "6f106518-53ad-4d14-b70b-d931118f1033",
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
+									"pm.test(\"Status code is 409\", function () {",
+									"    pm.response.to.have.status(409);",
 									"});",
 									"",
 									"pm.test(\"The response has all properties\", () => {",
@@ -226,7 +226,7 @@
 					"response": []
 				},
 				{
-					"name": "login with correct credentials",
+					"name": "admin login",
 					"event": [
 						{
 							"listen": "test",
@@ -259,6 +259,114 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"email\": \"admin@prisma.com\",\n    \"password\": \"123456789012\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "scrum master login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "38b6e376-7acc-463d-a26d-282ecf75f274",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"The response has all properties\", () => {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.id).to.eql(3);",
+									"    pm.expect(responseJson.name).to.eql('Sonja');",
+									"    pm.expect(responseJson.email).to.eql('developerka@prisma.com');",
+									"    pm.expect(responseJson.isAdmin).to.eql(false);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "5db955a9-5b36-490e-ba0e-b1d2cd52dc5b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"developerka@prisma.com\",\n    \"password\": \"123456789012\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "product owner login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "38b6e376-7acc-463d-a26d-282ecf75f274",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"The response has all properties\", () => {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.id).to.eql(2);",
+									"    pm.expect(responseJson.name).to.eql('Slavko');",
+									"    pm.expect(responseJson.email).to.eql('developer@prisma.com');",
+									"    pm.expect(responseJson.isAdmin).to.eql(false);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "4dd4bfeb-7ade-4709-a967-73c741f48b30",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"developer@prisma.com\",\n    \"password\": \"123456789012\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -474,7 +582,7 @@
 									"});",
 									"pm.test(\"Number of users is 2\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.length).to.eql(2);",
+									"    pm.expect(jsonData.length).to.eql(3);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -630,9 +738,9 @@
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
 									"});",
-									"pm.test(\"Number of users is 3\", function () {",
+									"pm.test(\"Number of users is 4\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.length).to.eql(3);",
+									"    pm.expect(jsonData.length).to.eql(4);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -712,9 +820,9 @@
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
 									"});",
-									"pm.test(\"Number of users is 2\", function () {",
+									"pm.test(\"Number of users is 3\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.length).to.eql(2);",
+									"    pm.expect(jsonData.length).to.eql(3);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -763,9 +871,9 @@
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
 									"});",
-									"pm.test(\"Number of projects is 1\", function () {",
+									"pm.test(\"Number of projects is 2\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.length).to.eql(1);",
+									"    pm.expect(jsonData.length).to.eql(2);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -840,7 +948,7 @@
 									"});",
 									"var jsonData = pm.response.json();",
 									"pm.test(\"Your test name\", function () {",
-									"    pm.expect(jsonData.id).to.eql(2);",
+									"    pm.expect(jsonData.id).to.eql(3);",
 									"    pm.expect(jsonData.name).to.eql(\"Frogify\");",
 									"    pm.expect(jsonData.description).to.eql(\"Project about musical frogs\");",
 									"});",
@@ -892,7 +1000,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Frogify\",\n  \"description\": \"Project about musical frogs\",\n  \"users\": [\n    {\n      \"id\": 1,\n      \"role\": \"Developer\"\n    },\n    {\n      \"id\": 2,\n      \"role\": \"ScrumMaster\"\n    }\n  ]\n}",
+							"raw": "{\n  \"name\": \"FrOgiFY3\",\n  \"description\": \"Project about musical frogs\",\n  \"users\": [\n    {\n      \"id\": 1,\n      \"role\": \"Developer\"\n    },\n    {\n      \"id\": 2,\n      \"role\": \"ScrumMaster\",\n      \"secondaryRole\": \"Developer\"\n    }\n  ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1251,9 +1359,9 @@
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
 									"});",
-									"pm.test(\"Number of projects is 1\", function () {",
+									"pm.test(\"Number of projects is 3\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.length).to.eql(2);",
+									"    pm.expect(jsonData.length).to.eql(3);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1326,10 +1434,10 @@
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
 									"});",
-									"pm.test(\"Number of projects is 1\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.length).to.eql(2);",
-									"});"
+									"// pm.test(\"Project structure\", function () {",
+									"//     var jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.length).to.eql(2);",
+									"// });"
 								],
 								"type": "text/javascript"
 							}
@@ -1348,13 +1456,14 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/projects",
+							"raw": "{{baseUrl}}/api/projects/2",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"projects"
+								"projects",
+								"2"
 							]
 						}
 					},
@@ -1392,6 +1501,1007 @@
 				}
 			],
 			"id": "286b57d6-9c92-49dd-aff3-4c1bf962b148"
+		},
+		{
+			"name": "usersOnProjects",
+			"item": [
+				{
+					"name": "users of project",
+					"id": "e9411ab6-aedb-4641-b516-5ab8f2e48d74",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/api/projects/3/users",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"3",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "projects of user",
+					"id": "6bab70f8-b2c9-4805-acf9-b04b645d1032",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/api/users/1/projects",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users",
+								"1",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "projects of user Copy",
+					"id": "29e2535c-8de8-4581-bfa2-8f204e3691b6",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"secondaryRole\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/api/users/1/projects/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users",
+								"1",
+								"projects",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update many",
+					"id": "86f1926e-1919-4b96-a39c-ab8e8e4abcf9",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n       \"userId\": 3,\n       \"active\": false\n    },\n    {\n       \"userId\": 2,\n       \"role\": \"Developer\"  \n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/api/projects/1/project-roles-updatemany",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"1",
+								"project-roles-updatemany"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create many",
+					"id": "6700ea6b-1fe6-44c1-9499-724e37eb5e2d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n       \"userId\": 1,\n       \"role\": \"ProductOwner\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/api/projects/2/project-roles-createmany",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"2",
+								"project-roles-createmany"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "41f339fc-a9ce-483f-9fc6-085dfffb8e60"
+		},
+		{
+			"name": "stories",
+			"item": [
+				{
+					"name": "get all user stories",
+					"id": "f50c4567-a4d4-4c95-80ce-95d714bf0d3f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/api/projects/1/stories",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"1",
+								"stories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post new user story",
+					"id": "96234eab-4c6a-4ade-9e4e-e711e4d54bc2",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Description mockup\",\n    \"name\": \"roles tEst2\",\n    \"priority\": \"CouldHave\",\n    \"businessValue\": 4,\n    \"status\": \"SprintBacklog\",\n    \"acceptanceCriteria\": \"create new mockup\",\n    \"sprintId\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/api/projects/2/stories",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"2",
+								"stories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update story values",
+					"id": "d0dd893a-52a4-4933-8e96-22da0d7f5399",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"rejectedComment\": \"Lol what is this?\",\n    \"rejectedSprintId\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/api/stories/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"stories",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update story values Copy",
+					"id": "158b1f1c-74d5-4558-bb15-baa21ab64a30",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/api/stories/6",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"stories",
+								"6"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "ed134adf-3c5e-4ac2-a298-10e03acc6709"
+		},
+		{
+			"name": "tasks",
+			"item": [
+				{
+					"name": "get tasks from story",
+					"id": "065969e1-5990-4c06-a41c-4ab0f35eb357",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/api/stories/1/tasks",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"stories",
+								"1",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create new task on story",
+					"id": "8b060249-9420-4540-bd35-e8bb24d338e7",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Fix the frontend \",\n    \"timeEstimation\": \"PT10H\",\n    \"status\": \"Unassigned\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/api/stories/1/tasks",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"stories",
+								"1",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create new task on story Copy",
+					"id": "6a91a4d8-efcc-44fe-aeee-f7125be31f0a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"Active\",\n    \"asigneeId\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/api/tasks/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"tasks",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete task",
+					"id": "fcf466e5-ac0a-47b9-9fd5-1bee9bd14ac9",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/api/tasks/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"tasks",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "a778a140-3268-4caa-af6c-0c6e0fd7b8c2"
+		},
+		{
+			"name": "sprint",
+			"item": [
+				{
+					"name": "get all sprints",
+					"id": "1ac1a33e-72f9-4353-bcb5-f2daf6f085f6",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/api/projects/1/sprints",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"1",
+								"sprints"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get current sprint",
+					"id": "18a2d226-b316-4696-b959-e0a09f2ddbec",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/api/projects/1/sprints/current",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"1",
+								"sprints",
+								"current"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new sprint",
+					"id": "eac51bbd-2411-4ed6-9a36-4e682f5e7eaf",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"snailing5\",\n  \"startDate\": \"2023-04-19\",\n  \"endDate\": \"2023-04-21\",\n  \"speed\": 20\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/api/projects/1/sprints",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"1",
+								"sprints"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new sprint Copy",
+					"id": "f2d54dce-96f1-4b9b-9c95-33af164c60d3",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"first sprint MEHA\",\n    \"startDate\": \"2023-04-20\",\n    \"endDate\": \"2023-04-28\",\n    \"speed\": 20\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/api/sprints/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"sprints",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all sprints Copy",
+					"id": "1e4453ab-b11c-417c-ad5e-55236a96276f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/api/sprints/3",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"sprints",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "264cdbec-7a41-4d03-9c02-c75e9cdf1613"
+		},
+		{
+			"name": "NonProductOwner access",
+			"item": [
+				{
+					"name": "login with correct credentials Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "38b6e376-7acc-463d-a26d-282ecf75f274",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"The response has all properties\", () => {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.id).to.eql(2);",
+									"    pm.expect(responseJson.name).to.eql('Slavko');",
+									"    pm.expect(responseJson.email).to.eql('developer@prisma.com');",
+									"    pm.expect(responseJson.isAdmin).to.eql(false);",
+									"    pm.expect(responseJson.lastLogin).to.eql(null);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "63b6c520-25d0-422c-8ee4-fb6164c65638",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"developer@prisma.com\",\n    \"password\": \"123456789012\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post new user story Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a9aeb78a-bf30-4f1d-8135-1ec6f6fb06f5",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "adc9f6ae-0dde-4ca9-98f8-8743d078eced",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"description mockup\",\n    \"name\": \"role test\",\n    \"priority\": \"CouldHave\",\n    \"businessValue\": \"High\",\n    \"projectId\": 1,\n    \"status\": \"SprintBacklog\",\n    \"acceptanceCriteria\": \"create new mockup\",\n    \"sprintId\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/api/projects/1/stories",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"1",
+								"stories"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "24bf3c05-f67d-4581-abfa-6c55d1dd8c51"
+		},
+		{
+			"name": "11 - Time estimation",
+			"item": [
+				{
+					"name": "get all user stories Copy",
+					"id": "81f33cac-d66c-4cc0-80c5-14e55d6129f9",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/api/projects/1/stories",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"1",
+								"stories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get single user story",
+					"id": "52f817eb-9370-410d-89d4-e2f472dfa62e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/api/stories/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"stories",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "assign time complexity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "70c99c0a-898c-40de-beaa-74e982be933f",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Your test name\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.timeComplexity).to.eql(3);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "ae51e89a-4b69-4322-b2ed-da9955f582fa",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"timeComplexity\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/api/stories/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"stories",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "129fad36-0dd4-46e1-80fa-ccac6501e6a5"
+		},
+		{
+			"name": "18 - time log on task",
+			"item": [
+				{
+					"name": "get all logs for story",
+					"id": "1e2b5ca9-25c0-4ab0-b78f-456ce5e2a75b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/api/stories/1/timelogs",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"stories",
+								"1",
+								"timelogs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all logs for task",
+					"id": "24ca047c-fe26-4358-8ade-780e859b0107",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/api/tasks/3/timelogs",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"tasks",
+								"3",
+								"timelogs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create a new log",
+					"id": "6bf4a391-70a4-4c74-92f3-a7cd10cb28e7",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"storyId\": 1,\n    \"userId\": 1,\n    \"taskId\": 3,\n    \"day\": \"2023-03-16\",\n    \"hours\": 0.5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/api/timelogs",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"timelogs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update hour_estimation (time_remaining)",
+					"id": "847033a3-1fe0-4452-940e-beab16bd0d10",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"hours_estimate\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/api/timelogs/7",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"timelogs",
+								"7"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "7bcba8b0-a86e-447e-b1a7-700cbe6369cf"
+		},
+		{
+			"name": "28 - sprint backlog",
+			"item": [
+				{
+					"name": "get all logs for story Copy 2",
+					"id": "c2eeb3bc-fe88-4b7a-b25e-9d9be9ece6b0",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/api/projects/1/sprints/current/tasks",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"1",
+								"sprints",
+								"current",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "ec3c83a9-5ee3-4cac-b9fc-6d1152bb0a77"
+		},
+		{
+			"name": "07 - managing sprints",
+			"item": [
+				{
+					"name": "update a single sprint",
+					"id": "78546d4e-ce9c-4a80-9291-ff473c04a01c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"AAAA\",\n    \"startDate\": \"2023-03-03\",\n    \"endDate\": \"2023-04-07\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/api/sprints/3",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"sprints",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update a single sprint Copy",
+					"id": "d3895780-4e75-454b-98ec-1a7fb3d422d9",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"AAAA\",\n    \"startDate\": \"2023-03-03\",\n    \"endDate\": \"2023-04-07\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8000/api/sprints/3",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"sprints",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "8ffb4236-a75f-4e6a-9c58-05ead29250aa"
 		}
 	],
 	"variable": [
