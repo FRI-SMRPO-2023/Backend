@@ -6,7 +6,6 @@ import {
   validateUsersOnProjects,
 } from "../services/validator.service";
 import {
-  adminOrCorrectUser,
   adminAuthorizer,
   isSM,
 } from "../middleware/authorizeUser";

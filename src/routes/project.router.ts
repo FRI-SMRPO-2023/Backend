@@ -8,9 +8,6 @@ import {
         validateId,
         validateProjectId,
         validateStoryCreate,
-        validateStoryId,
-        validateStoryUpdate,
-        validateTaskId,
         validateSprintCreate,
 } from "../services/validator.service";
 import { isPOorSM, isSM, adminAuthorizer } from "../middleware/authorizeUser";
