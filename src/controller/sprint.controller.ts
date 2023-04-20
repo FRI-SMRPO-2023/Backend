@@ -164,9 +164,21 @@ const getAll: RequestHandler = async (req, res, next) => {
   }
 };
 
+const getSingle: RequestHandler = async (req, res, next) => {
+  try {
+    const sprintId = parseInt(req.params.id);
+    const sprints = await SprintService.getSprintById(sprintId);
+    res.status(200).json(sprints);
+  } catch (err: any) {
+    general_error_handler(err, res, next, "Sprint with this id does not exist");
+  }
+}
+
+
 const SprintController = {
   getCurrent,
   getAll,
+  getSingle,
   createSprint,
   updateSprint,
   deleteSprint,

@@ -32,6 +32,7 @@ const createProject = async (
     arr.push({
       role: element.role,
       secondaryRole: element.secondaryRole,
+      active: true,
       user: { connect: { id: element.id } },
     });
   });
