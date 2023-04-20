@@ -2058,6 +2058,30 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "New Request",
+					"id": "1a713a2b-09af-4a5a-9710-0b0030c35136",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/api/sprints/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"sprints",
+								"1"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"id": "264cdbec-7a41-4d03-9c02-c75e9cdf1613"
