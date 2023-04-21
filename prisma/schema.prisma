@@ -11,17 +11,18 @@ datasource db {
 }
 
 model User {
-  id        Int               @id @default(autoincrement())
-  username  String            @unique
-  name      String
-  lastName  String
-  password  String
-  email     String            @unique
-  isAdmin   Boolean           @default(false)
-  lastLogin DateTime?
-  projects  UsersOnProjects[]
-  Task      Task[]
-  TimeLog   TimeLog[]
+  id          Int               @id @default(autoincrement())
+  username    String            @unique
+  name        String
+  lastName    String
+  password    String
+  email       String            @unique
+  isAdmin     Boolean           @default(false)
+  lastLogin   DateTime?
+  projects    UsersOnProjects[]
+  Task        Task[]
+  TimeLog     TimeLog[]
+  ProjectWall ProjectWall[]
 }
 
 model Project {
@@ -31,6 +32,7 @@ model Project {
   users       UsersOnProjects[]
   stories     Story[]
   sprints     Sprint[]
+  ProjectWall ProjectWall[]
 }
 
 // used as a many to many relationship table
@@ -130,4 +132,14 @@ model TimeLog {
   hours_estimate Float
 
   @@unique([userId, taskId, day])
+}
+
+model ProjectWall {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  projectId Int
+  project   Project  @relation(fields: [projectId], references: [id])
+  timestamp DateTime 
+  content   String
 }
