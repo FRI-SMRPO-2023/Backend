@@ -43,9 +43,13 @@ const sprintRouter = express.Router();
  */
 
 sprintRouter
-  .route("/:id").all(isSMFunc(SprintService.getProjectId))
+  .route("/:id")
   .get(SprintController.getSingle)
-  .patch(validateSprintUpdate, SprintController.updateSprint)
-  .delete(SprintController.deleteSprint);
+  .patch(
+    validateSprintUpdate,
+    isSMFunc(SprintService.getProjectId),
+    SprintController.updateSprint
+  )
+  .delete(isSMFunc(SprintService.getProjectId), SprintController.deleteSprint);
 
 export default sprintRouter;
