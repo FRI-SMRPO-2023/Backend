@@ -2,16 +2,17 @@ import express from "express";
 import ProjectController from "../controller/project.controller";
 import StoryController from "../controller/story.controller";
 import SprintController from "../controller/sprint.controller";
+import TaskController from "../controller/task.controller";
+import ProjectWallController from "../controller/projectWall.controller";
 import {
-        validateProjectCreate,
-        validateProjectUpdate,
-        validateId,
-        validateProjectId,
-        validateStoryCreate,
-        validateSprintCreate,
+  validateProjectCreate,
+  validateProjectUpdate,
+  validateId,
+  validateProjectId,
+  validateStoryCreate,
+  validateSprintCreate,
 } from "../services/validator.service";
 import { isPOorSM, isSM, adminAuthorizer } from "../middleware/authorizeUser";
-import TaskController from "../controller/task.controller";
 
 const projectRouter = express.Router();
 
@@ -60,9 +61,9 @@ const projectRouter = express.Router();
  */
 
 projectRouter
-        .route("/")
-        .get(ProjectController.getAll)
-        .post(adminAuthorizer, validateProjectCreate, ProjectController.create);
+  .route("/")
+  .get(ProjectController.getAll)
+  .post(adminAuthorizer, validateProjectCreate, ProjectController.create);
 
 /**
  * @openapi
@@ -122,11 +123,11 @@ projectRouter
  *
  */
 projectRouter
-        .route("/:id")
-        .all(validateId)
-        .get(ProjectController.findbyId)
-        .delete(ProjectController.deletebyId)
-        .patch(validateProjectUpdate, ProjectController.updatebyId);
+  .route("/:id")
+  .all(validateId)
+  .get(ProjectController.findbyId)
+  .delete(ProjectController.deletebyId)
+  .patch(validateProjectUpdate, ProjectController.updatebyId);
 
 // stories
 /**
@@ -185,10 +186,10 @@ projectRouter
  */
 
 projectRouter
-        .route("/:projectId/stories")
-        .all(validateProjectId)
-        .get(StoryController.getAll)
-        .post(validateStoryCreate, isPOorSM, StoryController.create);
+  .route("/:projectId/stories")
+  .all(validateProjectId)
+  .get(StoryController.getAll)
+  .post(validateStoryCreate, isPOorSM, StoryController.create);
 
 // sprints
 /**
@@ -274,9 +275,9 @@ projectRouter
  */
 
 projectRouter
-        .route("/:projectId/sprints")
-        .get(SprintController.getAll)
-        .post(isSM, validateSprintCreate, SprintController.createSprint);
+  .route("/:projectId/sprints")
+  .get(SprintController.getAll)
+  .post(isSM, validateSprintCreate, SprintController.createSprint);
 
 /**
  * @openapi
@@ -302,8 +303,8 @@ projectRouter
  */
 
 projectRouter
-        .route("/:projectId/sprints/current")
-        .get(SprintController.getCurrent);
+  .route("/:projectId/sprints/current")
+  .get(SprintController.getCurrent);
 
 /**
  * @openapi
@@ -328,7 +329,75 @@ projectRouter
  *         description: Return current sprint or return null if no such sprint exists
  */
 projectRouter
-        .route("/:projectId/sprints/current/tasks")
-        .get(TaskController.getAllFromCurrentSprint);
+  .route("/:projectId/sprints/current/tasks")
+  .get(TaskController.getAllFromCurrentSprint);
+
+// projectWall
+
+/**
+ * @openapi
+ * tags:
+ *   name: ProjectWall
+ *   description: Project wall management api
+ * /api/projects/:projectId/wall:
+ *   post:
+ *     summary: Create a new post on a Project wall
+ *     tags: [ProjectWall]
+ *     parameters:
+ *       - in: path
+ *         name: projectId
+ *         required: true
+ *         description: ID of the Project to post on.
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ProjectWallCreate'
+ *     responses:
+ *       201:
+ *         description: The created post.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ProjectWallReturn'
+ *       409:
+ *         description: Project not found.
+ *       500:
+ *         description: Some server error.
+ *
+ *   get:
+ *     summary: Get all posts on a Project wall
+ *     tags: [ProjectWall]
+ *     parameters:
+ *       - in: path
+ *         name: projectId
+ *         required: true
+ *         description: ID of the Project to get posts from.
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *     responses:
+ *       200:
+ *         description: List of all posts on the Project wall.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/ProjectWallReturn'
+ *       409:
+ *         description: Project not found.
+ *       500:
+ *         description: Some server error.
+ *
+ */
+projectRouter
+  .route("/:projectId/wall")
+  .post(ProjectWallController.createMessage)
+  .get(ProjectWallController.getAllMessages);
 
 export default projectRouter;

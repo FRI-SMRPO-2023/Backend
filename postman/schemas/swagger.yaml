@@ -332,6 +332,124 @@ paths:
                 items:
                   $ref: '#/components/schemas/TaskReturn'
           description: Return current sprint or return null if no such sprint exists
+  /api/projects/:projectId/wall:
+    post:
+      summary: Create a new post on a Project wall
+      tags:
+        - ProjectWall
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          description: ID of the Project to post on.
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectWallCreate'
+      responses:
+        '201':
+          description: The created post.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectWallReturn'
+        '409':
+          description: Project not found.
+        '500':
+          description: Some server error.
+    get:
+      summary: Get all posts on a Project wall
+      tags:
+        - ProjectWall
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          description: ID of the Project to get posts from.
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: List of all posts on the Project wall.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProjectWallReturn'
+        '409':
+          description: Project not found.
+        '500':
+          description: Some server error.
+  /api/wall/{postId}:
+    get:
+      summary: Get a post from a project wall by id
+      tags:
+        - ProjectWall
+      parameters:
+        - in: path
+          name: postId
+          schema:
+            type: integer
+          required: true
+          description: The ID of the post to retrieve
+      responses:
+        '200':
+          description: The post was successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectWallReturn'
+        '409':
+          description: The specified project or post was not found
+    patch:
+      summary: Update a post on a project wall
+      tags:
+        - ProjectWall
+      parameters:
+        - in: path
+          name: postId
+          schema:
+            type: integer
+          required: true
+          description: The ID of the post to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectWallUpdate'
+      responses:
+        '200':
+          description: The post was successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectWallReturn'
+        '409':
+          description: The specified project or post was not found
+    delete:
+      summary: Delete a post from a project wall
+      tags:
+        - ProjectWall
+      parameters:
+        - in: path
+          name: postId
+          schema:
+            type: integer
+          required: true
+          description: The ID of the post to delete
+      responses:
+        '204':
+          description: The post was successfully deleted
+        '409':
+          description: The specified project or post was not found
   /api/sprint/{id}:
     patch:
       summary: Update any (or multiple) fields in the sprint
@@ -952,6 +1070,84 @@ components:
         - name
         - description
         - id
+    ProjectWallCreate:
+      type: object
+      properties:
+        userId:
+          type: number
+        title:
+          type: string
+        content:
+          type: string
+      example:
+        userId: 1
+        title: My first project wall post
+        content: This is my first post on the project wall!
+      required:
+        - userId
+        - title
+        - content
+    ProjectWallReturn:
+      type: object
+      properties:
+        id:
+          type: number
+        userId:
+          type: number
+        projectId:
+          type: number
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        title:
+          type: string
+        content:
+          type: string
+        edited:
+          type: boolean
+        user:
+          $ref: '#/components/schemas/UserReturn'
+      example:
+        id: 1
+        userId: 1
+        projectId: 1
+        createdAt: '2023-04-21T12:00:00.000Z'
+        updatedAt: '2023-04-21T12:01:00.000Z'
+        title: My first project wall post
+        content: This is my first post on the project wall!
+        edited: true
+        user:
+          id: 1
+          name: John Doe
+      required:
+        - id
+        - userId
+        - projectId
+        - createdAt
+        - title
+        - content
+        - edited
+        - user
+    ProjectWallUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        edited:
+          type: boolean
+      example:
+        title: My edited post
+        content: This is the edited content of my post
+        edited: true
+      required:
+        - title
+        - content
+        - edited
     SprintCreate:
       type: object
       properties:
@@ -1362,6 +1558,8 @@ tags:
     description: Story management api
   - name: Sprint
     description: Sprint management api
+  - name: ProjectWall
+    description: Project wall management api
   - name: Task
     description: Task management api
   - name: TimeLog

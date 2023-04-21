@@ -103,7 +103,10 @@ CREATE TABLE "ProjectWall" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
     "projectId" INTEGER NOT NULL,
-    "timestamp" TIMESTAMP(3) NOT NULL,
+    "title" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "edited" BOOLEAN NOT NULL DEFAULT false,
     "content" TEXT NOT NULL,
 
     CONSTRAINT "ProjectWall_pkey" PRIMARY KEY ("id")

@@ -7,6 +7,7 @@ import { TaskCreate } from "../src/schemas/task.schema";
 import { SprintCreate } from "../src/schemas/sprint.schema";
 import { StoryCreate } from "../src/schemas/story.schema";
 import { TimeLogCreate } from "../src/schemas/timelog.schema";
+import { ProjectWallCreate } from "../src/schemas/projectWall.schema";
 
 function getUsers(): Array<UserCreate> {
   return [
@@ -199,6 +200,41 @@ function getTimeLogs(): Array<
   ];
 }
 
+function getProjectWallMessages(): Array<
+  ProjectWallCreate & { projectId: number }
+> {
+  return [
+    {
+      userId: 1,
+      projectId: 1,
+      title: "Day planning",
+      content:
+        "Tine: will do 10 pushups\nBine: will do 20 pushups\nVine: will do Wine drinking\nMine: will explode",
+    },
+    {
+      userId: 1,
+      projectId: 1,
+      title: "Bug Fixing",
+      content:
+        "Fix issue with pagination not displaying correct number of pages\nImplement error handling for user login\nAdd unit tests for new feature",
+    },
+    {
+      userId: 3,
+      projectId: 1,
+      title: "Code Refactoring",
+      content:
+        "Extract common code into a shared utility function\nSimplify complex if-else statements using switch-case\nReplace repetitive for-loops with higher-order array methods",
+    },
+    {
+      userId: 2,
+      projectId: 2,
+      title: "New Feature Development",
+      content:
+        "Implement user authentication using OAuth2\nIntegrate with external API to retrieve and display user data\nAdd feature to export data to CSV format",
+    },
+  ];
+}
+
 async function seed() {
   // seed users
   for (let user of getUsers()) {
@@ -255,6 +291,16 @@ async function seed() {
         day: log.day,
         hours: log.hours,
         hours_estimate: log.hours_estimate,
+      },
+    });
+  }
+  for (let post of getProjectWallMessages()) {
+    await prisma.projectWall.create({
+      data: {
+        userId: post.userId,
+        projectId: post.projectId,
+        title: post.title,
+        content: post.content,
       },
     });
   }
