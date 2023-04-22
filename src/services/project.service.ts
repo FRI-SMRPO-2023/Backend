@@ -12,6 +12,7 @@ const getAllProjects = async (): Promise<ProjectWithId[]> => {
       id: true,
       name: true,
       description: true,
+      documentation: true,
     },
   });
 };
@@ -40,6 +41,7 @@ const createProject = async (
     data: {
       name: project.name,
       description: project.description,
+      documentation: project.documentation || "",
       users: {
         create: arr,
       },
@@ -68,6 +70,7 @@ const updateProject = async (
     data: {
       name: projectUpdate.name,
       description: projectUpdate.description,
+      documentation: projectUpdate.documentation
     },
   });
   return res;

@@ -26,13 +26,14 @@ model User {
 }
 
 model Project {
-  id          Int               @id @default(autoincrement())
-  name        String            @unique
-  description String
-  users       UsersOnProjects[]
-  stories     Story[]
-  sprints     Sprint[]
-  ProjectWall ProjectWall[]
+  id            Int               @id @default(autoincrement())
+  name          String            @unique
+  description   String
+  documentation String
+  users         UsersOnProjects[]
+  stories       Story[]
+  sprints       Sprint[]
+  ProjectWall   ProjectWall[]
 }
 
 // used as a many to many relationship table

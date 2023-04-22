@@ -43,6 +43,7 @@ function getProjects(): Array<ProjectCreate> {
     {
       name: "test1",
       description: "mockup project used for development",
+      documentation: "This is the starting documentation for the user. Edit as you wish",
       users: [
         {
           id: 1,
@@ -61,6 +62,7 @@ function getProjects(): Array<ProjectCreate> {
     {
       name: "project2",
       description: "Some descriptions",
+      documentation: "Documentation shall be written here. GOGOGO11!1!!1",
       users: [
         {
           id: 1,

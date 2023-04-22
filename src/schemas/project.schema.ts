@@ -14,7 +14,8 @@ export const ProjectBaseSchema = z.object({
         .min(1, "Project name cannot be empty"),
     description: z.string({
         required_error: "Project description is required",
-    })
+    }),
+    documentation: z.string().optional()
 });
 
 
@@ -73,8 +74,8 @@ export const ProjectCreateSchema = ProjectBaseSchema.merge(z.object({
         id: z.number(),
         role: convertEnum<RoleInProject>(RoleInProject),
         secondaryRole: convertEnum<SecondaryRole>(SecondaryRole).or(z.null()).optional()
-    }).array().nonempty()
-})).required();
+    }).array().nonempty(),
+}));
 
 export const ProjectWithIdSchema = ProjectBaseSchema.merge(HasId);
 
