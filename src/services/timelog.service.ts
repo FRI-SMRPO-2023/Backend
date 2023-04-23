@@ -148,6 +148,7 @@ const getTimeLogsTask = async (taskId: number): Promise<TimeLogReturn[]> => {
 const getLatestTimeLogTask = async (
   taskId: number
 ): Promise<TimeLogReturn | null> => {
+  await fillTimeLogsTask(taskId);
   return prisma.timeLog.findFirst({
     where: {
       taskId: taskId,
@@ -163,6 +164,7 @@ const getLatestTimeLogTask = async (
 const createTimeLog = async (
   timeLog: TimeLogCreate
 ): Promise<TimeLogReturn> => {
+  await fillTimeLogsTask(timeLog.taskId);
   let log = await prisma.timeLog.findUnique({
     where: {
       userId_taskId_day: {
@@ -229,6 +231,7 @@ const updateTimeLog = async (
   timeLogId: number,
   timeLogUpdate: TimeLogUpdate
 ): Promise<TimeLogReturn | null> => {
+  await fillTimeLogsTask(timeLogId);
   return prisma.timeLog.update({
     where: {
       id: timeLogId,
