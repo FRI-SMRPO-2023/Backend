@@ -6,7 +6,103 @@ import type {
 } from "../schemas/timelog.schema";
 import { isoDurationToHours } from "../utils/datetime_conversion";
 
+const fillTimeLogsTask = async (taskId: number) => {
+  const lastLog = await prisma.timeLog.findFirst({
+    where: {
+      taskId: taskId,
+    },
+    select: {
+      day: true,
+      userId: true,
+      taskId: true,
+      task: {
+        select: {
+          story: {
+            select: {
+              sprint: {
+                select: {
+                  endDate: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    orderBy: [
+      {
+        day: "desc",
+      },
+    ],
+  });
+  if (lastLog != null) {
+    const today = new Date();
+    let endDate = lastLog.task.story.sprint?.endDate;
+    let lastdate = new Date(lastLog.day);
+    if (endDate) {
+      if (today < endDate) {
+        endDate = today;
+      }
+      while (lastdate < endDate) {
+        const newLog: TimeLogCreate = {
+          userId: lastLog.userId,
+          taskId: lastLog.taskId,
+          day: lastdate,
+          hours: 0,
+        };
+        await createTimeLog(newLog);
+        lastdate.setDate(lastdate.getDate() + 1);
+      }
+    }
+  }
+};
+
+const fillTimeLogsStory = async (storyId: number) => {
+  const alltasks = await prisma.story.findMany({
+    where: {
+      id: storyId,
+    },
+    select: {
+      tasks: {
+        select: {
+          id: true,
+        },
+      },
+      sprint: {
+        select: {
+          endDate: true,
+        },
+      },
+    },
+  });
+  const taskIds = alltasks[0].tasks;
+  for (let task of taskIds) {
+    const lastLog = await getLatestTimeLogTask(task.id);
+    if (lastLog != null) {
+      const today = new Date();
+      let endDate = alltasks[0].sprint?.endDate;
+      let lastdate = new Date(lastLog.day);
+      if (endDate) {
+        if (today < endDate) {
+          endDate = today;
+        }
+        while (lastdate < endDate) {
+          const newLog: TimeLogCreate = {
+            userId: lastLog.userId,
+            taskId: lastLog.taskId,
+            day: lastdate,
+            hours: 0,
+          };
+          await createTimeLog(newLog);
+          lastdate.setDate(lastdate.getDate() + 1);
+        }
+      }
+    }
+  }
+};
+
 const getTimeLogsStory = async (storyId: number): Promise<TimeLogReturn[]> => {
+  await fillTimeLogsStory(storyId);
   return prisma.timeLog.findMany({
     where: {
       task: {
@@ -21,10 +117,19 @@ const getTimeLogsStory = async (storyId: number): Promise<TimeLogReturn[]> => {
       hours: true,
       hours_estimate: true,
     },
+    orderBy: [
+      {
+        taskId: "asc",
+      },
+      {
+        day: "asc",
+      },
+    ],
   });
 };
 
 const getTimeLogsTask = async (taskId: number): Promise<TimeLogReturn[]> => {
+  await fillTimeLogsTask(taskId);
   return prisma.timeLog.findMany({
     where: {
       taskId: taskId,

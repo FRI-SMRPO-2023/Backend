@@ -127,7 +127,7 @@ function getStories(): Array<StoryCreate & { projectId: number }> {
       businessValue: 2,
       acceptanceCriteria: "create new mockup",
       status: "ProductBacklog",
-      sprintId: null,
+      sprintId: 2,
     },
     {
       projectId: 1,
@@ -137,7 +137,7 @@ function getStories(): Array<StoryCreate & { projectId: number }> {
       businessValue: 5,
       acceptanceCriteria: "create new mockup 2",
       status: "ProductBacklog",
-      sprintId: null,
+      sprintId: 2,
     },
     {
       projectId: 2,
@@ -177,27 +177,19 @@ function getTimeLogs(): Array<
   return [
     {
       storyId: 1,
-      userId: 1,
+      userId: 2,
       taskId: 1,
-      day: new Date("2023-03-10"),
+      day: new Date("2023-04-18"),
       hours: 5.0,
       hours_estimate: 7.0,
     },
     {
       storyId: 1,
-      userId: 2,
-      taskId: 1,
-      day: new Date("2023-03-11"),
+      userId: 3,
+      taskId: 2,
+      day: new Date("2023-04-18"),
       hours: 2.0,
       hours_estimate: 7.0,
-    },
-    {
-      storyId: 1,
-      userId: 2,
-      taskId: 1,
-      day: new Date("2023-03-12"),
-      hours: 5.5,
-      hours_estimate: 1.0,
     },
   ];
 }
