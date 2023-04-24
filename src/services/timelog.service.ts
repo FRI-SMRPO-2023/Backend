@@ -200,6 +200,9 @@ const getTimeLogsTask = async (
       hours: true,
       hours_estimate: true,
     },
+    orderBy: {
+      day: "asc"
+    }
   });
 };
 
