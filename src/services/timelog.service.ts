@@ -6,164 +6,160 @@ import type {
 } from "../schemas/timelog.schema";
 import { isoDurationToHours } from "../utils/datetime_conversion";
 
-const fillTimeLogsTask = async (taskId: number) => {
-  console.log("LOGGING1");
-  const today = new Date();
-  const task = await prisma.task.findUnique({
-    where: {
-      id: taskId,
-    },
-    select: {
-      id: true,
-      asigneeId: true,
-      timeEstimation: true,
-      story: {
-        select: {
-          sprint: {
-            select: {
-              startDate: true,
-              endDate: true,
-            },
-          },
-        },
-      },
-    },
-  });
-  if (task != null && task.story.sprint?.startDate && task.story.sprint.startDate > today) {
-    return;
-  }
-  console.log("LOGGING2");
-  if (task != null && task.asigneeId && task.story.sprint) {
-    const newLog: TimeLogCreate = {
-      userId: task.asigneeId,
-      taskId: task.id,
-      day: task.story.sprint?.startDate,
-      hours: 0,
-    };
-    await createTimeLog(newLog, true);
-  }
-  console.log("LOGGING3");
-  const lastLog = await prisma.timeLog.findFirst({
-    where: {
-      taskId: taskId,
-    },
-    select: {
-      day: true,
-      userId: true,
-      taskId: true,
-      task: {
-        select: {
-          story: {
-            select: {
-              sprint: {
-                select: {
-                  startDate: true,
-                  endDate: true,
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-    orderBy: [
-      {
-        day: "desc",
-      },
-    ],
-  });
-  console.log("LOGGING4");
-  if (lastLog != null) {
-    console.log("ITERATING");
-    let endDate = lastLog.task.story.sprint?.endDate;
-    let lastdate = new Date(lastLog.day);
-    if (endDate) {
-      console.log("ENDDATE");
-      if (today < endDate) {
-        endDate = today;
-      }
-      console.log(endDate);
-      console.log(lastdate);
-      while (lastdate < endDate) {
-        const newLog: TimeLogCreate = {
-          userId: lastLog.userId,
-          taskId: lastLog.taskId,
-          day: lastdate,
-          hours: 0,
-        };
-        await createTimeLog(newLog, true);
-        lastdate.setDate(lastdate.getDate() + 1);
-      }
-    }
-  }
-  console.log("LOGGING5");
-};
-
-const fillTimeLogsStory = async (storyId: number) => {
-  const alltasks = await prisma.story.findMany({
-    where: {
-      id: storyId,
-    },
-    select: {
-      tasks: {
-        select: {
-          id: true,
-          asigneeId: true,
-        },
-      },
-      sprint: {
-        select: {
-          startDate: true,
-          endDate: true,
-        },
-      },
-    },
-  });
-  if (alltasks[0].sprint && alltasks[0].sprint.startDate > new Date()) {
-    return;
-  }
-  const taskIds = alltasks[0].tasks;
-  for (let task of taskIds) {
-    if (task.asigneeId && alltasks[0].sprint) {
-      const newLog: TimeLogCreate = {
-        userId: task.asigneeId,
-        taskId: task.id,
-        day: alltasks[0].sprint.startDate,
-        hours: 0,
-      };
-      await createTimeLog(newLog, true);
-    }
-    const lastLog = await getLatestTimeLogTask(task.id, true);
-    if (lastLog != null) {
-      const today = new Date();
-      let endDate = alltasks[0].sprint?.endDate;
-      let lastdate = new Date(lastLog.day);
-      if (endDate) {
-        if (today < endDate) {
-          endDate = today;
-        }
-        while (lastdate < endDate) {
-          const newLog: TimeLogCreate = {
-            userId: lastLog.userId,
-            taskId: lastLog.taskId,
-            day: lastdate,
-            hours: 0,
-          };
-          await createTimeLog(newLog, true);
-          lastdate.setDate(lastdate.getDate() + 1);
-        }
-      }
-    }
-  }
-};
+// const fillTimeLogsTask = async (taskId: number) => {
+//   console.log("LOGGING1");
+//   const today = new Date();
+//   const task = await prisma.task.findUnique({
+//     where: {
+//       id: taskId,
+//     },
+//     select: {
+//       id: true,
+//       asigneeId: true,
+//       timeEstimation: true,
+//       story: {
+//         select: {
+//           sprint: {
+//             select: {
+//               startDate: true,
+//               endDate: true,
+//             },
+//           },
+//         },
+//       },
+//     },
+//   });
+//   if (task != null && task.story.sprint?.startDate && task.story.sprint.startDate > today) {
+//     return;
+//   }
+//   console.log("LOGGING2");
+//   if (task != null && task.asigneeId && task.story.sprint) {
+//     const newLog: TimeLogCreate = {
+//       userId: task.asigneeId,
+//       taskId: task.id,
+//       day: task.story.sprint?.startDate,
+//       hours: 0,
+//     };
+//     await createTimeLog(newLog);
+//   }
+//   console.log("LOGGING3");
+//   const lastLog = await prisma.timeLog.findFirst({
+//     where: {
+//       taskId: taskId,
+//     },
+//     select: {
+//       day: true,
+//       userId: true,
+//       taskId: true,
+//       task: {
+//         select: {
+//           story: {
+//             select: {
+//               sprint: {
+//                 select: {
+//                   startDate: true,
+//                   endDate: true,
+//                 },
+//               },
+//             },
+//           },
+//         },
+//       },
+//     },
+//     orderBy: [
+//       {
+//         day: "desc",
+//       },
+//     ],
+//   });
+//   console.log("LOGGING4");
+//   if (lastLog != null) {
+//     console.log("ITERATING");
+//     let endDate = lastLog.task.story.sprint?.endDate;
+//     let lastdate = new Date(lastLog.day);
+//     if (endDate) {
+//       console.log("ENDDATE");
+//       if (today < endDate) {
+//         endDate = today;
+//       }
+//       console.log(endDate);
+//       console.log(lastdate);
+//       while (lastdate < endDate) {
+//         const newLog: TimeLogCreate = {
+//           userId: lastLog.userId,
+//           taskId: lastLog.taskId,
+//           day: lastdate,
+//           hours: 0,
+//         };
+//         await createTimeLog(newLog);
+//         lastdate.setDate(lastdate.getDate() + 1);
+//       }
+//     }
+//   }
+//   console.log("LOGGING5");
+// };
+//
+// const fillTimeLogsStory = async (storyId: number) => {
+//   const alltasks = await prisma.story.findMany({
+//     where: {
+//       id: storyId,
+//     },
+//     select: {
+//       tasks: {
+//         select: {
+//           id: true,
+//           asigneeId: true,
+//         },
+//       },
+//       sprint: {
+//         select: {
+//           startDate: true,
+//           endDate: true,
+//         },
+//       },
+//     },
+//   });
+//   if (alltasks[0].sprint && alltasks[0].sprint.startDate > new Date()) {
+//     return;
+//   }
+//   const taskIds = alltasks[0].tasks;
+//   for (let task of taskIds) {
+//     if (task.asigneeId && alltasks[0].sprint) {
+//       const newLog: TimeLogCreate = {
+//         userId: task.asigneeId,
+//         taskId: task.id,
+//         day: alltasks[0].sprint.startDate,
+//         hours: 0,
+//       };
+//       await createTimeLog(newLog);
+//     }
+//     const lastLog = await getLatestTimeLogTask(task.id);
+//     if (lastLog != null) {
+//       const today = new Date();
+//       let endDate = alltasks[0].sprint?.endDate;
+//       let lastdate = new Date(lastLog.day);
+//       if (endDate) {
+//         if (today < endDate) {
+//           endDate = today;
+//         }
+//         while (lastdate < endDate) {
+//           const newLog: TimeLogCreate = {
+//             userId: lastLog.userId,
+//             taskId: lastLog.taskId,
+//             day: lastdate,
+//             hours: 0,
+//           };
+//           await createTimeLog(newLog);
+//           lastdate.setDate(lastdate.getDate() + 1);
+//         }
+//       }
+//     }
+//   }
+// };
 
 const getTimeLogsStory = async (
   storyId: number,
-  fill?: boolean
 ): Promise<TimeLogReturn[]> => {
-  if (!fill) {
-    await fillTimeLogsStory(storyId);
-  }
   return prisma.timeLog.findMany({
     where: {
       task: {
@@ -191,11 +187,7 @@ const getTimeLogsStory = async (
 
 const getTimeLogsTask = async (
   taskId: number,
-  fill?: boolean
 ): Promise<TimeLogReturn[]> => {
-  if (!fill) {
-    await fillTimeLogsTask(taskId);
-  }
   return prisma.timeLog.findMany({
     where: {
       taskId: taskId,
@@ -213,11 +205,7 @@ const getTimeLogsTask = async (
 
 const getLatestTimeLogTask = async (
   taskId: number,
-  fill?: boolean
 ): Promise<TimeLogReturn | null> => {
-  if (!fill) {
-    await fillTimeLogsTask(taskId);
-  }
   return prisma.timeLog.findFirst({
     where: {
       taskId: taskId,
@@ -232,11 +220,7 @@ const getLatestTimeLogTask = async (
 
 const createTimeLog = async (
   timeLog: TimeLogCreate,
-  fill?: boolean
 ): Promise<TimeLogReturn> => {
-  if (!fill) {
-    await fillTimeLogsTask(timeLog.taskId);
-  }
   let log = await prisma.timeLog.findUnique({
     where: {
       userId_taskId_day: {
@@ -269,7 +253,7 @@ const createTimeLog = async (
     });
   }
   var hours_estimate = 0;
-  let lastLog = await getLatestTimeLogTask(timeLog.taskId, true);
+  let lastLog = await getLatestTimeLogTask(timeLog.taskId);
   if (!lastLog) {
     let task = await prisma.task.findUniqueOrThrow({
       where: {
@@ -303,7 +287,6 @@ const updateTimeLog = async (
   timeLogId: number,
   timeLogUpdate: TimeLogUpdate
 ): Promise<TimeLogReturn | null> => {
-  await fillTimeLogsTask(timeLogId);
   return prisma.timeLog.update({
     where: {
       id: timeLogId,
