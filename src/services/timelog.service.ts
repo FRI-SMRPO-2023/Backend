@@ -119,6 +119,9 @@ const fillTimeLogsStory = async (storyId: number) => {
       },
     },
   });
+  if (alltasks[0].sprint && alltasks[0].sprint.startDate > new Date()) {
+    return;
+  }
   const taskIds = alltasks[0].tasks;
   for (let task of taskIds) {
     if (task.asigneeId && alltasks[0].sprint) {
