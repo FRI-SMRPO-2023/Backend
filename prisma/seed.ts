@@ -127,7 +127,7 @@ function getStories(): Array<StoryCreate & { projectId: number }> {
       businessValue: 2,
       acceptanceCriteria: "create new mockup",
       status: "ProductBacklog",
-      sprintId: 2,
+      sprintId: 3,
     },
     {
       projectId: 1,
@@ -137,7 +137,7 @@ function getStories(): Array<StoryCreate & { projectId: number }> {
       businessValue: 5,
       acceptanceCriteria: "create new mockup 2",
       status: "ProductBacklog",
-      sprintId: 2,
+      sprintId: 3,
     },
     {
       projectId: 2,
@@ -147,7 +147,7 @@ function getStories(): Array<StoryCreate & { projectId: number }> {
       businessValue: 9,
       acceptanceCriteria: "create new mockup, add new users",
       status: "ProductBacklog",
-      sprintId: null,
+      sprintId: 2,
     },
   ];
 }
@@ -160,6 +160,13 @@ function getTasks(): Array<TaskCreate & { storyId: number }> {
       asigneeId: 2,
       storyId: 1,
       timeEstimation: "PT4H",
+    },
+    {
+      description: "do that w",
+      status: "Assigned",
+      asigneeId: 3,
+      storyId: 3,
+      timeEstimation: "PT5H",
     },
     {
       description: "fix the frontend",
@@ -183,14 +190,14 @@ function getTimeLogs(): Array<
       hours: 5.0,
       hours_estimate: 7.0,
     },
-    {
-      storyId: 1,
-      userId: 3,
-      taskId: 2,
-      day: new Date("2023-04-18"),
-      hours: 2.0,
-      hours_estimate: 7.0,
-    },
+    // {
+    //   storyId: 1,
+    //   userId: 3,
+    //   taskId: 2,
+    //   day: new Date("2023-04-18"),
+    //   hours: 2.0,
+    //   hours_estimate: 7.0,
+    // },
   ];
 }
 
