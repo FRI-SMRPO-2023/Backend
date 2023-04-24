@@ -7,6 +7,35 @@ import type {
 import { isoDurationToHours } from "../utils/datetime_conversion";
 
 const fillTimeLogsTask = async (taskId: number) => {
+  const task = await prisma.task.findUnique({
+    where: {
+      id: taskId,
+    },
+    select: {
+      id: true,
+      asigneeId: true,
+      timeEstimation: true,
+      story: {
+        select: {
+          sprint: {
+            select: {
+              startDate: true,
+              endDate: true,
+            },
+          },
+        },
+      },
+    },
+  });
+  if (task != null && task.asigneeId && task.story.sprint) {
+    const newLog: TimeLogCreate = {
+      userId: task.asigneeId,
+      taskId: task.id,
+      day: task.story.sprint?.startDate,
+      hours: 0,
+    };
+    await createTimeLog(newLog);
+  }
   const lastLog = await prisma.timeLog.findFirst({
     where: {
       taskId: taskId,
@@ -21,6 +50,7 @@ const fillTimeLogsTask = async (taskId: number) => {
             select: {
               sprint: {
                 select: {
+                  startDate: true,
                   endDate: true,
                 },
               },
@@ -66,10 +96,12 @@ const fillTimeLogsStory = async (storyId: number) => {
       tasks: {
         select: {
           id: true,
+          asigneeId: true
         },
       },
       sprint: {
         select: {
+          startDate: true,
           endDate: true,
         },
       },
@@ -77,6 +109,15 @@ const fillTimeLogsStory = async (storyId: number) => {
   });
   const taskIds = alltasks[0].tasks;
   for (let task of taskIds) {
+    if (task.asigneeId && alltasks[0].sprint) {
+      const newLog: TimeLogCreate = {
+        userId: task.asigneeId,
+        taskId: task.id,
+        day: alltasks[0].sprint.startDate,
+        hours: 0,
+      };
+      await createTimeLog(newLog);
+    }
     const lastLog = await getLatestTimeLogTask(task.id);
     if (lastLog != null) {
       const today = new Date();
