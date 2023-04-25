@@ -26,7 +26,9 @@ const createSprint: RequestHandler = async (req, res, next) => {
     if (newDates.endDate.getDay() == 0 || newDates.endDate.getDay() == 6) {
       return return_error("End date should not be on a weekend", res, next);
     }
-    if (newDates.startDate < new Date()) {
+    var today = new Date();
+    today.setDate(today.getDate() - 1);
+    if (newDates.startDate < today) {
       return return_error("Can't create new sprint in the past", res, next);
     }
     if (!SprintService.dateInOrder(newDates)) {
