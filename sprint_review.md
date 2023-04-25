@@ -144,15 +144,15 @@ task can be created unassigned: DONE
 sum of all hours for tasks in the story
 delete tasks: DONE
 
+### Predstavitev 2 - zadnja
 
+#### 19 -- accepted
 
+#### 20 - accepted
 
-
-
-
-
-
-
+#### 7 -- managing sprints
+current sprint lahko spreminjas velocity ne pa datuma
+sprint : finished
 
 
 
