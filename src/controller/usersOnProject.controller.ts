@@ -50,13 +50,22 @@ const changeMultipleUserRoles: RequestHandler = async (req, res, next) => {
       const role = userUp?.role;
       const srole = userUp?.secondaryRole || null;
       const active = userUp?.active;
-      let changeUser = await UsersOnProjectsService.changeUserRole(
-        userId,
-        projectId,
-        role,
-        srole,
-        active
-      );
+      try {
+        var changeUser = await UsersOnProjectsService.changeUserRole(
+          userId,
+          projectId,
+          role,
+          srole,
+          active
+        );
+      } catch (err) {
+        var changeUser = await UsersOnProjectsService.createUserRole(
+          userId,
+          projectId,
+          role,
+          srole
+        );
+      }
       result.push(changeUser);
     }
     res.status(200).json(result);
