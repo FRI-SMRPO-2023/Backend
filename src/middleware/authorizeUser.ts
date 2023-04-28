@@ -60,46 +60,45 @@ export const adminOrCorrectUser = async (
 
 const correctProjectRole =
   (roles: String[], getProjectIdFunction?: Function) =>
-  async (req: Request, res: Response, next: NextFunction) => {
-    if (!USE_AUTH) {
-      next();
-      return;
-    }
-
-    var projectId = parseInt(req.params.projectId);
-    const id = parseInt(req.params.id);
-    if (getProjectIdFunction && id != undefined) {
-      console.log("inside");
-      projectId = await getProjectIdFunction(id);
-      console.log("projectId: ", projectId);
-    }
-    if (!projectId) {
-      projectId = parseInt(req.body.projectId);
-    }
-    if (!projectId) {
-      console.log("[ERROR] projectId is not in the PARAMS!!!");
-      console.log("id: ", id);
-      console.log("projectId: ", projectId);
-      console.log(getProjectIdFunction);
-      next();
-      return;
-    }
-    // if the user is admin, let it trough anyway
-    if (req.session.user.isAdmin) {
-      return next();
-    }
-    const userId = req.session.user.id;
-    const roleUser = await UsersOnProjectsService.getUserRoleInProject(
-      userId,
-      projectId
-    );
-    if (roleUser && roles.includes(roleUser.role)) {
-      console.log("User is the Correct role ", roleUser);
-      next();
-    } else {
-      res.sendStatus(403);
-    }
-  };
+    async (req: Request, res: Response, next: NextFunction) => {
+      if (!USE_AUTH) {
+        next();
+        return;
+      }
+      var projectId = parseInt(req.params.projectId);
+      const id = parseInt(req.params.id);
+      if (getProjectIdFunction && id != undefined) {
+        console.log("inside");
+        projectId = await getProjectIdFunction(id);
+        console.log("projectId: ", projectId);
+      }
+      if (!projectId) {
+        projectId = parseInt(req.body.projectId);
+      }
+      if (!projectId) {
+        console.log("[ERROR] projectId is not in the PARAMS!!!");
+        console.log("id: ", id);
+        console.log("projectId: ", projectId);
+        console.log(getProjectIdFunction);
+        next();
+        return;
+      }
+      // if the user is admin, let it trough anyway
+      if (req.session.user.isAdmin) {
+        return next();
+      }
+      const userId = req.session.user.id;
+      const roleUser = await UsersOnProjectsService.getUserRoleInProject(
+        userId,
+        projectId
+      );
+      if (roleUser && roles.includes(roleUser.role)) {
+        console.log("User is the Correct role ", roleUser);
+        next();
+      } else {
+        res.sendStatus(403);
+      }
+    };
 
 export const isPOorSM = correctProjectRole(["ProductOwner", "ScrumMaster"]);
 export const isSM = correctProjectRole(["ScrumMaster"]);

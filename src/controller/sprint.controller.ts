@@ -70,14 +70,17 @@ const updateSprint: RequestHandler = async (req, res, next) => {
         },
       });
     }
-    if (thisSprint.startDate <= new Date()) {
-      return return_error(
-        "Can't update dates of the current or past sprints",
-        res,
-        next
-      );
+    if (thisSprint.endDate < new Date()) {
+      return return_error("Can't update past sprints", res, next);
     }
     if (req.body.startDate || req.body.endDate) {
+      if (thisSprint.startDate <= new Date()) {
+        return return_error(
+          "Can't update dates of the current or past sprints",
+          res,
+          next
+        );
+      }
       const newDates = {
         startDate: req.body.startDate
           ? new Date(req.body.startDate)
@@ -174,8 +177,7 @@ const getSingle: RequestHandler = async (req, res, next) => {
   } catch (err: any) {
     general_error_handler(err, res, next, "Sprint with this id does not exist");
   }
-}
-
+};
 
 const SprintController = {
   getCurrent,
